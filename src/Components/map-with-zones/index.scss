@@ -1,0 +1,148 @@
+#mapbox-container-element-id {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+
+    .map-table {
+        box-sizing: border-box;
+        position: absolute;
+        width: 300px;
+        min-height: 30px;
+        background-color: white;
+        top: 15px;
+        right: 15px;
+        box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+        border-radius: 4px;
+        padding: 15px;
+
+        &__title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        &__zones {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .map-controll {
+        &__button {
+            padding: 11px;
+            width: 45px;
+            height: 45px;
+            outline: none;
+
+            &_active {
+                background-color: #1eb056 !important;
+
+                & > svg {
+                    fill: white;
+                }
+            }
+
+            &:focus {
+                box-shadow: none;
+            }
+        }
+    }
+
+    .map-popup {
+        width: 220px;
+
+        & > * {
+            box-sizing: border-box;
+        }
+
+        &__button {
+            padding: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        &__input {
+            margin-top: 5px;
+            width: 100%;
+            padding: 5px;
+        }
+
+        &__label {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        &__title {
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        &__controls {
+            display: flex;
+            padding-top: 5px;
+
+            & > button:not(:last-child) {
+                margin-right: 10px;
+            }
+        }
+
+        &__color {
+            display: flex;
+            margin: 10px 0;
+            align-items: center;
+
+            &__picker {
+                display: flex;
+                margin-left: 15px;
+                position: relative;
+            }
+
+            &__select {
+                width: 36px;
+                height: 14px;
+                border-radius: 2px;
+            }
+
+            &__swatch {
+                padding: 5px;
+                background-color: #fff;
+                border-radius: 1px;
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+                display: inline-block;
+                cursor: pointer;
+            }
+
+            &__popover {
+                position: absolute;
+                z-index: 2;
+                top: 30px;
+            }
+
+            &__cover {
+                position: fixed;
+                top: 0px;
+                right: 0px;
+                bottom: 0px;
+                left: 0px;
+            }
+        }
+
+        &__radius-mode {
+            display: flex;
+            align-items: center;
+
+            & > input {
+                margin: 0 10px 0 5px;
+            }
+            margin-bottom: 10px;
+        }
+    }
+
+    .mapboxgl-ctrl-attrib-inner {
+        display: none;
+    }
+
+    .mapboxgl-popup-close-button {
+        font-size: 18px;
+    }
+}

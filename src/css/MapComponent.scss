@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+}
+.test-panel {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 1;
+
+    & > button {
+        padding: 5px;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    &__button-active {
+        background-color: #1eb056;
+        border: 1px solid black;
+        color: white;
+    }
+
+    .city-select {
+        padding: 6px;
+        margin-right: 10px;
+        cursor: pointer;
+        background-color: #EFEFEF;
+        text-transform: uppercase;
+    }
+}
+
+.test-zone-list {
+    position: absolute;
+    top: 55px;
+    left: 15px;
+    z-index: 1;
+    background-color: white;
+    width: 150px;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    border-radius: 4px;
+    padding: 15px;
+
+    & > label {
+        display: block;
+        & > input {
+            margin-right: 10px;
+        }
+    }
+}

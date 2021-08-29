@@ -1,0 +1,35 @@
+.mapContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    height: 80vh;
+    filter: blur(5);
+}
+
+.heroMapText {
+    color: var(--black);
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    right: 1%;
+    width: 50%;
+
+    h1 {
+        display: inline-block;
+        font-size: 4vw;
+        line-height: 0.85em;
+        /* text-shadow: 2px 4px 3px rgba(0,0,0,0.3); */
+    }
+    
+    h3 {
+        display: inline-block;
+        align-content: justify;
+        letter-spacing: 0.15em;
+        font-family: var(--primaryFont);
+        font-weight: 400;
+        /* text-shadow: 2px 4px 3px rgba(0,0,0,0.3); */
+    }
+}

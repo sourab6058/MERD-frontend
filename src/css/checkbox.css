@@ -1,0 +1,74 @@
+* {
+    box-sizing: border-box;
+}
+
+.menuOptions {
+    position: relative;
+    margin: 0 auto;
+    width: 95%;
+    max-height: 0px;
+    overflow-y: scroll;
+    transition: 0.75s;
+    border-radius: 8px;
+
+    box-shadow: 0 0 4px grey;
+}
+
+
+.menuOptions.active {
+    max-height: 250px;
+    opacity: 1;
+}
+
+.optionToggleButton {
+    position: relative;
+    width: 95%;
+    /* border-radius: 8px; */
+    /* background-color: #032CA6; */
+    background-image: linear-gradient(45deg, #0086B3, #399EBF);
+    color: white;
+    padding: 12px 10px;
+    margin: 4px 4px;
+
+    font-size: 0.85em;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    text-align: left;
+
+    box-shadow: 0 0 4px grey;
+    border-radius: 8px; 
+    border-style: none;
+}
+
+.optionToggleButton:hover {
+    cursor: pointer;
+    background-color: #00607F;
+}
+
+.optionToggleButton i {
+    position: absolute;
+    top: 5;
+    right: 20px;
+}
+
+.option {
+    background-color: rgb(238, 238, 238);
+
+    text-align: left;
+    color: rgb(22, 22, 22);
+    padding: 10px 10px;
+}
+
+.option:hover {
+    background: #c2c2c2;
+    cursor: pointer;
+}
+
+.option.active {
+    background-color: #005d7c;
+    color: rgb(235, 235, 235);
+}
+
+.optionLabel {
+    color: rgb(12, 12, 12);
+}

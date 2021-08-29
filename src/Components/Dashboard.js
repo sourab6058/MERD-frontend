@@ -1,0 +1,1022 @@
+import React, { Component } from "react";
+import Nav from "./Nav";
+import FileUpload from "./Dashboard/FileUpload";
+
+import axios from "axios";
+import * as _ from "lodash";
+
+import Loader from "react-loader-spinner";
+
+import rendercsv from "../utils/rendercsv";
+import { sortZones } from "../utils/sort";
+import { CSVLink } from "react-csv";
+
+import { Layout, Menu, Checkbox, Button, Radio } from "antd";
+import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
+import "antd/dist/antd.css";
+
+import "../css/modal.css";
+
+import SubCategory from "./Dashboard/Menu/SubCategory";
+import SubCity from "./Dashboard//Menu/SubCity";
+import Tables from "./Dashboard/Tables";
+import SubNationality from "./Dashboard/Menu/SubNationality";
+import SubMonths from "./Dashboard/Menu/SubMonths";
+
+import { Modal } from "@material-ui/core";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import CityIcon from "@material-ui/icons/LocationCity";
+import ZoneIcon from "@material-ui/icons/LocationOn";
+import YearIcon from "@material-ui/icons/CalendarToday";
+import MonthIcon from "@material-ui/icons/Schedule";
+import CategoryIcon from "@material-ui/icons/Category";
+import NationalityIcon from "@material-ui/icons/Public";
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import Typography from "@material-ui/core/Typography";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
+import Footer from "./Footer";
+
+const { SubMenu, Item } = Menu;
+const { Content, Sider, Header } = Layout;
+
+// const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
+const API_URL = "http://3.108.159.143:8000/api/filter";
+
+export class NewDashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    //optionData is the raw data received from the backend
+    //All other array variables are used to render the menu
+    //postObject is the object that gets constructed for POST
+
+    this.state = {
+      optionData: [],
+      tableData: [],
+      cities: [],
+      zones: [],
+      years: [],
+      category: [],
+      nationality: [],
+      postObject: {
+        cities: [],
+        zones: [],
+        years: [],
+        months: [],
+        categories: [],
+        subCategories: [],
+        subSubCategories: [],
+        nationalities: [],
+      },
+      loading: false,
+      csvData: [],
+      menuLoading: true,
+      isModalOpen: false,
+      displayMode: null,
+      alertOpen: true,
+      alertOpenInvalid: false,
+      openUploadLinks: false,
+      uploadLinkOpenerText: "Open file upload links",
+      selectionListExpanded: false,
+    };
+    this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+  }
+
+  ModalHandlerClose = async () => {
+    this.setState({ alertOpen: false, alertOpenInvalid: false });
+  };
+
+  setWrapperRef = (node) => {
+    console.log("ZZZZZZZ");
+    this.wrapperRef = node;
+  };
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      this.setState({
+        alertOpen: false,
+        alertOpenInvalid: false,
+      });
+    }
+  }
+
+  //GET request
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+    axios
+      .get(API_URL)
+      .then((res) => {
+        let optionData = Object.entries(res.data.filters[0]);
+        optionData = sortZones(optionData);
+        this.createData(optionData);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  postData = (displayMode) => {
+    let isEmpty = false;
+    let isCatEmpty = false;
+    if (this.state.postObject.cities.length === 0) isEmpty = true;
+    if (this.state.postObject.zones.length === 0) isEmpty = true;
+    if (this.state.postObject.nationalities.length === 0) isEmpty = true;
+    if (this.state.postObject.months.length === 0) isEmpty = true;
+    if (this.state.postObject.years.length === 0) isEmpty = true;
+    if (
+      this.state.postObject.categories.length === 0 &&
+      this.state.postObject.subCategories.length === 0 &&
+      this.state.postObject.subSubCategories.length === 0
+    )
+      isCatEmpty = true;
+
+    if (isEmpty || isCatEmpty) {
+      // alert('Please Select all required options');
+      this.setState({ isModalOpen: false, alertOpenInvalid: true });
+      return;
+    }
+
+    this.setState({ displayMode: displayMode });
+    this.setState({ isModalOpen: false });
+    //changing tableData to [] so loading screen appears again in Table.js
+    this.setState({ tableData: [] });
+    this.setState({ loading: true });
+
+    let dataToBePost = this.state.postObject;
+    dataToBePost["filter_type"] = displayMode;
+    console.log(dataToBePost);
+
+    axios
+      .post(API_URL, dataToBePost)
+      .then((res) => {
+        console.log("POST request succesful.");
+        console.log(res.data.results);
+        let tableData = res.data.results;
+        this.setState({ tableData });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  checkData = () => {
+    let isEmpty = false;
+    let isCatEmpty = false;
+    if (this.state.postObject.cities.length === 0) isEmpty = true;
+    if (this.state.postObject.zones.length === 0) isEmpty = true;
+    if (this.state.postObject.nationalities.length === 0) isEmpty = true;
+    if (this.state.postObject.months.length === 0) isEmpty = true;
+    if (this.state.postObject.years.length === 0) isEmpty = true;
+    if (
+      this.state.postObject.categories.length === 0 &&
+      this.state.postObject.subCategories.length === 0 &&
+      this.state.postObject.subSubCategories.length === 0
+    )
+      isCatEmpty = true;
+
+    if (isEmpty || isCatEmpty) {
+      // alert('Please Select all required options');
+      this.setState({ isModalOpen: false, alertOpenInvalid: true });
+      return;
+    } else {
+      this.setState({ isModalOpen: true, alertOpenInvalid: false });
+    }
+  };
+
+  getCsvData = () => {
+    //Passing control to utils/rendercsv for the generation of csv-react readable data (Multidimensional Array)
+    let csvData = rendercsv(
+      this.state.tableData,
+      this.state.postObject.months,
+      this.state.displayMode
+    );
+
+    //If data received, update state. *May not need this if condition
+    if (csvData) {
+      this.setState({ csvData });
+    }
+  };
+
+  //Used to create state variables that are used to display the menus
+  createData(receivedData) {
+    let optionData = receivedData;
+
+    //Using raw api data to fill in menu variables
+    //months is static for now, can be changed later
+    this.setState({
+      years: optionData[0][1],
+      category: optionData[3][1],
+      cities: optionData[4][1],
+      nationality: optionData[2][1],
+    });
+    this.setState({ menuLoading: false });
+  }
+
+  //Adding a single zone
+  addZone = (whereToBePushed, itemToBePushed, e) => {
+    var tempData = this.state.postObject;
+    var cities = this.state.cities;
+
+    //Searching city in which zone exists, and adding the city to the postObject
+    //As city id required even for one zone selected
+    cities.forEach((city) => {
+      city.zone.forEach((zones) => {
+        if (
+          zones.id === itemToBePushed &&
+          tempData.cities.indexOf(city.id) === -1
+        ) {
+          tempData.cities.push(city.id);
+        }
+      });
+    });
+
+    //Adding/Deleting zone
+    if (e.target.checked) {
+      tempData[whereToBePushed].push(itemToBePushed);
+      this.setState({ postObject: tempData });
+    } else {
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  //Called for Months, Years, Nationalities, SubSubCategories
+  addItem = (whereToBePushed, itemToBePushed, e) => {
+    var tempData = this.state.postObject;
+
+    if (e.target.checked) {
+      tempData[whereToBePushed].push(itemToBePushed);
+      this.setState({ postObject: tempData });
+    } else {
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  //Called for Cities
+  selectAllZones = (whereToBePushed, itemToBePushed, e) => {
+    var tempData = this.state.postObject;
+    const cities = this.state.cities;
+    //checkArray will get all zones of particular city
+    const checkArray = [];
+
+    //Populating checkArray
+    cities.forEach((data) => {
+      if (data.id === itemToBePushed) {
+        data.zone.forEach((id) => {
+          checkArray.push(id.id);
+        });
+      }
+    });
+
+    //Adding city id to city
+    if (e.target.checked) {
+      //Check if city already exists in propObject,
+      //if it does not, add city
+      //if it does, only add respective zones
+      if (tempData.cities.indexOf(itemToBePushed) === -1) {
+        tempData.zones = _.union([...checkArray], [...tempData.zones]);
+        tempData[whereToBePushed].push(itemToBePushed);
+        this.setState({ postObject: tempData });
+      } else {
+        tempData.zones = _.union([...checkArray], [...tempData.zones]);
+        this.setState({ postObject: tempData });
+      }
+    } else {
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
+      tempData.zones = tempData.zones.filter((el) => !checkArray.includes(el));
+      this.setState({ postObject: tempData });
+    }
+
+    console.log(this.state.postObject);
+  };
+
+  //Called for Categories
+  selectAllSubCategories = (whereToBePushed, itemToBePushed, e) => {
+    var tempData = this.state.postObject;
+    const category = this.state.category;
+    //checkSubArray will get all sub categories of particular category
+    const checkSubArray = [];
+    //checkSubSubArray will get all sub sub categories of particular category
+    const checkSubSubArray = [];
+
+    //Populating checkSubArray
+    category.forEach((main) => {
+      if (main.id === itemToBePushed) {
+        main.sub_category.forEach((sub) => {
+          checkSubArray.push(sub.id);
+        });
+      }
+    });
+
+    //Populating checkSubSubArray
+    category.forEach((main) => {
+      if (main.id === itemToBePushed) {
+        main.sub_category.forEach((sub) => {
+          sub.sub_sub_category.forEach((subsub) => {
+            checkSubSubArray.push(subsub.id);
+          });
+        });
+      }
+    });
+
+    //Delete all subCat and subSubCat that are present in particular Category
+    tempData.subSubCategories = tempData.subSubCategories.filter(
+      (el) => !checkSubSubArray.includes(el)
+    );
+    tempData.subCategories = tempData.subCategories.filter(
+      (el) => !checkSubArray.includes(el)
+    );
+
+    //Adding Category id to Category
+    if (e.target.checked) {
+      tempData[whereToBePushed].push(itemToBePushed);
+      this.setState({ postObject: tempData });
+    } else {
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  selectAllSubSubCategories = (whereToBePushed, itemToBePushed, e) => {
+    var tempData = this.state.postObject;
+    const category = this.state.category;
+    //checkArray is for all subSubCategories for a particular Category
+    const checkArray = [];
+
+    //Populating checkArray
+    category.forEach((main) => {
+      main.sub_category.forEach((sub) => {
+        if (sub.id === itemToBePushed) {
+          sub.sub_sub_category.forEach((subsub) => {
+            checkArray.push(subsub.id);
+          });
+        }
+      });
+    });
+
+    //Deleting all subSubCategories present in particular category
+    tempData.subSubCategories = tempData.subSubCategories.filter(
+      (el) => !checkArray.includes(el)
+    );
+
+    //Adding subCategory id to subCategories
+    if (e.target.checked) {
+      tempData[whereToBePushed].push(itemToBePushed);
+      this.setState({ postObject: tempData });
+    } else {
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  selectAllNationalities = (e) => {
+    const tempData = this.state.postObject;
+    const allNationalities = this.state.nationality.map((nation) => nation.id);
+
+    if (e.target.checked) {
+      tempData.nationalities = allNationalities;
+      this.setState({ postObject: tempData });
+    } else {
+      tempData.nationalities = [];
+      this.setState({ postObject: tempData });
+    }
+
+    console.log(this.state.postObject);
+  };
+
+  addMonths = (months) => {
+    const tempData = this.state.postObject;
+    tempData.months = months;
+    this.setState({ postObject: tempData });
+
+    console.log(this.state.postObject);
+  };
+
+  insertCommas = (list) => {
+    // returns an array of items with commas at the end, except the last item
+    return list.map((item, idx) => {
+      if (idx < list.length - 1) return item + ", ";
+      else return item;
+    });
+  };
+
+  citiesAndZonesDisplayer = (zones) => {
+    const cities = this.state.cities;
+    let citiesAndZones = {};
+    zones.forEach((zone) => {
+      cities.forEach((city) => {
+        if (city.zone.some((data) => data.id === zone.id)) {
+          if (citiesAndZones.hasOwnProperty(city.city))
+            citiesAndZones[city.city].push(zone.zone);
+          else citiesAndZones[city.city] = [zone.zone];
+        }
+      });
+    });
+
+    let finalStr = "";
+    for (let [city, zones] of Object.entries(citiesAndZones)) {
+      finalStr += city;
+      let maxZones = this.state.cities.find((data) => data.city === city).zone
+        .length;
+      if (zones.length === maxZones) finalStr += "All zones, ";
+      else finalStr += zones;
+    }
+    return finalStr;
+  };
+
+  render() {
+    let checkCity = [];
+    let checkZone = [];
+    let checkYear = [];
+    let checkMonth = [];
+    let checkCategory = [];
+    let checkSubCategory = [];
+    let checkSubSubCategory = [];
+    let checkNationality = [];
+    if (this.state.postObject.cities.length > 0) {
+      const cities = this.state.cities;
+      const subcities = this.state.postObject.cities;
+      const subzones = this.state.postObject.zones;
+      console.log("cities", this.state.cities);
+      //checkArray will get all zones of particular city
+
+      //Populating checkArray
+      cities.forEach((data) => {
+        subcities.forEach((data2) => {
+          if (data.id === data2) {
+            checkCity.push(data.city);
+            data.zone.forEach((id) => {
+              subzones.forEach((data3) => {
+                if (id.id === data3) {
+                  checkZone.push(id);
+                }
+              });
+            });
+
+            console.log("if loop");
+            console.log(checkCity);
+          }
+        });
+      });
+      checkCity = this.insertCommas(checkCity);
+    }
+    if (this.state.postObject.years.length > 0) {
+      const year = this.state.years;
+      const subyear = this.state.postObject.years;
+      year.forEach((data) => {
+        subyear.forEach((data2) => {
+          if (data === data2) {
+            checkYear.push(data);
+
+            console.log("if loop");
+            console.log(checkYear);
+          }
+        });
+      });
+      checkYear = this.insertCommas(checkYear);
+    }
+    if (this.state.postObject.months.length > 0) {
+      // const year = this.state.years;
+      const submonth = this.state.postObject.months;
+      submonth.forEach((data) => {
+        if (data === 1) {
+          checkMonth.push("January");
+        }
+        if (data === 2) {
+          checkMonth.push("February");
+        }
+        if (data === 3) {
+          checkMonth.push("March");
+        }
+        if (data === 4) {
+          checkMonth.push("April");
+        }
+        if (data === 5) {
+          checkMonth.push("May");
+        }
+        if (data === 6) {
+          checkMonth.push("June");
+        }
+        if (data === 7) {
+          checkMonth.push("July");
+        }
+        if (data === 8) {
+          checkMonth.push("August");
+        }
+        if (data === 9) {
+          checkMonth.push("September");
+        }
+        if (data === 10) {
+          checkMonth.push("October");
+        }
+        if (data === 11) {
+          checkMonth.push("November");
+        }
+        if (data === 12) {
+          checkMonth.push("December");
+        }
+      });
+      checkMonth = this.insertCommas(checkMonth);
+    }
+    if (this.state.postObject.categories.length > 0) {
+      const cat = this.state.category;
+      const subcat = this.state.postObject.categories;
+      cat.forEach((data) => {
+        subcat.forEach((data2) => {
+          if (data.id === data2) {
+            checkCategory.push(data.name);
+
+            console.log("if loop");
+            console.log(checkCategory);
+          }
+        });
+      });
+      checkCategory = this.insertCommas(checkCategory);
+    }
+    if (this.state.postObject.subCategories.length > 0) {
+      const cat = this.state.category;
+      const subcat = this.state.postObject.subCategories;
+      cat.forEach((data) => {
+        subcat.forEach((data2) => {
+          data.sub_category.forEach((data3) => {
+            if (data3.id === data2) {
+              checkSubCategory.push(data3.name);
+
+              console.log("if loop");
+              console.log(checkSubCategory);
+            }
+          });
+        });
+      });
+      checkSubCategory = this.insertCommas(checkSubCategory);
+    }
+    if (this.state.postObject.subSubCategories.length > 0) {
+      const cat = this.state.category;
+      const subcat = this.state.postObject.subSubCategories;
+      cat.forEach((data) => {
+        subcat.forEach((data2) => {
+          data.sub_category.forEach((data3) => {
+            data3.sub_sub_category.forEach((data4) => {
+              if (data4.id === data2) {
+                checkSubSubCategory.push(data4.name);
+
+                console.log("if loop");
+                console.log(checkSubSubCategory);
+              }
+            });
+          });
+        });
+      });
+      checkSubSubCategory = this.insertCommas(checkSubSubCategory);
+    }
+    if (this.state.postObject.nationalities.length > 0) {
+      const nat = this.state.nationality;
+      const subnat = this.state.postObject.nationalities;
+      nat.forEach((data) => {
+        subnat.forEach((data2) => {
+          if (data.id === data2) {
+            checkNationality.push(data.nationality);
+
+            console.log("if loop");
+            console.log(checkNationality);
+          }
+        });
+      });
+      checkNationality = this.insertCommas(checkNationality);
+    }
+    console.log("states of market");
+    console.log(this.state);
+
+    return (
+      <div>
+        {/* <Nav /> */}
+
+        {this.state.alertOpen && (
+          <div ref={this.setWrapperRef}>
+            <div className="card1 transition">
+              {/* <h2 className="transition1">Hint !</h2> */}
+              <h4 className="transition2">
+                <small>
+                  Make selections in the panel on the left to view market sizes
+                </small>
+              </h4>
+              <div className="cta-container transition">
+                <a
+                  href="#"
+                  onClick={() => this.ModalHandlerClose()}
+                  className="cta"
+                >
+                  Continue
+                </a>
+              </div>
+              <div className="card_circle transition"></div>
+            </div>
+          </div>
+        )}
+
+        <div>
+          {/* <Layout>
+            <Header>
+              <Nav />
+            </Header>
+          </Layout> */}
+          <Layout
+            style={{
+              // height: '90vh',
+              overflowY: "hidden",
+              height: "100vh",
+              background: "#0f74c3",
+              background: "linear-gradient(90deg,#0f74c3 50%,#144380 100%)",
+            }}
+          >
+            <Sider width={300} className="site-layout-background">
+              {!this.state.menuLoading ? (
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["sub1"]}
+                  style={{
+                    height: "100%",
+                    borderRight: 0,
+                    overflowY: "scroll",
+                    overflowX: "hidden",
+                  }}
+                  theme={"light"}
+                >
+                  <SubMenu key="City" title="City">
+                    {this.state.cities.map((city) => (
+                      <SubCity
+                        key={city.city}
+                        city={city}
+                        addzone={this.addZone}
+                        selectallzones={this.selectAllZones}
+                      ></SubCity>
+                    ))}
+                  </SubMenu>
+                  <SubMenu key="Years" title="Years">
+                    {this.state.years.map((year) => (
+                      <Menu.Item key={year}>
+                        <Checkbox
+                          onClick={(e) => this.addItem("years", year, e)}
+                        >
+                          {year}
+                        </Checkbox>
+                      </Menu.Item>
+                    ))}
+                  </SubMenu>
+                  <SubMonths addmonths={this.addMonths} />
+                  <SubMenu key="Category" title="Category">
+                    {this.state.category.map((main) => (
+                      <SubCategory
+                        key={main.id}
+                        main={main}
+                        additem={this.addItem}
+                        selectallsubsubcategories={
+                          this.selectAllSubSubCategories
+                        }
+                        selectallsubcategories={this.selectAllSubCategories}
+                      />
+                    ))}
+                  </SubMenu>
+                  {/* <SubMenu key="Nationality" title="Nationality">
+                                {this.state.nationality.map(nation => <Menu.Item key={nation.nationality}><Checkbox onClick={(e) => this.addItem('nationalities', nation.id, e)}>{nation.nationality}</Checkbox></Menu.Item>)}
+                            </SubMenu> */}
+                  <SubNationality
+                    nationality={this.state.nationality}
+                    additem={this.addItem}
+                    selectAllNationalities={this.selectAllNationalities}
+                  />
+                  <Item>
+                    <Button
+                      onClick={() => this.checkData()}
+                      icon={<CaretRightOutlined />}
+                      className="view-market-size-btn"
+                    >
+                      View Market Size
+                    </Button>
+                  </Item>
+                </Menu>
+              ) : (
+                <Menu
+                  mode="inline"
+                  defaultSelectedKeys={["1"]}
+                  defaultOpenKeys={["sub1"]}
+                  style={{
+                    height: "100%",
+                    borderRight: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    overflowY: "scroll",
+                    overflowX: "hidden",
+                  }}
+                  theme={"light"}
+                >
+                  <div
+                    style={{
+                      alignSelf: "center",
+                    }}
+                  >
+                    <Loader
+                      type="Oval"
+                      color="#00BFFF"
+                      height={100}
+                      width={80}
+                    ></Loader>
+                  </div>
+                </Menu>
+              )}
+            </Sider>
+            <Content
+              className="site-layout-background"
+              style={{
+                padding: 24,
+                margin: 0,
+              }}
+            >
+              <Accordion
+                onChange={() =>
+                  this.state.loading &&
+                  this.setState({
+                    selectionListExpanded: !this.state.selectionListExpanded,
+                  })
+                }
+                expanded={
+                  !this.state.loading || this.state.selectionListExpanded
+                }
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Typography>Selections Made</Typography>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <List>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <CityIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Cities and zones"
+                        secondary={
+                          this.state.postObject.cities.length > 0
+                            ? this.citiesAndZonesDisplayer(checkZone)
+                            : "Select cities & zones"
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <YearIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Years"
+                        secondary={
+                          this.state.postObject.years.length > 0
+                            ? checkYear
+                            : "Select years"
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <MonthIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Months"
+                        secondary={
+                          this.state.postObject.months.length > 0
+                            ? checkMonth.length === 12 //if all the months are selected
+                              ? "The whole year"
+                              : checkMonth
+                            : "Select months"
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <CategoryIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Categories"
+                        secondary={
+                          this.state.postObject.categories.length > 0
+                            ? checkCategory
+                            : "Select categories"
+                        }
+                      />
+                    </ListItem>
+                    {/* <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <SubCategoryIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Sub-Categories"
+                        secondary={
+                          this.state.postObject.subCategories.length > 0
+                            ? checkSubCategory
+                            : "Select sub-categories"
+                        }
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <SubsubCategoryIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Sub-sub-categories"
+                        secondary={
+                          this.state.postObject.subSubCategories.length > 0
+                            ? checkSubSubCategory
+                            : "Select sub-sub-categories"
+                        }
+                      />
+                    </ListItem> */}
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <NationalityIcon />
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Nationalities"
+                        secondary={
+                          this.state.postObject.nationalities.length > 0
+                            ? checkNationality.length === //if all the nationalities are checked
+                              this.state.nationality.length
+                              ? "Every nationality"
+                              : checkNationality
+                            : "Select nationalities"
+                        }
+                      />
+                    </ListItem>
+                  </List>
+                </AccordionDetails>
+              </Accordion>
+              {this.state.alertOpenInvalid && (
+                <div ref={this.setWrapperRef}>
+                  <div className="card1 transition">
+                    <h2 className="transition3">Warning !</h2>
+                    <h4 className="transition2">
+                      <small>Please Select all required options</small>
+                    </h4>
+                    <div className="cta-container transition">
+                      <a
+                        href="#"
+                        onClick={() => this.ModalHandlerClose()}
+                        className="cta"
+                      >
+                        OK
+                      </a>
+                    </div>
+                    <div className="card_circle transition"></div>
+                  </div>
+                </div>
+              )}
+              <Modal
+                open={this.state.isModalOpen}
+                onClose={() => this.setState({ isModalOpen: false })}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  outline: "0",
+                }}
+              >
+                {/* <div className="formatSelectionModal">
+                                    <h3>How do you want your data to be displayed?</h3>
+                                    <Radio className="button" onClick={() => this.postData('distinct')} type="primary" size="large">Broken down in detail (by category, nationality, neighbourhood and time frame) </Radio><br></br>
+                                    <Radio className="button" onClick={() => this.postData('nationality')} type="primary" size="large">Broken down by neighbourhood and category with all months in a year added </Radio><br></br>
+                                    <Radio className="button" onClick={() => this.postData('zones')} type="primary" size="large">Broken down by category only with all months in a year added </Radio><br></br>
+                                    </div> */}
+                <div className="formatSelectionModal">
+                  <h3>How do you want your data to be displayed?</h3>
+                  <Radio
+                    className="button"
+                    onClick={() => this.setState({ displayMode: "distinct" })}
+                    type="primary"
+                    size="large"
+                  >
+                    Broken down in detail (by category, nationality,
+                    neighbourhood and time frame){" "}
+                  </Radio>
+                  <br></br>
+                  <Radio
+                    className="button"
+                    onClick={() =>
+                      this.setState({ displayMode: "nationality" })
+                    }
+                    type="primary"
+                    size="large"
+                  >
+                    Broken down by neighbourhood and category with all months in
+                    a year added{" "}
+                  </Radio>
+                  <br></br>
+                  <Radio
+                    className="button"
+                    onClick={() => this.setState({ displayMode: "zones" })}
+                    type="primary"
+                    size="large"
+                  >
+                    Broken down by category only with all months in a year added{" "}
+                  </Radio>
+                  <br></br>
+                  <Button
+                    disabled={this.state.displayMode !== null ? false : true}
+                    onClick={() => this.postData(this.state.displayMode)}
+                  >
+                    {" "}
+                    Generate Tables
+                  </Button>
+                </div>
+              </Modal>
+              <div style={{ textAlign: "right", margin: "10px" }}>
+                <CSVLink onClick={this.getCsvData} data={this.state.csvData}>
+                  <Button
+                    icon={<DownloadOutlined />}
+                    disabled={this.state.tableData.length > 0 ? false : true}
+                  >
+                    Download CSV
+                  </Button>
+                </CSVLink>
+              </div>
+              {this.state.loading && (
+                <Tables
+                  data={this.state.tableData}
+                  displayMode={this.state.displayMode}
+                ></Tables>
+              )}
+            </Content>
+          </Layout>
+
+          <div
+            className="upload-data-container"
+            style={{ height: this.state.openUploadLinks ? 180 : 0 }}
+          >
+            <FileUpload api={"upload_data/"} title={"Upload Data"} />
+            <FileUpload
+              api={"upload_census_data/"}
+              title={"Upload Census Data"}
+            />
+          </div>
+          <span
+            className="file-upload-opener"
+            onClick={() => {
+              this.setState({
+                openUploadLinks: !this.state.openUploadLinks,
+                uploadLinkOpenerText: this.state.openUploadLinks
+                  ? "Open file upload links"
+                  : "Close file upload links",
+              });
+            }}
+          >
+            {this.state.uploadLinkOpenerText}
+          </span>
+        </div>
+
+        <Footer />
+      </div>
+    );
+  }
+}
+
+export default NewDashboard;

@@ -1,0 +1,100 @@
+.uploadFileContainer {
+  background-color: white;
+  padding: 0px 106px 0px 106px;
+  width: 100%;
+  height: 14vh;
+  /* margin: 10px auto; */
+  text-align: center;
+  color: rgb(245, 245, 245);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* border-radius: 20px; */
+  /* background-color: rgb(233, 233, 233); */
+  background: linear-gradient(
+    135deg,
+    rgba(0, 2, 15, 1) 0%,
+    rgba(7, 57, 101, 1) 69%,
+    rgba(15, 116, 195, 1) 100%
+  );
+}
+
+.uploadButtonGroup {
+  display: block;
+}
+
+.uploadButton {
+  margin: 0 5px !important;
+}
+
+.uploadStatus {
+  color: rgb(245, 245, 245);
+}
+.Alertcontainer {
+  position: absolute;
+  top: 4vw;
+}
+
+.btn-lg,
+a:focus,
+a:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.cardAlert-1 {
+  box-shadow: 2px 4px 15px 0px #aa00ff;
+}
+
+.cardAlertErroe-1 {
+  box-shadow: 2px 4px 15px 0px #b90303;
+}
+
+p {
+  font-size: 13px;
+}
+
+.small {
+  font-size: 9px !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.btn-round-lg {
+  border-radius: 22.5px;
+  background-color: #eee;
+  color: #3d5afe;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.9px;
+  padding: 8px 20px 8px 20px !important;
+  border: 1px solid #fff;
+}
+
+.btn-round-lg:hover {
+  background-color: #fff;
+  color: #3d5afe;
+  border: 1px solid #fff;
+}
+
+.btn-round-lg:focus {
+  border: 1px solid #fff !important;
+}
+
+.cardAlert {
+  background-color: #3d5afe !important;
+  color: white;
+  width: 25vw;
+  padding-bottom: 1vw;
+}
+
+.cardAlertError {
+  background-color: #3f0d12;
+  background-image: linear-gradient(315deg, #3f0d12 0%, #a71d31 74%);
+  color: white;
+  width: 25vw;
+  padding-bottom: 1vw;
+}

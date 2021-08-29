@@ -1,0 +1,101 @@
+.login-base-container {
+
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 6px;
+    box-shadow: 2px 4px 8px #2F3B73;
+    padding: 10px;
+
+    background-color: #fff;
+    
+    .login-header {
+        text-align: center;
+        h1 {
+            font-size: 28px;
+            font-family: "Open Sans", sans-serif;
+            margin-bottom: 8px;
+        }
+        p {
+            span {
+                color: rgb(82, 82, 219);
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+
+    .login-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .login-image {
+            width: 21em;
+            img {
+                width: 100%;
+                height: 100%;
+            }
+            margin: 2em 0;
+        }
+
+        .login-form {
+            margin: 0 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .login-form-group {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: fit-content;
+
+            label {
+                font-size: 20px;
+            }
+
+            input {
+                margin-top: 6px;
+                min-width: 18em;
+                height: 37px;
+                padding: 0 10px;
+                font-size: 16px;
+                font-family: "Open Sans", sans-serif;
+                background-color: #dddddd;
+                border: 0;
+                border-radius: 6px;
+                margin-bottom: 20px;
+                transition: all 250ms ease-in-out;
+                &:focus {
+                    outline: none;
+                    box-shadow: 0px 0px 12px 0.8px #2F3B73;
+                    background-color: #fff;
+                }
+            }
+        }
+    }
+
+    .login-footer {
+        .btn {
+            background: #2F3B73;
+            border: 0;
+            border-radius: 6px;
+            padding: 6px 20px;
+            color: rgb(245, 245, 245);
+        }
+    }
+
+}
+
+.main-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: rgb(199, 199, 199);
+}
