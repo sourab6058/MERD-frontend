@@ -26,6 +26,11 @@ const monthNames = {
 
 let monthTotals = [];
 
+function roundToNearestThousand(num) {
+  if (typeof num !== "number") return;
+  return 1000 * Math.round(num * 0.001);
+}
+
 class DistinctTable extends Component {
   calculateMonthTotals = (data, months) => {
     monthTotals = [];
@@ -36,7 +41,8 @@ class DistinctTable extends Component {
       data.forEach((row) => {
         row.month.forEach((months) => {
           if (months.month === month) {
-            monthTotal = monthTotal + months.market_size;
+            monthTotal =
+              monthTotal + roundToNearestThousand(months.market_size);
           }
         });
       });
@@ -60,6 +66,7 @@ class DistinctTable extends Component {
 
   toUSDString(num) {
     // takes a number, returns a string ofnumber with commas as thousands separators
+    num = roundToNearestThousand(num);
     return `$${this.numberWithCommas(num)}`;
   }
 

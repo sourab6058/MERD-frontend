@@ -22,7 +22,7 @@ export default function FactsLoader() {
         stopAutoPlayOnHover={false}
       >
         {facts.map((fact) => (
-          <h3 style={{ color: "white" }}>{fact}</h3>
+          <h3 id={fact}>{fact}</h3>
         ))}
       </Carousel>
     </div>

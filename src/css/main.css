@@ -15,6 +15,7 @@
 body {
   /* Defaults */
   overflow-x: hidden;
+  overflow-y: auto;
 
   /* Setting Variables */
 
@@ -30,12 +31,6 @@ body {
   --secondaryFont: "EB Garamond", serif;
   --ternaryFont: "Tahoma", sans-serif;
   background-color: var(--white);
-  background: var(--lightBlue);
-  background: linear-gradient(
-    90deg,
-    var(--lightBlue) 50%,
-    var(--darkBlue) 100%
-  );
 }
 
 h1 {
@@ -1022,17 +1017,17 @@ p {
   background-color: #fff;
   height: 263px;
   width: 300px;
-  position: absolute;
-  margin: auto;
-  top: 0;
-  bottom: 0;
-  margin-top: 8vw;
-  left: 0;
+  /* position: absolute; */
+  /* margin: auto; */
+  /* top: 0; */
+  /* bottom: 0; */
+  /* margin-top: 10vw; */
+  /* left: 0; */
   z-index: 9999;
-  right: 0;
+  /* right: 0; */
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 /* .card:hover {
@@ -1060,12 +1055,12 @@ p {
 
 .transition1 {
   text-align: center;
-  margin-top: 35px;
-  position: absolute;
+  /* margin-top: 35px; */
+  /* position: absolute; */
   z-index: 9999;
   font-size: 26px;
   color: #2196f3;
-  width: 100%;
+  /* width: 100%; */
   font-family: "Muli", sans-serif;
 }
 .transition3 {

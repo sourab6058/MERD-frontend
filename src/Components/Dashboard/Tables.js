@@ -44,14 +44,13 @@ export class Tables extends Component {
                   <div
                     key={uuidv4()}
                     style={{
-                      maxHeight: "80vh",
+                      maxHeight: "70vh",
                       overflowY: "scroll",
-                      textColor: "white",
                     }}
                   >
                     {" "}
-                    <h3 style={{ color: "white" }}>Market Size for</h3>
-                    <Typography variant="h3" style={{ color: "white" }}>
+                    <h3>Market Size for</h3>
+                    <Typography variant="h3">
                       {_.capitalize(year.year)}
                     </Typography>
                     {year.cities.map((city) => (
@@ -60,10 +59,7 @@ export class Tables extends Component {
                           <div key={uuidv4()}>
                             {category.hasOwnProperty("subcategories") ? (
                               <div>
-                                <Typography
-                                  variant="h5"
-                                  style={{ color: "white" }}
-                                >
+                                <Typography variant="h5">
                                   {_.capitalize(category.category)}
                                 </Typography>
                                 {category.subcategories.map((subcategory) => (
@@ -75,10 +71,7 @@ export class Tables extends Component {
                                       "subsubcategories"
                                     ) ? (
                                       <div style={{ margin: "20px 0" }}>
-                                        <Typography
-                                          variant="h5"
-                                          style={{ color: "white" }}
-                                        >
+                                        <Typography variant="h5">
                                           {subcategory.subcategory}
                                         </Typography>
                                         {subcategory.subsubcategories.map(
@@ -87,10 +80,7 @@ export class Tables extends Component {
                                               style={{ margin: "20px 0" }}
                                               key={uuidv4()}
                                             >
-                                              <Typography
-                                                variant="h5"
-                                                style={{ color: "white" }}
-                                              >
+                                              <Typography variant="h5">
                                                 {subsubcategory.subsubcategory}
                                               </Typography>
                                               {subsubcategory.nationalities.map(
@@ -101,10 +91,7 @@ export class Tables extends Component {
                                                     }}
                                                     key={uuidv4()}
                                                   >
-                                                    <Typography
-                                                      variant="h6"
-                                                      style={{ color: "white" }}
-                                                    >
+                                                    <Typography variant="h6">
                                                       {nationality.nationality}
                                                     </Typography>
                                                     <DistinctTable
@@ -124,10 +111,7 @@ export class Tables extends Component {
                                       </div>
                                     ) : (
                                       <div style={{ margin: "20px 0" }}>
-                                        <Typography
-                                          variant="h5"
-                                          style={{ color: "white" }}
-                                        >
+                                        <Typography variant="h5">
                                           {subcategory.subcategory}
                                         </Typography>
                                         {subcategory.nationalities.map(
@@ -136,10 +120,7 @@ export class Tables extends Component {
                                               style={{ margin: "20px 0" }}
                                               key={uuidv4()}
                                             >
-                                              <Typography
-                                                variant="h6"
-                                                style={{ color: "white" }}
-                                              >
+                                              <Typography variant="h6">
                                                 {nationality.nationality}
                                               </Typography>
                                               <DistinctTable
@@ -160,10 +141,7 @@ export class Tables extends Component {
                               </div>
                             ) : (
                               <div style={{ margin: "20px 0" }}>
-                                <Typography
-                                  variant="h5"
-                                  style={{ color: "white" }}
-                                >
+                                <Typography variant="h5">
                                   {_.capitalize(category.category)}
                                 </Typography>
                                 {category.nationality.map((nationality) => (
@@ -171,10 +149,7 @@ export class Tables extends Component {
                                     key={uuidv4()}
                                     style={{ margin: "20px 0" }}
                                   >
-                                    <Typography
-                                      variant="h6"
-                                      style={{ color: "white" }}
-                                    >
+                                    <Typography variant="h6">
                                       {nationality.nationality}
                                     </Typography>
                                     <DistinctTable
@@ -201,62 +176,90 @@ export class Tables extends Component {
         );
       } else if (displayMode === "zones") {
         return (
-          <div style={{ textAlign: "center" }}>
+          <div>
             {data.map((division) => (
               <div key={uuidv4()}>
-                {division.map((year) => (
-                  <div key={uuidv4()}>
-                    {year.hasOwnProperty("data")
-                      ? year.data.map((city) => (
-                          <div style={{ margin: "20px 0" }} key={uuidv4()}>
-                            <ZoneTable
-                              propertyName="category"
-                              data={city.market_data}
-                              year={year.year}
-                              city={city.city}
-                            />
-                          </div>
-                        ))
-                      : year.cities.map((city) => (
-                          <div style={{ margin: "20px 0" }} key={uuidv4()}>
-                            {city.categories.map((category) => (
-                              <div style={{ margin: "20px 0" }} key={uuidv4()}>
-                                <Typography variant="h3">
-                                  {_.capitalize(category.category)}
-                                </Typography>
-                                {!category.subcategories[0].hasOwnProperty(
-                                  "subsubcategories"
-                                ) ? (
-                                  <ZoneTable
-                                    propertyName="subcategory"
-                                    data={category.subcategories}
-                                    year={year.year}
-                                    city={city.city}
-                                  />
-                                ) : (
-                                  category.subcategories.map((subcategory) => (
-                                    <div
-                                      style={{ margin: "20px 0" }}
-                                      key={uuidv4()}
-                                    >
-                                      <Typography variant="h4">
-                                        {subcategory.subcategory}
-                                      </Typography>
-                                      <ZoneTable
-                                        propertyName="subsubcategory"
-                                        data={subcategory.subsubcategories}
-                                        year={year.year}
-                                        city={city.city}
-                                      />
-                                    </div>
-                                  ))
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                  </div>
-                ))}
+                <Carousel
+                  key={uuidv4()}
+                  autoPlay={false}
+                  indicators={false}
+                  swipe={false}
+                  style={{ textAlign: "center" }}
+                  timeout={100}
+                  navButtonsAlwaysVisible
+                  animation="slide"
+                  navButtonsProps={{
+                    style: {
+                      opacity: 0.15,
+                    },
+                  }}
+                >
+                  {division.map((year) => (
+                    <div
+                      key={uuidv4()}
+                      style={{ maxHeight: "70vh", overflowY: "auto" }}
+                    >
+                      <h3>Market Size for</h3>
+                      <Typography variant="h3">
+                        {_.capitalize(year.year)}
+                      </Typography>
+                      {year.hasOwnProperty("data")
+                        ? year.data.map((city) => (
+                            <div style={{ margin: "20px 0" }} key={uuidv4()}>
+                              <ZoneTable
+                                propertyName="category"
+                                data={city.market_data}
+                                year={year.year}
+                                city={city.city}
+                              />
+                            </div>
+                          ))
+                        : year.cities.map((city) => (
+                            <div style={{ margin: "20px 0" }} key={uuidv4()}>
+                              {city.categories.map((category) => (
+                                <div
+                                  style={{ margin: "20px 0" }}
+                                  key={uuidv4()}
+                                >
+                                  <Typography variant="h3">
+                                    {_.capitalize(category.category)}
+                                  </Typography>
+                                  {!category.subcategories[0].hasOwnProperty(
+                                    "subsubcategories"
+                                  ) ? (
+                                    <ZoneTable
+                                      propertyName="subcategory"
+                                      data={category.subcategories}
+                                      year={year.year}
+                                      city={city.city}
+                                    />
+                                  ) : (
+                                    category.subcategories.map(
+                                      (subcategory) => (
+                                        <div
+                                          style={{ margin: "20px 0" }}
+                                          key={uuidv4()}
+                                        >
+                                          <Typography variant="h4">
+                                            {subcategory.subcategory}
+                                          </Typography>
+                                          <ZoneTable
+                                            propertyName="subsubcategory"
+                                            data={subcategory.subsubcategories}
+                                            year={year.year}
+                                            city={city.city}
+                                          />
+                                        </div>
+                                      )
+                                    )
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          ))}
+                    </div>
+                  ))}
+                </Carousel>
               </div>
             ))}
           </div>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Nav from "./Nav";
 import FileUpload from "./Dashboard/FileUpload";
+import Alert from "./Dashboard/Alert";
 
 import axios from "axios";
 import * as _ from "lodash";
@@ -11,7 +12,7 @@ import rendercsv from "../utils/rendercsv";
 import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
 
-import { Layout, Menu, Checkbox, Button, Radio } from "antd";
+import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
@@ -30,7 +31,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import CityIcon from "@material-ui/icons/LocationCity";
-import ZoneIcon from "@material-ui/icons/LocationOn";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import MonthIcon from "@material-ui/icons/Schedule";
 import CategoryIcon from "@material-ui/icons/Category";
@@ -42,6 +42,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Footer from "./Footer";
+import TestNav from "./TestNav";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
@@ -79,7 +80,7 @@ export class NewDashboard extends Component {
       csvData: [],
       menuLoading: true,
       isModalOpen: false,
-      displayMode: null,
+      displayMode: "distinct",
       alertOpen: true,
       alertOpenInvalid: false,
       openUploadLinks: false,
@@ -109,9 +110,14 @@ export class NewDashboard extends Component {
     }
   }
 
+  scrollToTop = () => {
+    this.top.scrollIntoView({ behavior: "auto" });
+  };
+
   //GET request
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    this.scrollToTop();
     axios
       .get(API_URL)
       .then((res) => {
@@ -186,6 +192,7 @@ export class NewDashboard extends Component {
     if (isEmpty || isCatEmpty) {
       // alert('Please Select all required options');
       this.setState({ isModalOpen: false, alertOpenInvalid: true });
+      console.log("Invalid");
       return;
     } else {
       this.setState({ isModalOpen: true, alertOpenInvalid: false });
@@ -305,8 +312,6 @@ export class NewDashboard extends Component {
       tempData.zones = tempData.zones.filter((el) => !checkArray.includes(el));
       this.setState({ postObject: tempData });
     }
-
-    console.log(this.state.postObject);
   };
 
   //Called for Categories
@@ -351,10 +356,7 @@ export class NewDashboard extends Component {
       tempData[whereToBePushed].push(itemToBePushed);
       this.setState({ postObject: tempData });
     } else {
-      tempData[whereToBePushed].splice(
-        tempData[whereToBePushed].indexOf(itemToBePushed),
-        1
-      );
+      tempData[whereToBePushed].splice(1);
       this.setState({ postObject: tempData });
     }
   };
@@ -405,16 +407,12 @@ export class NewDashboard extends Component {
       tempData.nationalities = [];
       this.setState({ postObject: tempData });
     }
-
-    console.log(this.state.postObject);
   };
 
   addMonths = (months) => {
     const tempData = this.state.postObject;
     tempData.months = months;
     this.setState({ postObject: tempData });
-
-    console.log(this.state.postObject);
   };
 
   insertCommas = (list) => {
@@ -425,6 +423,69 @@ export class NewDashboard extends Component {
     });
   };
 
+  categoryDisplayer = (cat, sub, subsub) => {
+    let catArray = [];
+    let subObject = {};
+    let subsubObject = {};
+    if (cat.length > 0) {
+      catArray = cat.map((item) => item.toUpperCase() + ">All items");
+      catArray = [...new Set(catArray)];
+    }
+    if (sub.length > 0) {
+      for (let category of this.state.category) {
+        for (let subItem of sub) {
+          if (
+            category.sub_category.some((sub_cat) => sub_cat.name === subItem)
+          ) {
+            if (subObject.hasOwnProperty(category.name)) {
+              subObject[category.name].push(subItem);
+            } else {
+              subObject[category.name] = [subItem];
+            }
+          }
+        }
+      }
+    }
+    if (subsub.length > 0) {
+      const categories = this.state.category;
+      for (let subsubItem of subsub) {
+        for (let category of categories) {
+          for (let subcategory of category.sub_category) {
+            if (
+              subcategory.sub_sub_category.some((el) => el.name === subsubItem)
+            ) {
+              if (subsubObject.hasOwnProperty(category.name)) {
+                if (
+                  subsubObject[category.name].hasOwnProperty(subcategory.name)
+                ) {
+                  subsubObject[category.name][subcategory.name].push(
+                    subsubItem
+                  );
+                } else {
+                  subsubObject[category.name][subcategory.name] = [subsubItem];
+                }
+              } else {
+                subsubObject[category.name] = {};
+                subsubObject[category.name][subcategory.name] = [subsubItem];
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let finalStr = [...catArray];
+    console.log(subObject);
+    for (let [key, values] of Object.entries(subObject)) {
+      finalStr.push(`${key.toUpperCase()}>${values}>All Items`);
+    }
+    for (let [category, subcategory] of Object.entries(subsubObject)) {
+      for (let [subcat, subsubcategory] of Object.entries(subcategory)) {
+        finalStr.push(`${category.toUpperCase()}>${subcat}>${subsubcategory}`);
+      }
+    }
+    return this.insertCommas(finalStr);
+  };
   citiesAndZonesDisplayer = (zones) => {
     const cities = this.state.cities;
     let citiesAndZones = {};
@@ -438,15 +499,17 @@ export class NewDashboard extends Component {
       });
     });
 
-    let finalStr = "";
+    let finalStr = [];
     for (let [city, zones] of Object.entries(citiesAndZones)) {
-      finalStr += city;
+      let cityItem = "";
+      cityItem += city + ">";
       let maxZones = this.state.cities.find((data) => data.city === city).zone
         .length;
-      if (zones.length === maxZones) finalStr += "All zones, ";
-      else finalStr += zones;
+      if (zones.length === maxZones) cityItem += "All zones";
+      else cityItem += zones;
+      finalStr.push(cityItem);
     }
-    return finalStr;
+    return this.insertCommas(finalStr);
   };
 
   render() {
@@ -498,7 +561,7 @@ export class NewDashboard extends Component {
           }
         });
       });
-      checkYear = this.insertCommas(checkYear);
+      // checkYear = this.insertCommas(checkYear);
     }
     if (this.state.postObject.months.length > 0) {
       // const year = this.state.years;
@@ -541,7 +604,7 @@ export class NewDashboard extends Component {
           checkMonth.push("December");
         }
       });
-      checkMonth = this.insertCommas(checkMonth);
+      // checkMonth = this.insertCommas(checkMonth);s
     }
     if (this.state.postObject.categories.length > 0) {
       const cat = this.state.category;
@@ -552,11 +615,11 @@ export class NewDashboard extends Component {
             checkCategory.push(data.name);
 
             console.log("if loop");
-            console.log(checkCategory);
+            console.log("cat", checkCategory);
           }
         });
       });
-      checkCategory = this.insertCommas(checkCategory);
+      // checkCategory = this.insertCommas(checkCategory);
     }
     if (this.state.postObject.subCategories.length > 0) {
       const cat = this.state.category;
@@ -568,12 +631,12 @@ export class NewDashboard extends Component {
               checkSubCategory.push(data3.name);
 
               console.log("if loop");
-              console.log(checkSubCategory);
+              console.log("sub", checkSubCategory);
             }
           });
         });
       });
-      checkSubCategory = this.insertCommas(checkSubCategory);
+      // checkSubCategory = this.insertCommas(checkSubCategory);
     }
     if (this.state.postObject.subSubCategories.length > 0) {
       const cat = this.state.category;
@@ -586,13 +649,13 @@ export class NewDashboard extends Component {
                 checkSubSubCategory.push(data4.name);
 
                 console.log("if loop");
-                console.log(checkSubSubCategory);
+                console.log("subsub", checkSubSubCategory);
               }
             });
           });
         });
       });
-      checkSubSubCategory = this.insertCommas(checkSubSubCategory);
+      // checkSubSubCategory = this.insertCommas(checkSubSubCategory);
     }
     if (this.state.postObject.nationalities.length > 0) {
       const nat = this.state.nationality;
@@ -614,44 +677,34 @@ export class NewDashboard extends Component {
 
     return (
       <div>
+        <div
+          ref={(el) => (this.top = el)}
+          style={{ position: "absolute", top: 0, left: 0 }}
+        ></div>{" "}
         {/* <Nav /> */}
-
         {this.state.alertOpen && (
           <div ref={this.setWrapperRef}>
-            <div className="card1 transition">
-              {/* <h2 className="transition1">Hint !</h2> */}
-              <h4 className="transition2">
-                <small>
-                  Make selections in the panel on the left to view market sizes
-                </small>
-              </h4>
-              <div className="cta-container transition">
-                <a
-                  href="#"
-                  onClick={() => this.ModalHandlerClose()}
-                  className="cta"
-                >
-                  Continue
-                </a>
-              </div>
-              <div className="card_circle transition"></div>
-            </div>
+            <Alert
+              title={"Instructions"}
+              contentText={
+                "Make selections in the panel on the left to view market sizes."
+              }
+              btnText={"CONTINUE"}
+              ModalHandlerClose={this.ModalHandlerClose}
+            />
           </div>
         )}
-
         <div>
-          {/* <Layout>
-            <Header>
-              <Nav />
+          <Layout>
+            <Header style={{ padding: 0 }}>
+              <TestNav />
             </Header>
-          </Layout> */}
+          </Layout>
           <Layout
             style={{
               // height: '90vh',
               overflowY: "hidden",
               height: "100vh",
-              background: "#0f74c3",
-              background: "linear-gradient(90deg,#0f74c3 50%,#144380 100%)",
             }}
           >
             <Sider width={300} className="site-layout-background">
@@ -800,28 +853,16 @@ export class NewDashboard extends Component {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Years"
+                        primary="Years and months"
                         secondary={
-                          this.state.postObject.years.length > 0
-                            ? checkYear
-                            : "Select years"
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <MonthIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Months"
-                        secondary={
-                          this.state.postObject.months.length > 0
+                          (this.state.postObject.years.length > 0
+                            ? "Years>" + checkYear
+                            : "Select years") +
+                          (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
-                              ? "The whole year"
-                              : checkMonth
-                            : "Select months"
+                              ? ", months>The whole year"
+                              : ", months>" + checkMonth
+                            : ", Select months")
                         }
                       />
                     </ListItem>
@@ -834,42 +875,18 @@ export class NewDashboard extends Component {
                       <ListItemText
                         primary="Categories"
                         secondary={
-                          this.state.postObject.categories.length > 0
-                            ? checkCategory
+                          checkCategory.length > 0 ||
+                          checkSubCategory.length > 0 ||
+                          checkSubSubCategory.length > 0
+                            ? this.categoryDisplayer(
+                                checkCategory,
+                                checkSubCategory,
+                                checkSubSubCategory
+                              )
                             : "Select categories"
                         }
                       />
                     </ListItem>
-                    {/* <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <SubCategoryIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Sub-Categories"
-                        secondary={
-                          this.state.postObject.subCategories.length > 0
-                            ? checkSubCategory
-                            : "Select sub-categories"
-                        }
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <SubsubCategoryIcon />
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Sub-sub-categories"
-                        secondary={
-                          this.state.postObject.subSubCategories.length > 0
-                            ? checkSubSubCategory
-                            : "Select sub-sub-categories"
-                        }
-                      />
-                    </ListItem> */}
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
@@ -882,7 +899,7 @@ export class NewDashboard extends Component {
                           this.state.postObject.nationalities.length > 0
                             ? checkNationality.length === //if all the nationalities are checked
                               this.state.nationality.length
-                              ? "Every nationality"
+                              ? "All Nationalities"
                               : checkNationality
                             : "Select nationalities"
                         }
@@ -892,24 +909,12 @@ export class NewDashboard extends Component {
                 </AccordionDetails>
               </Accordion>
               {this.state.alertOpenInvalid && (
-                <div ref={this.setWrapperRef}>
-                  <div className="card1 transition">
-                    <h2 className="transition3">Warning !</h2>
-                    <h4 className="transition2">
-                      <small>Please Select all required options</small>
-                    </h4>
-                    <div className="cta-container transition">
-                      <a
-                        href="#"
-                        onClick={() => this.ModalHandlerClose()}
-                        className="cta"
-                      >
-                        OK
-                      </a>
-                    </div>
-                    <div className="card_circle transition"></div>
-                  </div>
-                </div>
+                <Alert
+                  title={<span style={{ color: "red" }}>Warning !</span>}
+                  contentText={"Please Select all required options"}
+                  btnText={"OK"}
+                  ModalHandlerClose={this.ModalHandlerClose}
+                />
               )}
               <Modal
                 open={this.state.isModalOpen}
@@ -929,37 +934,46 @@ export class NewDashboard extends Component {
                                     </div> */}
                 <div className="formatSelectionModal">
                   <h3>How do you want your data to be displayed?</h3>
-                  <Radio
-                    className="button"
-                    onClick={() => this.setState({ displayMode: "distinct" })}
-                    type="primary"
-                    size="large"
+                  <Radio.Group
+                    name="displayMode"
+                    defaultValue={"distinct"}
+                    className="radio-grp"
+                    value={this.state.displayMode}
                   >
-                    Broken down in detail (by category, nationality,
-                    neighbourhood and time frame){" "}
-                  </Radio>
-                  <br></br>
-                  <Radio
-                    className="button"
-                    onClick={() =>
-                      this.setState({ displayMode: "nationality" })
-                    }
-                    type="primary"
-                    size="large"
-                  >
-                    Broken down by neighbourhood and category with all months in
-                    a year added{" "}
-                  </Radio>
-                  <br></br>
-                  <Radio
-                    className="button"
-                    onClick={() => this.setState({ displayMode: "zones" })}
-                    type="primary"
-                    size="large"
-                  >
-                    Broken down by category only with all months in a year added{" "}
-                  </Radio>
-                  <br></br>
+                    <Space direction="vertical">
+                      <Radio
+                        value="distinct"
+                        onClick={() =>
+                          this.setState({ displayMode: "distinct" })
+                        }
+                        type="primary"
+                        size="large"
+                      >
+                        Broken down in detail (by category, nationality,
+                        neighbourhood and time frame){" "}
+                      </Radio>
+                      <Radio
+                        value="nationality"
+                        onClick={() =>
+                          this.setState({ displayMode: "nationality" })
+                        }
+                        type="primary"
+                        size="large"
+                      >
+                        Broken down by neighbourhood and category with all
+                        months in a year added{" "}
+                      </Radio>
+                      <Radio
+                        value="zones"
+                        onClick={() => this.setState({ displayMode: "zones" })}
+                        type="primary"
+                        size="large"
+                      >
+                        Broken down by category only with all months in a year
+                        added{" "}
+                      </Radio>
+                    </Space>
+                  </Radio.Group>
                   <Button
                     disabled={this.state.displayMode !== null ? false : true}
                     onClick={() => this.postData(this.state.displayMode)}
@@ -988,7 +1002,7 @@ export class NewDashboard extends Component {
             </Content>
           </Layout>
 
-          <div
+          {/* <div
             className="upload-data-container"
             style={{ height: this.state.openUploadLinks ? 180 : 0 }}
           >
@@ -1010,9 +1024,8 @@ export class NewDashboard extends Component {
             }}
           >
             {this.state.uploadLinkOpenerText}
-          </span>
+          </span> */}
         </div>
-
         <Footer />
       </div>
     );

@@ -24,9 +24,9 @@ class ZoneTable extends Component {
         return (
           <TableContainer
             component={Paper}
-            style={{ width: "50%", margin: "0 auto" }}
+            style={{ width: "50%", margin: "0 auto", padding: "0.25rem" }}
           >
-            <h3>{`Market Size data of ${city} for the year ${year}`}</h3>
+            <h3>{city}</h3>
             <Table aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>
