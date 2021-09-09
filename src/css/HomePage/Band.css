@@ -1,0 +1,27 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.band {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.services {
+  font-weight: 500;
+  letter-spacing: 2px;
+  border-bottom: 1px solid black;
+  margin-bottom: 4rem;
+}
+.serviceshead {
+  font-weight: 200;
+  font-size: 2rem;
+  line-height: 2rem;
+}
+
+.serviceshead2 {
+  font-weight: 300;
+  font-size: 1.5rem;
+}

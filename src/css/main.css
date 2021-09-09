@@ -178,6 +178,11 @@ p {
 .hero {
   padding: 0;
   position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .heroImg {
@@ -188,7 +193,7 @@ p {
   background-color: var(--white);
   object-fit: cover;
   object-position: 0% 20%;
-  filter: brightness(90%);
+  filter: brightness(50%);
 }
 .project_oneImg {
   display: block;
@@ -245,14 +250,32 @@ p {
 }
 
 .heroText {
-  color: white;
   position: absolute;
-  /* text-align: center; */
-  top: 72%;
-  /* right: 47%; */
-  margin-left: 4%;
-  width: 50%;
-  background: rgba(0, 2, 15, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  bottom: 30vh;
+  min-height: auto;
+  width: 100%;
+  padding: 1rem;
+  color: white;
+  padding: 0.5rem;
+  /* border: 1px solid white; */
+}
+.heroText h1 {
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+}
+.heroText span {
+  color: white;
+}
+.heroText h3 {
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: lighter;
 }
 .project_oneText {
   color: white;
@@ -380,35 +403,8 @@ p {
   font-size: 1rem;
 }
 
-.heroText h1 {
-  display: inline-block;
-  font-size: 4vw;
-  line-height: 0.85em;
-  color: var(--black);
-  margin-bottom: 0.2em;
-
-  /* text-shadow: 2px 4px 3px rgba(0,0,0,0.3); */
-}
-
-.heroText h3 {
-  /* display: inline-block;
-    align-content: justify;
-    letter-spacing: 0.25em;
-    font-family: var(--primaryFont);
-    font-weight: 400;
-    color: white; */
-  /* text-shadow: 2px 4px 3px rgba(0,0,0,0.3); */
-
-  display: inline-block;
-  align-content: justify;
-  letter-spacing: 8px;
-  font-family: var(--primaryFont);
-  font-weight: 400;
-  color: var(--black);
-  font-size: 213%;
-  font-style: italic;
-}
 .heroh4 {
+  color: white;
   display: inline-block;
   align-content: justify;
   letter-spacing: 0.1em;
@@ -599,6 +595,7 @@ p {
 
 .band {
   text-align: center;
+  min-height: 100vh;
   margin: 30px 0px;
   padding: 50px 30px;
   /* background-color: var(--blackTrans); */
@@ -890,7 +887,7 @@ p {
   }
 
   .heroText {
-    width: 50%;
+    align-items: flex-start;
   }
 
   .navlinks {
@@ -990,6 +987,9 @@ p {
   }
 
   .heroText {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     top: 30%;
     left: 5%;
     width: 80%;

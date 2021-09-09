@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Nav from "./Nav";
+import NavTwo from "./NavTwo";
 import Band from "./HomePage/Band";
 import ImageBand from "./HomePage/ImageBand";
 import Cards from "./HomePage/Cards";
@@ -11,7 +12,8 @@ class HomePage extends Component {
   render() {
     return (
       <div className="Mainclass">
-        <Nav />
+        {/* <Nav /> */}
+        <NavTwo />
         <Hero />
         {/* <HeroMap /> */}
         <Band />

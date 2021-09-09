@@ -1,0 +1,39 @@
+:root {
+  --darkBlue: #144380;
+  --lightBlue: #0f74c3;
+}
+.heroText .home-page-btns {
+  display: flex;
+  flex-direction: row;
+  margin-block: 1.5rem;
+}
+.home-page-subscribe {
+  background-color: white;
+  color: black;
+}
+.heroText .home-page-btns .btn {
+  font-size: 1.25rem;
+  margin: 1.5rem;
+  margin-inline: 2rem;
+  padding: 0.5rem;
+  border: 1px solid white;
+  border-radius: 1.5rem;
+  min-width: 8rem;
+  text-align: center;
+  font-weight: 600;
+  /* color: white; */
+}
+
+.home-page-subscribe:hover {
+  background: transparent;
+  color: white;
+}
+
+.home-page-readmore {
+  color: white;
+}
+.home-page-readmore:hover {
+  border: none;
+  background-color: white;
+  color: black;
+}
