@@ -10,7 +10,6 @@
   --light-blue: #0f74c3;
 }
 .nav-container {
-  position: absolute;
   align-items: center;
   top: 0;
   left: 0;
@@ -56,16 +55,19 @@
   margin-right: auto;
 }
 .nav-container ul li {
+  height:100% ;
   padding-top: 2rem;
   margin-inline: 1rem;
 }
 
 .nav-container ul li a {
+  /* border:1px solid white; */
+  /* padding-bottom: auto; */
   font-size: 1rem;
   text-decoration: none;
   color: white;
   padding-top: 2.75rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.5rem; 
   /* padding-inline: 5px; */
   /* border: 1px solid white; */
 }

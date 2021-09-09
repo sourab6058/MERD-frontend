@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Nav from "./Nav";
-import FileUpload from "./Dashboard/FileUpload";
+import Skeleton from '@material-ui/lab/Skeleton';
 import Alert from "./Dashboard/Alert";
 
 import axios from "axios";
@@ -32,7 +31,6 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
-import MonthIcon from "@material-ui/icons/Schedule";
 import CategoryIcon from "@material-ui/icons/Category";
 import NationalityIcon from "@material-ui/icons/Public";
 import Accordion from "@material-ui/core/Accordion";
@@ -42,7 +40,7 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Footer from "./Footer";
-import TestNav from "./TestNav";
+import NavTwo from "./NavTwo";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
@@ -696,9 +694,9 @@ export class NewDashboard extends Component {
         )}
         <div>
           <Layout>
-            <Header style={{ padding: 0 }}>
-              <TestNav />
-            </Header>
+          <Header style={{ padding: 0, height:"auto", lineHeight:1.5715}}>
+          <NavTwo />
+        </Header>
           </Layout>
           <Layout
             style={{
@@ -775,33 +773,21 @@ export class NewDashboard extends Component {
                   </Item>
                 </Menu>
               ) : (
-                <Menu
-                  mode="inline"
-                  defaultSelectedKeys={["1"]}
-                  defaultOpenKeys={["sub1"]}
+                <div
                   style={{
                     height: "100%",
                     borderRight: 0,
                     display: "flex",
+                    flexDirection:"column",
                     justifyContent: "center",
                     overflowY: "scroll",
                     overflowX: "hidden",
+                    background:"white"
                   }}
                   theme={"light"}
                 >
-                  <div
-                    style={{
-                      alignSelf: "center",
-                    }}
-                  >
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={100}
-                      width={80}
-                    ></Loader>
-                  </div>
-                </Menu>
+                   {[...Array(5)].map((e, i)=><Skeleton key={i} animation="wave" height={65} width={280}/>)}
+                </div>
               )}
             </Sider>
             <Content
