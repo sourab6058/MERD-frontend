@@ -1,12 +1,22 @@
 import React, { Component } from "react";
+import Aos from "aos";
+
+import "aos/dist/aos.css"
 
 import "../../css/HomePage/Band.css";
 
 class Band extends Component {
+  state={
+    scrolledPast:false,
+  }
+  componentDidMount(){
+    Aos.init({duration:1000,});
+    this.setState({scrolledPast:true});
+  }
   render() {
     return (
-      <div className="band">
-        <span className="services">Our Services</span>
+      <div data-aos="fade-up" className="band">
+        <span data-aos="fade-left" className="services">Our Services</span>
         <p className="serviceshead">
           In a world of Big Data and bigger platforms to analyze such data, the
           Middle East is still in a relatively nascent stage of evolution when

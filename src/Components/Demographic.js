@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import Nav from "./Nav";
-import FileUpload from "./Dashboard/FileUpload";
+import NavTwo from "./NavTwo";
 
 import axios from "axios";
 import * as _ from "lodash";
@@ -26,6 +25,7 @@ import SubMonths from "./Dashboard/Menu/SubMonths";
 import { Modal } from "@material-ui/core";
 import { concat } from "lodash";
 import Footer from "./Footer";
+import { Header } from "antd/lib/layout/layout";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider } = Layout;
@@ -550,10 +550,9 @@ export class Demographic extends Component {
     return (
       <div>
         {/* <Nav /> */}
-        {this.state.alertOpen && (
+        {/* {this.state.alertOpen && (
           <div ref={this.setWrapperRef}>
             <div className="card1 transition">
-              {/* <h2 className="transition1">Hint !</h2> */}
               <h4 className="transition2">
                 <small>
                   Make selections in the panel on the left to view demographic
@@ -572,9 +571,14 @@ export class Demographic extends Component {
               <div className="card_circle transition"></div>
             </div>
           </div>
-        )}
+        )} */}
 
         <div>
+              <Layout>
+            <Header style={{ padding: 0, height:"auto", lineHeight:1.5715}}>
+            <NavTwo />
+          </Header>
+            </Layout>
           <Layout
             style={{
               padding: "10px",

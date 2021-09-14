@@ -630,26 +630,34 @@ p {
   font-weight: 300;
 }
 
-.cardsRow {
-  margin: 70px 0px 0px 0px;
+.cards-container{
+  width:100%;
   display: flex;
-  flex-direction: row;
-  flex-flow: wrap;
-  justify-content: space-around;
-  padding: 0px 0px;
+  flex-direction: column;
+  align-items:center;
+  justify-content: center;
+  background-color: var(--darkBlue);
+  padding:1rem;
+  /* border:1px solid black; */
+}
+.card-image{
+  min-height:10rem;
+  width:50%;
+  /* border:1px solid black; */
+  padding:2px;
 }
 
 .card {
-  display: block;
-  width: 20%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+  height:40%;
   /* max-width: 350px; */
-  background: linear-gradient(
-    180deg,
-    rgba(0, 2, 15, 1) 76%,
-    rgba(7, 57, 101, 1) 100%
-  );
-  /* background: linear-gradient(135deg, #051c2c 60%, #03339c 100%); */
+  background: var(--white);
   margin-bottom: 7vh;
+  margin-inline: 2rem;
   transition: 0.3s;
   border-radius: 2px;
 }
@@ -662,7 +670,7 @@ p {
   text-align: center;
   padding: 50px 0px 0px;
   font-size: 13em;
-  color: var(--lightBlue);
+  color: black;
 }
 
 .cardHeading {
@@ -670,12 +678,12 @@ p {
   font-weight: 300;
   text-align: center;
   padding: 30px 10px 15px;
-  color: var(--white);
+  color: black;
 }
 
 .cardHeading h3 {
   font-family: var(--mainFont);
-  color: var(--white);
+  color: black;
 }
 
 .cardHeadingBig {
@@ -689,15 +697,16 @@ p {
 }
 
 .cardBody {
-  color: var(--white);
-  padding: 2px 20px 30px;
+  color:black;
+  padding: 2rem;
   text-align: center;
 }
 
 .card:hover {
   border-radius: 3px;
-  transform: scale(1.05);
-  box-shadow: 0 0 40px -10px var(--darkBlue);
+  /* transform: scale(1.05); */
+  box-shadow: 0 0 40px -10px var(--white);
+  border:1px solid white;
 }
 
 .cardLine {
