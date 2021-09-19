@@ -6,6 +6,7 @@ import Dashboard from './Components/Dashboard'
 import Demographic from './Components/Demographic'
 import Projects from './Components/Projects/Projects'
 import MapComponent from './Components/MapComponent'
+import SubscriptionJourney from "./Components/SubscriptionPages";
 import { AuthProvider } from './Components/Authentication/AuthContext'
 import { Auth } from './Components/Authentication'
 import './css/main.css';
@@ -28,6 +29,7 @@ class App extends Component {
               <Route path='/dashboard' exact component={Dashboard} />
               <Route path='/demographic' exact component={Demographic} />
               <Route path='/map' exact component={MapComponent}/>
+              <Route path='/subscribe' exact component={SubscriptionJourney}/>
               {/* </PrivateRoute> */}
               <Route path="/auth" exact component={Auth} />
               <Route path='/' render={() => <div>404</div>} />

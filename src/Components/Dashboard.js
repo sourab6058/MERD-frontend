@@ -24,6 +24,7 @@ import SubNationality from "./Dashboard/Menu/SubNationality";
 import SubMonths from "./Dashboard/Menu/SubMonths";
 
 import { Modal } from "@material-ui/core";
+
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -33,6 +34,7 @@ import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import CategoryIcon from "@material-ui/icons/Category";
 import NationalityIcon from "@material-ui/icons/Public";
+
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -115,7 +117,7 @@ export class NewDashboard extends Component {
   //GET request
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
-    this.scrollToTop();
+    this.scrollToTop();//scrolls to the top, on loading, otherwise scrolls to footer.
     axios
       .get(API_URL)
       .then((res) => {
