@@ -34,7 +34,7 @@ class Footer extends Component {
 
                 <div className="copyright">
                     <div className="socialLinks">
-                       <h4 onClick={() => this.setState({contactus: true})}>Contact Us</h4>
+                       <h4 onClick={() => this.setState({contactus: true})} style={{cursor:"pointer"}}>Contact Us</h4>
                         {this.state.contactus && 
                     <ContactUs
                     show={this.state.contactus}

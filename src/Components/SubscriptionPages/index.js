@@ -1,19 +1,40 @@
-import React from 'react';
-import {BrowserRouter as Router, Switch, Route,useRouteMatch, HashRouter} from "react-router-dom";
+import React, { useState } from 'react';
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+
 
 import First from "./First"
 import Second from "./Second"
 import Third from "./Third"
+import Fourth from "./Fourth"
+
+import Footer from '../Footer';
+import NavTwo from '../NavTwo';
 
 const SubscriptionJourney = () => {
-    let { path, url } = useRouteMatch();
-    return(<HashRouter basename={`/${path}`}>
-        <Switch>
-            <Route exact path="/" component={First}/>
-            <Route exact path="/second" component={Second}/>
-            <Route exact path="/third" component={Third}/>
-        </Switch>
-    </HashRouter>)
+    const [scrollX, setScrollX] = useState(0);
+
+    function handleNext() {
+        if (scrollX > -400) setScrollX(scrollX - 100);
+    }
+    function handlePrev() {
+        if (scrollX < 0) setScrollX(scrollX + 100);
+    }
+
+    return (
+        <div className="sub-main-container">
+            <NavTwo />
+            {(scrollX<0)&&(<ArrowBackIcon className="arrow-back" onClick={handlePrev} style={{ fontSize: "3.5rem", color: "white" }} />)}
+            <div className="subscriptions">
+                <div className="sub-container" style={{ left: `${scrollX}vw` }}>
+                    <First handleNext={handleNext} />
+                    <Second handleNext={handleNext} handlePrev={handlePrev} />
+                    <Third handleNext={handleNext} handlePrev={handlePrev}/>
+                    <Fourth handlePrev={handlePrev}/>
+                </div>
+            </div>
+            <Footer />
+        </div>
+    )
 };
 
 export default SubscriptionJourney;
