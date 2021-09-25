@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Skeleton from '@material-ui/lab/Skeleton';
+import ResetIcon from '@material-ui/icons/Cached';
 import { Modal } from "antd"
 import { Menu, Dropdown } from 'antd';
 import axios from "axios";
@@ -8,6 +9,7 @@ import Aos from "aos";
 import "../../css/SubscriptionPages/styles.css";
 import { sortZones } from '../../utils/sort';
 import { Checkbox, Button } from 'antd';
+import SubcriptionPlansTable from './SubcriptionPlansTable';
 
 const citiesChecked = [];
 const categoriesChecked = [];
@@ -40,7 +42,7 @@ function SelectedItems() {
                     {categoriesChecked.map((cat) => (<li>{cat}</li>))}
                 </ul>
             </div>
-            <h4>Total subscriptions:{citiesChecked.length * categoriesChecked.length}</h4>
+            <h4>Total subscriptions:{" " + citiesChecked.length * categoriesChecked.length}</h4>
         </div>
     );
 }
@@ -61,7 +63,7 @@ const CategoryMenu = ({ options }) => {
     </Menu>)) : (<p>Please Wait...</p>));
 }
 
-const Third = ({ handlePrev }) => {
+const Third = ({ setShowPlansTable }) => {
     const [options, setOptions] = useState(false);
     const [openProceedModal, setOpenProceedModal] = useState(false);
     const [openInvalid, setOpenInvalid] = useState(false);
@@ -84,8 +86,9 @@ const Third = ({ handlePrev }) => {
 
 
     function proceedAfterSelections() {
-        if (citiesChecked.length && categoriesChecked.length)
+        if (citiesChecked.length && categoriesChecked.length) {
             setOpenProceedModal(true);
+        }
         else setOpenInvalid(true);
     }
 
@@ -95,7 +98,7 @@ const Third = ({ handlePrev }) => {
                 <Modal
                     open={openProceedModal}
                     visible={openProceedModal}
-                    onOk={() => setOpenProceedModal(false)}
+                    onOk={() => setShowPlansTable(true)}
                     onCancel={() => setOpenProceedModal(false)}>
 
                     <SelectedItems />
@@ -105,17 +108,18 @@ const Third = ({ handlePrev }) => {
                 <Modal
                     open={openInvalid}
                     visible={openInvalid}
-                    onOk={() => setOpenInvalid(false)}
+                    onOk={() => { setOpenInvalid(false); setShowPlansTable(true); }}
                     onCancel={() => setOpenInvalid(false)}>
 
-                    <h3>Select atleast one city and one category.</h3>
+                    {/* <h3>Select atleast one city and one category.</h3> */}
+                    <h3>Showing fake table for testing purposes.</h3>
 
                 </Modal>}
             <div className="option-main"><div className="sub-option-container">
                 Now, lets get started with the selections.
                 Choose the city and category you want to subscribe.
                 <div className="title-dd-section">
-                    {options ? (<h5 className="sub-dopdowns-title">Select below</h5>)
+                    {options ? (<h5 className="sub-dopdowns-title" style={{ color: "white" }}>Select below</h5>)
                         : (<h5 className="sub-dopdowns-title" style={{ color: "white" }}>Please wait...</h5>)}
 
                     {options ? (<div className="sub-dropdowns">
@@ -126,11 +130,13 @@ const Third = ({ handlePrev }) => {
                             <a onClick={(e) => e.preventDefault()} className="drop-links">CATEGORIES</a>
                         </Dropdown>
                     </div>) : (<Skeleton height={300} width={500} style={{ backgroundColor: "white", marginInline: "1rem" }} />)}
+                    {options && (<span className="next-btn" style={{ fontSize: "1.25rem", alignSelf: "self-start", marginInline: "0.25rem", paddingInline: 10 }}>{<ResetIcon />}Reset</span>)}
                 </div>
 
             </div>
                 <span className="next-btn" onClick={proceedAfterSelections}>Lets go</span>
             </div>
+
         </>
     )
 };

@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .subscriptions {
@@ -14,7 +14,7 @@
   display: flex;
   flex-direction: row;
   width: 400vw;
-  /* height: ; */
+  min-height: 60vh;
   left: 0;
   transition: all 300ms;
 }
@@ -99,7 +99,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  width: 50vw;
+  width: 40vw;
   min-height: 10rem;
   padding: 4rem;
   border: 1px solid blue;
@@ -124,4 +124,12 @@
 .sub-dropdowns-title {
   color: white;
   align-self: center;
+}
+.sub-plan-table {
+  position: relative;
+  width: 80%;
+  height: 80vh;
+  /* margin: 1rem; */
+  margin-top: auto;
+  overflow-x: hidden;
 }
