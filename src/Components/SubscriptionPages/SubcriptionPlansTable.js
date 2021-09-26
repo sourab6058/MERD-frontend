@@ -21,7 +21,7 @@ const SubcriptionPlansTable = ({ subscriptionsCount }) => {
     let total12 = 9500;
 
     for (let i = 0; i < subscriptionsCount - 1; i++) {
-      total6 = 2 * total6 - total6 * 0.2;
+      total6 = 2 * total6 - total6 * 0.2; //price of every subsequent subscription get reduced by 20%
       total12 = 2 * total12 - total12 * 0.2;
     }
 

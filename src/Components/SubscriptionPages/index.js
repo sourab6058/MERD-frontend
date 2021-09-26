@@ -48,6 +48,7 @@ const SubscriptionJourney = () => {
       {showPlansTable && (
         <>
           <h1>Subscription Plans</h1>
+          h3
           <SubcriptionPlansTable subscriptionsCount={subscriptionsCount} />
         </>
       )}
