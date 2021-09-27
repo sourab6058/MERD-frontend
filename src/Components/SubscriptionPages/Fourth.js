@@ -7,29 +7,30 @@ import axios from "axios";
 import Aos from "aos";
 
 import "../../css/SubscriptionPages/styles.css";
-import { sortZones } from "../../utils/sort";
-import { Checkbox, Button } from "antd";
-import SubcriptionPlansTable from "./SubcriptionPlansTable";
+import { Checkbox } from "antd";
 
-const citiesChecked = [];
-const categoriesChecked = [];
+import data from "./temp.json";
+
+let citiesChecked = [];
+let categoriesChecked = [];
 
 function SelectedItems() {
+
   return (
     <div style={{ position: "flex", flexDirection: "row" }}>
       <div>
         <h3>Selected cities</h3>
         <ul style={{ marginLeft: "2rem" }}>
           {citiesChecked.map((city, idx) => (
-            <li>{city}</li>
+            <li key={idx}>{city}</li>
           ))}
         </ul>
       </div>
       <div>
         <h3>Selected categories</h3>
         <ul style={{ marginLeft: "2rem" }}>
-          {categoriesChecked.map((cat) => (
-            <li>{cat}</li>
+          {categoriesChecked.map((cat, idx) => (
+            <li key={idx}>{cat}</li>
           ))}
         </ul>
       </div>
@@ -41,14 +42,14 @@ function SelectedItems() {
   );
 }
 
-const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
-  const [options, setOptions] = useState(false);
+const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
+  const [options, setOptions] = useState(data);
   const [openProceedModal, setOpenProceedModal] = useState(false);
   const [openInvalid, setOpenInvalid] = useState(false);
   const API_URL = "http://3.108.159.143:8000/api/filter";
 
   function handleCheck(e, item, list) {
-    if (e.target.checked) {
+    if (e.target.checked && !list.some(ele => ele === item)) {
       list.push(item);
     } else {
       const idx = list.indexOf(item);
@@ -56,7 +57,7 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
         list.splice(idx, 1);
       }
     }
-    setSubscriptionsCount(categoriesChecked.length * citiesChecked.length);
+
   }
 
   const CategoryMenu = ({ options }) => {
@@ -67,7 +68,9 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
             <Checkbox
               style={{ fontSize: "1.25rem" }}
               key={ele.name}
-              onChange={(e) => handleCheck(e, ele.name, categoriesChecked)}
+              onChange={(e) => {
+                handleCheck(e, ele.name, categoriesChecked);
+              }}
             >
               {ele.name}
             </Checkbox>
@@ -87,7 +90,11 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
             <Checkbox
               style={{ fontSize: "1.25rem" }}
               key={ele.city}
-              onChange={(e) => handleCheck(e, ele.city, citiesChecked)}
+              onChange={(e) => {
+
+                handleCheck(e, ele.city, citiesChecked);
+
+              }}
             >
               {ele.city}
             </Checkbox>
@@ -101,26 +108,33 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
 
   useEffect(() => {
     Aos.init({ duration: 1000 });
-    axios
-      .get(API_URL)
-      .then(
-        (res) => {
-          let optionData = Object.entries(res.data.filters[0]);
-          optionData = sortZones(optionData);
-          setOptions(optionData);
-          console.log("options", options);
-        },
-        [options]
-      )
-      .catch((err) => {
-        console.log(err);
-      });
-  });
+    // axios
+    //   .get(API_URL)
+    //   .then(
+    //     (res) => {
+    //       let optionData = Object.entries(res.data.filters[0]);
+    //       optionData = sortZones(optionData);
+    //       setOptions(optionData);
+    //       console.log("options", options);
+    //     },
+    //     [options]
+    //   )
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }, []);
 
   function proceedAfterSelections() {
-    if (citiesChecked.length && categoriesChecked.length) {
+    if (citiesChecked.length * categoriesChecked.length) {
+      setSubscriptionsCount(citiesChecked.length * categoriesChecked.length);
       setOpenProceedModal(true);
     } else setOpenInvalid(true);
+  }
+
+  function resetSelections() {
+    citiesChecked = [];
+    categoriesChecked = [];
+    setShowPlansTable(false);
   }
 
   return (
@@ -129,7 +143,10 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
         <Modal
           open={openProceedModal}
           visible={openProceedModal}
-          onOk={() => setShowPlansTable(true)}
+          onOk={() => {
+            setShowPlansTable(true);
+            setOpenProceedModal(false);
+          }}
           onCancel={() => setOpenProceedModal(false)}
         >
           <SelectedItems />
@@ -141,12 +158,12 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
           visible={openInvalid}
           onOk={() => {
             setOpenInvalid(false);
-            setShowPlansTable(true);
+            // setShowPlansTable(true);
           }}
           onCancel={() => setOpenInvalid(false)}
         >
-          {/* <h3>Select atleast one city and one category.</h3> */}
-          <h3>Showing fake table for testing purposes.</h3>
+          <h3>Select atleast one city and one category.</h3>
+          {/* <h3>Showing fake table for testing purposes.</h3> */}
         </Modal>
       )}
       <div className="option-main">
@@ -193,6 +210,7 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
                   marginInline: "0.25rem",
                   paddingInline: 10,
                 }}
+                onClick={resetSelections}
               >
                 {<ResetIcon />}Reset
               </span>
@@ -207,4 +225,4 @@ const Third = ({ setShowPlansTable, setSubscriptionsCount }) => {
   );
 };
 
-export default Third;
+export default Fourth;

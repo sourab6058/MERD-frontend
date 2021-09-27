@@ -40,15 +40,16 @@ const SubscriptionJourney = () => {
           <Third
             handleNext={handleNext}
             handlePrev={handlePrev}
+          />
+          <Fourth setShowPlansTable={setShowPlansTable}
             setSubscriptionsCount={setSubscriptionsCount}
           />
-          <Fourth setShowPlansTable={setShowPlansTable} />
         </div>
       </div>
       {showPlansTable && (
         <>
           <h1>Subscription Plans</h1>
-          h3
+          <h3>Plans for {subscriptionsCount} subscriptions.</h3>
           <SubcriptionPlansTable subscriptionsCount={subscriptionsCount} />
         </>
       )}
