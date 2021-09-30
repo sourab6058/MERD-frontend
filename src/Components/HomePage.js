@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Nav from "./Nav";
 import NavTwo from "./NavTwo";
 import Band from "./HomePage/Band";
-import ImageBand from "./HomePage/ImageBand";
+import AboutUs from "./HomePage/AboutUs";
 import Cards from "./HomePage/Cards";
 import Footer from "./Footer";
 import HeroMap from "./HomePage/HeroMap";
@@ -18,7 +18,7 @@ class HomePage extends Component {
         {/* <HeroMap /> */}
         <Band />
         <Cards />
-        <ImageBand />
+        <AboutUs />
         <Footer />
       </div>
     );
