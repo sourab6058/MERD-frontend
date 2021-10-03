@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import "../../css/HomePage/Hero.css";
 class Hero extends Component {
@@ -17,10 +17,10 @@ class Hero extends Component {
             Click Of A Mouse
           </h3>
           <div className="home-page-btns">
-            <Link className="home-page-subscribe btn" to="/subscribe">
+            <Link className="home-page-subscribe button" to="/subscribe">
               Subscribe
             </Link>
-            <Link className="home-page-readmore btn" href="/">
+            <Link className="home-page-readmore button" href="/">
               Read More
             </Link>
           </div>

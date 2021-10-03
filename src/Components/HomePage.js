@@ -12,13 +12,10 @@ class HomePage extends Component {
   render() {
     return (
       <div className="Mainclass">
-        {/* <Nav /> */}
         <NavTwo />
         <Hero />
-        {/* <HeroMap /> */}
         <Band />
         <Cards />
-        <AboutUs />
         <Footer />
       </div>
     );

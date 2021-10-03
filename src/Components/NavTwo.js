@@ -14,9 +14,9 @@ export default function NavTwo() {
           <a id="products" className="menu-item" href="">
             Products
           </a>
-          <a id="subscribe" className="menu-item" href="">
+          <Link id="subscribe" className="menu-item" to="/subscribe">
             Subscribe
-          </a>
+          </Link>
           <a id="faq" className="menu-item" href="">
             FAQ
           </a>
@@ -43,7 +43,7 @@ export default function NavTwo() {
           <a href="/projects">Products</a>
         </li>
         <li>
-          <a href="_blank">Subscribe</a>
+          <Link to="/subscribe">Subscribe</Link>
         </li>
         <li>
           <a href="_blank">FAQ</a>
@@ -52,7 +52,7 @@ export default function NavTwo() {
           <a href="_blank">Retail Articles</a>
         </li>
         <li>
-          <a href="_blank">Contact Us</a>
+          <Link to="/contactus">Contact Us</Link>
         </li>
       </ul>
       {/* <a className="sign-in-links" href="_blank">
