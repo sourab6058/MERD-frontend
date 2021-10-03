@@ -11,7 +11,9 @@ function App() {
   const socketRef = useRef();
 
   useEffect(() => {
-    socketRef.current = io.connect("http://localhost:4000");
+    socketRef.current = io.connect("http://localhost:4000", {
+      reconnect: true,
+    });
     socketRef.current.on("message", ({ name, message }) => {
       setChat([...chat, { name, message }]);
     });

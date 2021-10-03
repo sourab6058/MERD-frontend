@@ -13,6 +13,10 @@ io.on("connection", (socket) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("Hello");
+});
+
 http.listen(4000, function () {
   console.log("listening on port 4000");
 });
