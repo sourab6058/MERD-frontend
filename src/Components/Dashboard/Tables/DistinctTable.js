@@ -71,6 +71,7 @@ class DistinctTable extends Component {
   }
 
   render() {
+    const purchaseMode = this.props.purchaseMode;
     if (this.props.data.length > 0) {
       let empty = true;
       this.props.data.forEach((obj) => {
@@ -98,7 +99,10 @@ class DistinctTable extends Component {
                       {monthNames[month]}
                     </TableCell>
                   ))}
-                  <TableCell align="right">Total</TableCell>
+                  <TableCell align="right">
+                    Total <br />
+                    {purchaseMode}
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>

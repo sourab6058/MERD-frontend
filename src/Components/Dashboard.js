@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Skeleton from '@material-ui/lab/Skeleton';
+import Skeleton from "@material-ui/lab/Skeleton";
 import Alert from "./Dashboard/Alert";
 
 import axios from "axios";
@@ -17,11 +17,14 @@ import "antd/dist/antd.css";
 
 import "../css/modal.css";
 
+import FileUpload from "./Dashboard/FileUpload";
+
 import SubCategory from "./Dashboard/Menu/SubCategory";
 import SubCity from "./Dashboard//Menu/SubCity";
 import Tables from "./Dashboard/Tables";
 import SubNationality from "./Dashboard/Menu/SubNationality";
 import SubMonths from "./Dashboard/Menu/SubMonths";
+import PurchaseMode from "./Dashboard/Menu/PurchaseMode";
 
 import { Modal } from "@material-ui/core";
 
@@ -75,6 +78,7 @@ export class NewDashboard extends Component {
         subCategories: [],
         subSubCategories: [],
         nationalities: [],
+        purchaseMode: [],
       },
       loading: false,
       csvData: [],
@@ -117,7 +121,7 @@ export class NewDashboard extends Component {
   //GET request
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
-    this.scrollToTop();//scrolls to the top, on loading, otherwise scrolls to footer.
+    this.scrollToTop(); //scrolls to the top, on loading, otherwise scrolls to footer.
     axios
       .get(API_URL)
       .then((res) => {
@@ -159,7 +163,7 @@ export class NewDashboard extends Component {
 
     let dataToBePost = this.state.postObject;
     dataToBePost["filter_type"] = displayMode;
-    console.log(dataToBePost);
+    console.log("datatobePost", dataToBePost);
 
     axios
       .post(API_URL, dataToBePost)
@@ -182,6 +186,7 @@ export class NewDashboard extends Component {
     if (this.state.postObject.nationalities.length === 0) isEmpty = true;
     if (this.state.postObject.months.length === 0) isEmpty = true;
     if (this.state.postObject.years.length === 0) isEmpty = true;
+    if (this.state.postObject.purchaseMode.length === 0) isEmpty = true;
     if (
       this.state.postObject.categories.length === 0 &&
       this.state.postObject.subCategories.length === 0 &&
@@ -696,15 +701,14 @@ export class NewDashboard extends Component {
         )}
         <div>
           <Layout>
-          <Header style={{ padding: 0, height:"auto", lineHeight:1.5715}}>
-          <NavTwo />
-        </Header>
+            <Header style={{ padding: 0, height: "auto", lineHeight: 1.5715 }}>
+              <NavTwo />
+            </Header>
           </Layout>
           <Layout
             style={{
-              // height: '90vh',
-              overflowY: "hidden",
-              height: "100vh",
+              height: "90vh",
+              overflowY: "auto",
             }}
           >
             <Sider width={300} className="site-layout-background">
@@ -764,6 +768,9 @@ export class NewDashboard extends Component {
                     additem={this.addItem}
                     selectAllNationalities={this.selectAllNationalities}
                   />
+                  <SubMenu key="purchase mode" title="Purchase Mode">
+                    <PurchaseMode addItem={this.addItem} />
+                  </SubMenu>
                   <Item>
                     <Button
                       onClick={() => this.checkData()}
@@ -780,15 +787,22 @@ export class NewDashboard extends Component {
                     height: "100%",
                     borderRight: 0,
                     display: "flex",
-                    flexDirection:"column",
+                    flexDirection: "column",
                     justifyContent: "center",
                     overflowY: "scroll",
                     overflowX: "hidden",
-                    background:"white"
+                    background: "white",
                   }}
                   theme={"light"}
                 >
-                   {[...Array(5)].map((e, i)=><Skeleton key={i} animation="wave" height={65} width={280}/>)}
+                  {[...Array(5)].map((e, i) => (
+                    <Skeleton
+                      key={i}
+                      animation="wave"
+                      height={65}
+                      width={280}
+                    />
+                  ))}
                 </div>
               )}
             </Sider>
@@ -985,12 +999,13 @@ export class NewDashboard extends Component {
                 <Tables
                   data={this.state.tableData}
                   displayMode={this.state.displayMode}
+                  purchaseMode={this.state.postObject.purchaseMode}
                 ></Tables>
               )}
             </Content>
           </Layout>
 
-          {/* <div
+          <div
             className="upload-data-container"
             style={{ height: this.state.openUploadLinks ? 180 : 0 }}
           >
@@ -1012,7 +1027,7 @@ export class NewDashboard extends Component {
             }}
           >
             {this.state.uploadLinkOpenerText}
-          </span> */}
+          </span>
         </div>
         <Footer />
       </div>

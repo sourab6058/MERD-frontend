@@ -1,3 +1,52 @@
+*, *::before, *::after{
+  padding:0;
+  margin:0;
+  box-sizing:border-box;
+}
+.contact-option-container{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+.chat-now {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  margin:1rem;
+  margin-top:2rem;
+  width:auto;
+  cursor:pointer;
+  transition:300ms;
+}
+.chat-now:hover{
+  transform:scale(1.5);
+}
+.icon{
+  font-size:5rem;
+  color:blue;
+}
+
+.chat-icon-container{
+  display:flex;
+  flex-direction:center;
+  justify-content:center;
+  background-color:white;
+  padding:1rem;
+  margin:1rem;
+  border-radius:50%;
+  height:fit-content;
+  width:fit-content;
+  cursor:pointer;
+  border: 1px solid black;
+  transition:300ms;
+}
+
+.chat-now span{
+  font-size:1.45rem;
+}
+
 .card {
   display: grid;
   grid-template-columns: 1fr 1fr;

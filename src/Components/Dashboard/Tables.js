@@ -17,6 +17,10 @@ export class Tables extends Component {
     console.log(this.props);
     const data = this.props.data;
     const displayMode = this.props.displayMode;
+    const purchaseMode =
+      this.props.purchaseMode.length === 2
+        ? "(Offline & Online)"
+        : this.props.purchaseMode[0];
     let year = -1;
     if (data && data.length > 0) {
       console.log("LOOOOOK");
@@ -44,8 +48,8 @@ export class Tables extends Component {
                   <div
                     key={uuidv4()}
                     style={{
-                      maxHeight: "70vh",
-                      overflowY: "scroll",
+                      maxHeight: "90vh",
+                      overflowY: "auto",
                     }}
                   >
                     {" "}
@@ -101,6 +105,9 @@ export class Tables extends Component {
                                                       totalMarketSize={
                                                         nationality.total_zone_market_size
                                                       }
+                                                      purchaseMode={
+                                                        purchaseMode
+                                                      }
                                                     />
                                                   </div>
                                                 )
@@ -130,6 +137,7 @@ export class Tables extends Component {
                                                 totalMarketSize={
                                                   nationality.total_zone_market_size
                                                 }
+                                                purchaseMode={purchaseMode}
                                               />
                                             </div>
                                           )
@@ -159,6 +167,7 @@ export class Tables extends Component {
                                       totalMarketSize={
                                         nationality.total_zone_market_size
                                       }
+                                      purchaseMode={purchaseMode}
                                     />
                                   </div>
                                 ))}
@@ -211,6 +220,7 @@ export class Tables extends Component {
                                 data={city.market_data}
                                 year={year.year}
                                 city={city.city}
+                                purchaseMode={purchaseMode}
                               />
                             </div>
                           ))
@@ -232,6 +242,7 @@ export class Tables extends Component {
                                       data={category.subcategories}
                                       year={year.year}
                                       city={city.city}
+                                      purchaseMode={purchaseMode}
                                     />
                                   ) : (
                                     category.subcategories.map(
@@ -248,6 +259,7 @@ export class Tables extends Component {
                                             data={subcategory.subsubcategories}
                                             year={year.year}
                                             city={city.city}
+                                            purchaseMode={purchaseMode}
                                           />
                                         </div>
                                       )
@@ -282,6 +294,7 @@ export class Tables extends Component {
                               data={category.data}
                               year={year.year}
                               city={city.city}
+                              purchaseMode={purchaseMode}
                             />
                           ) : (
                             category.subcategories.map((subcategory) => (
@@ -294,6 +307,7 @@ export class Tables extends Component {
                                     data={subcategory.data}
                                     year={year.year}
                                     city={city.city}
+                                    purchaseMode={purchaseMode}
                                   />
                                 ) : (
                                   subcategory.subsubcategories.map(
@@ -309,6 +323,7 @@ export class Tables extends Component {
                                           data={subsubcategory.data}
                                           year={year.year}
                                           city={city.city}
+                                          purchaseMode={purchaseMode}
                                         />
                                       </div>
                                     )
@@ -342,6 +357,7 @@ export class Tables extends Component {
                       data={division.zone_data}
                       year={division.year}
                       city={division.city}
+                      purchaseMode={purchaseMode}
                     />
                   </div>
                 </div>
