@@ -9,6 +9,11 @@ import Paper from "@material-ui/core/Paper";
 
 import { v4 as uuidv4 } from "uuid";
 
+function roundToNearestThousand(num) {
+  if (typeof num !== "number") return;
+  return 1000 * Math.round(num * 0.001);
+}
+
 class DistinctTable extends Component {
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -16,6 +21,7 @@ class DistinctTable extends Component {
 
   toUSDString(num) {
     // takes a number, returns a string ofnumber with commas as thousands separators
+    num = roundToNearestThousand(num);
     return `$${this.numberWithCommas(num)}`;
   }
 

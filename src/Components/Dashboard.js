@@ -46,12 +46,13 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
+import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
-const API_URL = "http://3.108.159.143:8000/api/filter";
+const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
   constructor(props) {
@@ -79,6 +80,7 @@ export class NewDashboard extends Component {
         subSubCategories: [],
         nationalities: [],
         purchaseMode: [],
+        placeOfPurchase: [],
       },
       loading: false,
       csvData: [],
@@ -187,6 +189,7 @@ export class NewDashboard extends Component {
     if (this.state.postObject.months.length === 0) isEmpty = true;
     if (this.state.postObject.years.length === 0) isEmpty = true;
     if (this.state.postObject.purchaseMode.length === 0) isEmpty = true;
+    if (this.state.postObject.placeOfPurchase.length === 0) isEmpty = true;
     if (
       this.state.postObject.categories.length === 0 &&
       this.state.postObject.subCategories.length === 0 &&
@@ -276,6 +279,30 @@ export class NewDashboard extends Component {
         tempData[whereToBePushed].indexOf(itemToBePushed),
         1
       );
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  selectAllPurchaseMode = (e) => {
+    let tempData = this.state.postObject;
+    if (e.target.checked) {
+      let purchaseMode = ["online", "offline"];
+      tempData = { ...tempData, purchaseMode };
+      this.setState({ postObject: tempData });
+    } else {
+      tempData = { ...tempData, purchaseMode: [] };
+      this.setState({ postObject: tempData });
+    }
+  };
+
+  selectAllPlaceOfPurchase = (e) => {
+    let tempData = this.state.postObject;
+    if (e.target.checked) {
+      let placeOfPurchase = ["in", "out"];
+      tempData = { ...tempData, placeOfPurchase };
+      this.setState({ postObject: tempData });
+    } else {
+      tempData = { ...tempData, placeOfPurchase: [] };
       this.setState({ postObject: tempData });
     }
   };
@@ -769,7 +796,16 @@ export class NewDashboard extends Component {
                     selectAllNationalities={this.selectAllNationalities}
                   />
                   <SubMenu key="purchase mode" title="Purchase Mode">
-                    <PurchaseMode addItem={this.addItem} />
+                    <PurchaseMode
+                      addItem={this.addItem}
+                      selectAllPurchaseMode={this.selectAllPurchaseMode}
+                    />
+                  </SubMenu>
+                  <SubMenu key="place of purchase" title="Place Of Purchase">
+                    <PlaceOfPurchase
+                      addItem={this.addItem}
+                      selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
+                    />
                   </SubMenu>
                   <Item>
                     <Button

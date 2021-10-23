@@ -10,7 +10,21 @@ import Paper from "@material-ui/core/Paper";
 
 import { v4 as uuidv4 } from "uuid";
 
+function roundToNearestThousand(num) {
+  if (typeof num !== "number") return;
+  return 1000 * Math.round(num * 0.001);
+}
+
 class ZoneTable extends Component {
+  numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
+  toUSDString(num) {
+    // takes a number, returns a string ofnumber with commas as thousands separators
+    num = roundToNearestThousand(num);
+    return `$${this.numberWithCommas(num)}`;
+  }
   render() {
     console.log(this.props.data.length);
     if (this.props.data.length > 0) {
@@ -46,7 +60,7 @@ class ZoneTable extends Component {
                     <TableCell align="right">
                       {row.total_market_size === 0
                         ? "Not Available"
-                        : row.total_market_size}
+                        : this.toUSDString(row.total_market_size)}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Menu, Checkbox } from "antd";
 
-export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
+export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
   const [disableCheck, setDisableCheck] = useState(false);
 
   function handleBothCheck(e) {
     setDisableCheck(!disableCheck);
-    selectAllPurchaseMode(e);
+    selectAllPlaceOfPurchase(e);
   }
 
   return (
@@ -16,27 +16,27 @@ export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
       </Menu.Item>
       {disableCheck ? (
         <div>
-          <Menu.Item key="offline1">
+          <Menu.Item key="in1">
             <Checkbox disabled={true} checked={true}>
-              Offline
+              In the cities.
             </Checkbox>
           </Menu.Item>
-          <Menu.Item key="online1">
+          <Menu.Item key="out1">
             <Checkbox disabled={true} checked={true}>
-              Online
+              Outside the cities.
             </Checkbox>
           </Menu.Item>
         </div>
       ) : (
         <div>
-          <Menu.Item key="offline2">
-            <Checkbox onChange={(e) => addItem("purchaseMode", "offline", e)}>
-              Offline
+          <Menu.Item key="in2">
+            <Checkbox onChange={(e) => addItem("placeOfPurchase", "in", e)}>
+              In the cities.
             </Checkbox>
           </Menu.Item>
-          <Menu.Item key="online2">
-            <Checkbox onChange={(e) => addItem("purchaseMode", "online", e)}>
-              Online
+          <Menu.Item key="out2">
+            <Checkbox onChange={(e) => addItem("placeOfPurchase", "out", e)}>
+              Outside the cities.
             </Checkbox>
           </Menu.Item>
         </div>
