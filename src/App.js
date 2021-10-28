@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import HomePage from "./Components/HomePage";
 import Dashboard from "./Components/Dashboard";
+import Catchments from "./Components/Catchments";
 import Demographic from "./Components/Demographic";
 import Projects from "./Components/Projects/Projects";
 import MapComponent from "./Components/MapComponent";
@@ -25,6 +26,7 @@ class App extends Component {
               {/* <PrivateRoute path='/dashboard' exact component={Dashboard} />
               <PrivateRoute path='/map' exact component={MapComponent}> */}
               <Route path="/dashboard" exact component={Dashboard} />
+              <Route path="/catchments" exact component={Catchments} />
               <Route path="/demographic" exact component={Demographic} />
               <Route path="/map" exact component={MapComponent} />
               <Route path="/subscribe" exact component={SubscriptionJourney} />
