@@ -8,6 +8,8 @@ import Demographic from "./Components/Demographic";
 import Projects from "./Components/Projects/Projects";
 import MapComponent from "./Components/MapComponent";
 import SubscriptionJourney from "./Components/SubscriptionPages";
+import CityReports from "./Components/CityReports";
+import TouristReports from "./Components/TouristReports";
 import WebChat from "./Components/WebChat";
 import { AuthProvider } from "./Components/Authentication/AuthContext";
 import { Auth } from "./Components/Authentication";
@@ -30,6 +32,8 @@ class App extends Component {
               <Route path="/demographic" exact component={Demographic} />
               <Route path="/map" exact component={MapComponent} />
               <Route path="/subscribe" exact component={SubscriptionJourney} />
+              <Route path="/cityreport" exact component={CityReports} />
+              <Route path="/touristreport" exact component={TouristReports} />
               <Route path="/contactus" exact component={WebChat} />
               {/* </PrivateRoute> */}
               <Route path="/auth" exact component={Auth} />
