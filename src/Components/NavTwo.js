@@ -58,9 +58,9 @@ export default function NavTwo() {
       {/* <a className="sign-in-links" href="_blank">
         Sign Up
       </a> */}
-      <a className="sign-in-links" href="_blank">
+      <Link className="sign-in-links" to="/subscribe">
         Sign In
-      </a>
+      </Link>
     </nav>
   );
 }

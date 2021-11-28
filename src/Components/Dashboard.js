@@ -52,7 +52,7 @@ const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
-const API_URL = "http://3.108.159.143/:8000/api/filter";
+const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
   constructor(props) {

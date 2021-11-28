@@ -14,6 +14,7 @@ class Card extends Component {
     return (
       <Link
         className="card"
+        style={{ minHeight: "auto" }}
         data-aos={this.props.imgOnRight ? "fade-right" : "fade-left"}
         to={`/${this.props.link}`}
       >

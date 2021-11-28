@@ -653,7 +653,8 @@ p {
   align-items: center;
   justify-content: space-between;
   width: 80%;
-  height: 40%;
+  min-height: none;
+  /* height: 40%; */
   /* max-width: 350px; */
   background: var(--white);
   margin-bottom: 7vh;
