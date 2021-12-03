@@ -1,28 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-
-import Aos from "aos";
-
-import "aos/dist/aos.css";
+import Arrow from "@material-ui/icons/ArrowForward";
 
 class Card extends Component {
-  componentDidMount = () => {
-    Aos.init({ duration: 1000 });
-  };
-
   render() {
     return (
       <Link
-        className="card"
-        style={{ minHeight: "auto" }}
-        data-aos={this.props.imgOnRight ? "fade-right" : "fade-left"}
+        className="link-card"
         to={`/${this.props.link}`}
+        style={{ minHeight: "none" }}
       >
         {!this.props.imgOnRight && (
-          <img
-            src={this.props.imgSrc}
-            style={{ padding: 0, width: "500px", height: "auto" }}
-          ></img>
+          <img className="card-image" src={this.props.img}></img>
         )}
         <div>
           <div className="cardLine"></div>
@@ -30,14 +19,13 @@ class Card extends Component {
             <h3>{this.props.heading}</h3>
           </div>
           <div className="cardBody">
-            <p>{this.props.body}</p>
+            <p className="product-description">{this.props.body}</p>
+            <a className="product-link">{this.props.linkText}</a>
+            <Arrow className="link-arrow" />
           </div>
         </div>
         {this.props.imgOnRight && (
-          <img
-            src={this.props.imgSrc}
-            style={{ padding: 0, width: "500px", height: "auto" }}
-          ></img>
+          <img className="card-image" src={this.props.img}></img>
         )}
       </Link>
     );

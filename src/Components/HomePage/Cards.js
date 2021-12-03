@@ -1,50 +1,61 @@
 import React from "react";
 import Card from "./Card";
 
-const Cards = (props) => {
+const blue = require("../../img/blue.jpg");
+const rising = require("../../img/rising.jpg");
+const darkLights = require("../../img/darkLights.jpg");
+const rodsAbstract = require("../../img/rodsAbstract.jpg");
+const angel = require("../../img/angel.jpg");
+
+const Cards = () => {
   return (
     <div className="cards-container">
       <Card
         link={"demographic"}
-        imgSrc="https://cdn.pixabay.com/photo/2014/09/07/21/52/city-438393_1280.jpg"
+        linkText="See Demographic Information"
+        img={darkLights}
         imgOnRight={true}
         headingClass="cardHeading"
         heading="DEMOGRAPHIC INFORMATION"
         body="View key demographic information such as income, nationality, age distribution - at a neighbourhood
-                    level"
+                    level."
       />
       <Card
+        linkText="See Market Sizes"
         link={"dashboard"}
-        imgSrc=" https://cdn.pixabay.com/photo/2016/11/22/19/08/hangers-1850082_1280.jpg"
+        img={rodsAbstract}
         imgOnRight={false}
         headingClass="cardHeading"
         heading="DETAILED MARKET SIZE"
-        body="View market sizes of 50+ categories - by neighbourhood and / or nationality"
+        body="View market sizes of 50+ categories - by neighbourhood and / or nationality."
       />
       <Card
+        linkText="See Mall Catchments"
         link={"catchments"}
-        imgSrc="https://cdn.pixabay.com/photo/2016/03/17/23/00/europe-1264062_1280.jpg"
+        img={rising}
         imgOnRight={true}
         headingClass="cardHeading"
         heading="CATCHMENTS ANALYSIS / RETAIL INTELLIGENCE"
-        body="Assess your chosen site/s or choosing potential site/s based on demographic / market size criteria"
+        body="Assess your chosen site/s or choosing potential site/s based on demographic / market size criteria."
       ></Card>
       <Card
         link={"cityreport"}
-        imgSrc="https://cdn.pixabay.com/photo/2016/06/03/13/57/digital-marketing-1433427_1280.jpg"
+        linkText="See City Reports"
+        img={blue}
         imgOnRight={false}
         headingClass="cardHeading"
         heading="CITY REPORTS"
         body="View key demographic information such as income, nationality, age distribution - at a neighbourhood
-                level"
+                level."
       />
       <Card
         link={"touristreport"}
-        imgSrc="https://cdn.pixabay.com/photo/2017/01/28/02/24/japan-2014617_1280.jpg"
+        linkText="See Tourist Reports"
+        img={angel}
         imgOnRight={true}
         headingClass="cardHeading"
         heading="TOURIST RELATED INFORMATION"
-        body="Get access to inbound tourist statistics - volume and retail spend - at a nationality level"
+        body="Get access to inbound tourist statistics - volume and retail spend - at a nationality level."
       />
     </div>
   );
