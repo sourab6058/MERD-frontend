@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Alert from "./Dashboard/Alert";
+import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
+import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
+import CancelPopUp from "./Dashboard/CancelPopUp";
 
 import axios from "axios";
 import * as _ from "lodash";
-
-import Loader from "react-loader-spinner";
 
 import rendercsv from "../utils/rendercsv";
 import { sortZones } from "../utils/sort";
@@ -47,12 +48,13 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
 import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
+let optionData = require("./Dashboard/optionData.json");
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
-const API_URL = "http://localhost:8000/api/filter";
+const API_URL = "http://3.108.159.143:8000/api/filter";
 
 export class NewDashboard extends Component {
   constructor(props) {
@@ -82,6 +84,7 @@ export class NewDashboard extends Component {
         purchaseMode: [],
         placeOfPurchase: [],
       },
+      registeredUser: true,
       loading: false,
       csvData: [],
       menuLoading: true,
@@ -92,6 +95,10 @@ export class NewDashboard extends Component {
       openUploadLinks: false,
       uploadLinkOpenerText: "Open file upload links",
       selectionListExpanded: false,
+      subscriber: true,
+      subscriptionAlertOpen: false,
+      oneTimeSubPopUpOpen: false,
+      cancelPopUpOpen: false,
     };
     this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -116,6 +123,15 @@ export class NewDashboard extends Component {
     }
   }
 
+  handleSubscriber = (e) => {
+    this.setState({ subscriber: e.target.checked });
+  };
+
+  handleRegistered = (e) => {
+    if (!e.target.checked) this.setState({ subscriber: false });
+    this.setState({ registeredUser: e.target.checked });
+  };
+
   scrollToTop = () => {
     this.top.scrollIntoView({ behavior: "auto" });
   };
@@ -124,19 +140,23 @@ export class NewDashboard extends Component {
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
     this.scrollToTop(); //scrolls to the top, on loading, otherwise scrolls to footer.
-    axios
-      .get(API_URL)
-      .then((res) => {
-        let optionData = Object.entries(res.data.filters[0]);
-        optionData = sortZones(optionData);
-        this.createData(optionData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this.createData(optionData);
+    // axios
+    //   .get(API_URL)
+    //   .then((res) => {
+    //     let optionData = Object.entries(res.data.filters[0]);
+    //     optionData = sortZones(optionData);
+    //     console.log("optionData", optionData);
+    //     this.createData(optionData);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }
 
   postData = (displayMode) => {
+    this.checkSubscription();
+    if (!this.state.registeredUser || !this.state.subscriber) return false;
     let isEmpty = false;
     let isCatEmpty = false;
     if (this.state.postObject.cities.length === 0) isEmpty = true;
@@ -178,6 +198,26 @@ export class NewDashboard extends Component {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  checkSubscription = () => {
+    if (!this.state.subscriber || !this.state.registeredUser) {
+      this.setState({ subscriptionAlertOpen: true });
+    }
+  };
+
+  handleSubscriptionAlert = () => {
+    this.setState({ subscriptionAlertOpen: false });
+  };
+  showOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: true });
+  };
+  handleCancelPopUp = (state) => {
+    this.setState({ cancelPopUpOpen: state });
+  };
+
+  hideOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: false });
   };
 
   checkData = () => {
@@ -954,6 +994,22 @@ export class NewDashboard extends Component {
                   ModalHandlerClose={this.ModalHandlerClose}
                 />
               )}
+              {this.state.subscriptionAlertOpen && (
+                <SubscriptionAlert
+                  registered={this.state.registeredUser}
+                  handleSubscriptionAlert={this.handleSubscriptionAlert}
+                  showOneTimeSubPopUp={this.showOneTimeSubPopUp}
+                  handleCancelPopUp={this.handleCancelPopUp}
+                />
+              )}
+              {this.state.oneTimeSubPopUpOpen && (
+                <OneTimeSubPopUp
+                  hideOneTimeSubPopUp={this.hideOneTimeSubPopUp}
+                />
+              )}
+              {this.state.cancelPopUpOpen && (
+                <CancelPopUp handleCancelPopUp={this.handleCancelPopUp} />
+              )}
               <Modal
                 open={this.state.isModalOpen}
                 onClose={() => this.setState({ isModalOpen: false })}
@@ -1019,9 +1075,26 @@ export class NewDashboard extends Component {
                     {" "}
                     Generate Tables
                   </Button>
+                  <Button onClick={() => this.setState({ isModalOpen: false })}>
+                    Close
+                  </Button>
                 </div>
               </Modal>
               <div style={{ textAlign: "right", margin: "10px" }}>
+                {this.state.registeredUser && (
+                  <Checkbox
+                    onChange={this.handleSubscriber}
+                    checked={this.state.subscriber}
+                  >
+                    Subscriber(for testing)
+                  </Checkbox>
+                )}
+                <Checkbox
+                  onChange={this.handleRegistered}
+                  checked={this.state.registeredUser}
+                >
+                  Registered(for testing)
+                </Checkbox>
                 <CSVLink onClick={this.getCsvData} data={this.state.csvData}>
                   <Button
                     icon={<DownloadOutlined />}
@@ -1031,12 +1104,16 @@ export class NewDashboard extends Component {
                   </Button>
                 </CSVLink>
               </div>
-              {this.state.loading && (
-                <Tables
-                  data={this.state.tableData}
-                  displayMode={this.state.displayMode}
-                  purchaseMode={this.state.postObject.purchaseMode}
-                ></Tables>
+              {!this.state.registeredUser ? (
+                <h1 align="center">You need to subscribe to access data.</h1>
+              ) : (
+                this.state.loading && (
+                  <Tables
+                    data={this.state.tableData}
+                    displayMode={this.state.displayMode}
+                    purchaseMode={this.state.postObject.purchaseMode}
+                  ></Tables>
+                )
               )}
             </Content>
           </Layout>
