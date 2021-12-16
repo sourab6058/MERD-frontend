@@ -18,8 +18,6 @@ import "antd/dist/antd.css";
 
 import "../css/modal.css";
 
-import FileUpload from "./Dashboard/FileUpload";
-
 import SubCategory from "./Dashboard/Menu/SubCategory";
 import SubCity from "./Dashboard//Menu/SubCity";
 import Tables from "./Dashboard/Tables";
@@ -1117,30 +1115,6 @@ export class NewDashboard extends Component {
               )}
             </Content>
           </Layout>
-
-          <div
-            className="upload-data-container"
-            style={{ height: this.state.openUploadLinks ? 180 : 0 }}
-          >
-            <FileUpload api={"upload_data/"} title={"Upload Data"} />
-            <FileUpload
-              api={"upload_census_data/"}
-              title={"Upload Census Data"}
-            />
-          </div>
-          <span
-            className="file-upload-opener"
-            onClick={() => {
-              this.setState({
-                openUploadLinks: !this.state.openUploadLinks,
-                uploadLinkOpenerText: this.state.openUploadLinks
-                  ? "Open file upload links"
-                  : "Close file upload links",
-              });
-            }}
-          >
-            {this.state.uploadLinkOpenerText}
-          </span>
         </div>
         <Footer />
       </div>

@@ -12,9 +12,47 @@ import {
 import CheckIcon from "@material-ui/icons/CheckCircleOutline";
 import CrossIcon from "@material-ui/icons/CancelOutlined";
 
-const SubcriptionPlansTable = ({ subscriptionsCount }) => {
+const REGISTERATION_URL =
+  "https://hosting.digifyworks.com/merd/subscription-confirmation/";
+
+const SubcriptionPlansTable = ({ subscriptionsCount, cities, categories }) => {
   const [sixMonthsTotal, setSixMonthsTotal] = useState(0);
   const [twelveMonthsTotal, setTwelveMonthsTotal] = useState(0);
+
+  function createForm(amount) {
+    let form = document.createElement("form");
+    form.style.visibility = "hidden"; // no user interaction is necessary
+    form.method = "POST"; // forms by default use GET query strings
+    form.action = REGISTERATION_URL;
+
+    const cityInput = document.createElement("input");
+    cityInput.name = "cities";
+    cityInput.value = cities.toString();
+    form.appendChild(cityInput);
+
+    const categoryInput = document.createElement("input");
+    categoryInput.name = "categories";
+    categoryInput.value = categories.toString();
+    form.appendChild(categoryInput);
+
+    const amountInput = document.createElement("input");
+    amountInput.name = "amount";
+    amountInput.value = amount.toString();
+    form.appendChild(amountInput);
+
+    document.body.appendChild(form); // forms cannot be submitted outside of body
+    form.submit();
+
+    console.log(cities.toString());
+  }
+
+  function handle6MonthSubscription() {
+    createForm(sixMonthsTotal);
+  }
+
+  function handle12MonthSubscription() {
+    createForm(twelveMonthsTotal);
+  }
 
   useEffect(() => {
     let total6 = 6500;
@@ -32,7 +70,7 @@ const SubcriptionPlansTable = ({ subscriptionsCount }) => {
     <TableContainer
       component={Paper}
       className="sub-plan-table"
-      style={{ width: "80vw", overflowX: "hidden" }}
+      style={{ width: "auto", overflowX: "hidden" }}
     >
       <Table>
         <TableHead>
@@ -277,8 +315,10 @@ const SubcriptionPlansTable = ({ subscriptionsCount }) => {
                 textTransform: "capitalize",
                 color: "white",
                 border: "1px solid white",
+                cursor: "pointer",
               }}
               align="center"
+              onClick={handle6MonthSubscription}
             >
               Subscribe Now
             </TableCell>
@@ -288,8 +328,10 @@ const SubcriptionPlansTable = ({ subscriptionsCount }) => {
                 textTransform: "capitalize",
                 color: "white",
                 border: "1px solid white",
+                cursor: "pointer",
               }}
               align="center"
+              onClick={handle12MonthSubscription}
             >
               Subscribe Now
             </TableCell>

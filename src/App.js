@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 
 import HomePage from "./Components/HomePage";
+import Admin from "./Components/Admin";
 import Dashboard from "./Components/Dashboard";
 import Catchments from "./Components/Catchments";
 import Demographic from "./Components/Demographic";
@@ -39,6 +40,7 @@ class App extends Component {
               <Route path="/one-time-subscribe" exact component={OneTime} />
               {/* </PrivateRoute> */}
               <Route path="/auth" exact component={Auth} />
+              <Route path="/admin" exact component={Admin} />
               <Route path="/" render={() => <div>404</div>} />
             </Switch>
           </BrowserRouter>

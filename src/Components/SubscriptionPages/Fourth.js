@@ -15,7 +15,6 @@ let citiesChecked = [];
 let categoriesChecked = [];
 
 function SelectedItems() {
-
   return (
     <div style={{ position: "flex", flexDirection: "row" }}>
       <div>
@@ -42,14 +41,19 @@ function SelectedItems() {
   );
 }
 
-const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
+const Fourth = ({
+  setShowPlansTable,
+  setSubscriptionsCount,
+  setCities,
+  setCategories,
+}) => {
   const [options, setOptions] = useState(data);
   const [openProceedModal, setOpenProceedModal] = useState(false);
   const [openInvalid, setOpenInvalid] = useState(false);
   const API_URL = "http://3.108.159.143:8000/api/filter";
 
   function handleCheck(e, item, list) {
-    if (e.target.checked && !list.some(ele => ele === item)) {
+    if (e.target.checked && !list.some((ele) => ele === item)) {
       list.push(item);
     } else {
       const idx = list.indexOf(item);
@@ -57,7 +61,6 @@ const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
         list.splice(idx, 1);
       }
     }
-
   }
 
   const CategoryMenu = ({ options }) => {
@@ -91,9 +94,7 @@ const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
               style={{ fontSize: "1.25rem" }}
               key={ele.city}
               onChange={(e) => {
-
                 handleCheck(e, ele.city, citiesChecked);
-
               }}
             >
               {ele.city}
@@ -128,6 +129,8 @@ const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
     if (citiesChecked.length * categoriesChecked.length) {
       setSubscriptionsCount(citiesChecked.length * categoriesChecked.length);
       setOpenProceedModal(true);
+      setCities(citiesChecked);
+      setCategories(categoriesChecked);
     } else setOpenInvalid(true);
   }
 
@@ -135,6 +138,8 @@ const Fourth = ({ setShowPlansTable, setSubscriptionsCount }) => {
     citiesChecked = [];
     categoriesChecked = [];
     setShowPlansTable(false);
+    setCities([]);
+    setCategories([]);
   }
 
   return (
