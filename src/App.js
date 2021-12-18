@@ -17,6 +17,7 @@ import { AuthProvider } from "./Components/Authentication/AuthContext";
 import { Auth } from "./Components/Authentication";
 import "./css/main.css";
 import PrivateRoute from "./Components/Authentication/PrivateRoute";
+import login from "./Components/login";
 
 class App extends Component {
   render() {
@@ -41,6 +42,7 @@ class App extends Component {
               {/* </PrivateRoute> */}
               <Route path="/auth" exact component={Auth} />
               <Route path="/admin" exact component={Admin} />
+              <Route path="/login" exact component={login} />
               <Route path="/" render={() => <div>404</div>} />
             </Switch>
           </BrowserRouter>

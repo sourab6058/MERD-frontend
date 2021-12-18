@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import Nav from "./Nav";
 import NavTwo from "./NavTwo";
 import Band from "./HomePage/Band";
@@ -9,12 +10,37 @@ import HeroMap from "./HomePage/HeroMap";
 import Hero from "./HomePage/Hero";
 import CookieDialog from "./CookieDialog";
 
+import axios from "axios";
+
+const SESSION_API = "https://hosting.digifyworks.com/merd/user-details/?sid=";
+
 class HomePage extends Component {
   state = {
     dialogOpen: true,
   };
   handleClose = () => {
     this.setState({ dialogOpen: false });
+  };
+  componentDidMount = () => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const sid = queryParams.get("sid");
+    if (sid) {
+      console.log(sid);
+      fetch(SESSION_API + sid, {
+        mode: "no-cors",
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+        },
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.warn(err);
+        });
+    } else {
+      console.log("No Params");
+    }
   };
   render() {
     return (
