@@ -10,8 +10,6 @@ import HeroMap from "./HomePage/HeroMap";
 import Hero from "./HomePage/Hero";
 import CookieDialog from "./CookieDialog";
 
-import axios from "axios";
-
 const SESSION_API = "https://hosting.digifyworks.com/merd/user-details/?sid=";
 
 class HomePage extends Component {
@@ -32,12 +30,9 @@ class HomePage extends Component {
           "Access-Control-Allow-Origin": "*",
         },
       })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.warn(err);
-        });
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch((err) => console.error(err));
     } else {
       console.log("No Params");
     }

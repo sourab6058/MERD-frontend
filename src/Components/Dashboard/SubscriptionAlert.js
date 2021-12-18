@@ -60,9 +60,12 @@ export default function SubscriptionAlert({
               <Link to="subscribe" className="cta">
                 Subscribe
               </Link>
-              <Link to="one-time-subscribe" className="cta">
+              <a
+                href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
+                className="cta"
+              >
                 Cancel
-              </Link>
+              </a>
             </DialogActions>
           </Dialog>
         </div>
