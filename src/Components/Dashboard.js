@@ -9,6 +9,7 @@ import axios from "axios";
 import * as _ from "lodash";
 
 import rendercsv from "../utils/rendercsv";
+import getUserDetail from "../utils/getUserDetail";
 import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
 
@@ -121,15 +122,6 @@ export class NewDashboard extends Component {
     }
   }
 
-  handleSubscriber = (e) => {
-    this.setState({ subscriber: e.target.checked });
-  };
-
-  handleRegistered = (e) => {
-    if (!e.target.checked) this.setState({ subscriber: false });
-    this.setState({ registeredUser: e.target.checked });
-  };
-
   scrollToTop = () => {
     this.top.scrollIntoView({ behavior: "auto" });
   };
@@ -219,6 +211,7 @@ export class NewDashboard extends Component {
   };
 
   checkData = () => {
+    this.checkUserRights();
     let isEmpty = false;
     let isCatEmpty = false;
     if (this.state.postObject.cities.length === 0) isEmpty = true;
@@ -580,6 +573,47 @@ export class NewDashboard extends Component {
       finalStr.push(cityItem);
     }
     return this.insertCommas(finalStr);
+  };
+
+  checkUserRights = () => {
+    const user = localStorage.getItem("user-details");
+    const userDetails = getUserDetail(user);
+    console.log(userDetails);
+    if (!userDetails.username) {
+      this.setState({ registeredUser: false });
+      return false;
+    }
+
+    const citiesSelected = this.state.postObject.cities;
+    const citiesSubscribed = [];
+
+    userDetails.cities.forEach((city) => {
+      this.state.cities.forEach((cityOption) => {
+        if (city === cityOption.city) {
+          citiesSubscribed.push(cityOption.id);
+        }
+      });
+    });
+
+    const catgSeleted = this.state.postObject.categories;
+    const catgSubscribed = [];
+
+    userDetails.categories.forEach((catg) => {
+      this.state.category.forEach((catgOption) => {
+        if (catg === catgOption.name) {
+          catgSubscribed.push(catgOption.id);
+        }
+      });
+    });
+
+    console.log(citiesSelected, citiesSubscribed);
+    console.log(catgSeleted, catgSubscribed);
+
+    const validSelections =
+      citiesSelected.every((city) => citiesSubscribed.includes(city)) &&
+      catgSeleted.every((cat) => catgSubscribed.includes(cat));
+
+    this.setState({ subscriber: validSelections });
   };
 
   render() {
@@ -1079,7 +1113,7 @@ export class NewDashboard extends Component {
                 </div>
               </Modal>
               <div style={{ textAlign: "right", margin: "10px" }}>
-                {this.state.registeredUser && (
+                {/* {this.state.registeredUser && (
                   <Checkbox
                     onChange={this.handleSubscriber}
                     checked={this.state.subscriber}
@@ -1092,7 +1126,7 @@ export class NewDashboard extends Component {
                   checked={this.state.registeredUser}
                 >
                   Registered(for testing)
-                </Checkbox>
+                </Checkbox> */}
                 <CSVLink onClick={this.getCsvData} data={this.state.csvData}>
                   <Button
                     icon={<DownloadOutlined />}

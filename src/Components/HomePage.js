@@ -22,17 +22,15 @@ class HomePage extends Component {
   componentDidMount = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const sid = queryParams.get("sid");
+    let userDetails = queryParams.get("sub_str");
     if (sid) {
       console.log(sid);
-      fetch(SESSION_API + sid, {
-        mode: "no-cors",
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch((err) => console.error(err));
+      const link = document.createElement("a");
+      link.href = SESSION_API + sid;
+      link.click();
+    } else if (userDetails) {
+      userDetails += "$$" + new Date().toUTCString;
+      localStorage.setItem("user-details", userDetails);
     } else {
       console.log("No Params");
     }

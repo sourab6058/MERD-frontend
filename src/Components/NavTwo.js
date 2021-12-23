@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { slide as Menu } from "react-burger-menu";
+
+import getUserDetail from "../utils/getUserDetail";
+
 import "../css/Navbar.css";
 
 export default function NavTwo() {
+  const [username, setUsername] = useState();
+  useEffect(() => {
+    const userDetails = localStorage.getItem("user-details");
+    if (userDetails) {
+      const user = getUserDetail(userDetails);
+      setUsername(user.username);
+    }
+  });
   return (
     <nav className="nav-container">
       <div className="bgm">
@@ -55,12 +66,21 @@ export default function NavTwo() {
           <Link to="/contactus">Contact Us</Link>
         </li>
       </ul>
-      {/* <a className="sign-in-links" href="_blank">
-        Sign Up
-      </a> */}
-      <Link className="sign-in-links" to="/subscribe">
-        Sign In
-      </Link>
+      {!username ? (
+        <a
+          className="sign-in-links"
+          href="https://hosting.digifyworks.com/merd/login/?redirect_to=https%3A%2F%2Fhosting.digifyworks.com%2Fmerd%2F"
+        >
+          Sign In
+        </a>
+      ) : (
+        <a
+          className="sign-in-links"
+          href="https://hosting.digifyworks.com/merd/"
+        >
+          {username}
+        </a>
+      )}
     </nav>
   );
 }
