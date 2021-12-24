@@ -26,11 +26,17 @@ import { Modal } from "@material-ui/core";
 import { concat } from "lodash";
 import Footer from "./Footer";
 import { Header } from "antd/lib/layout/layout";
+import getUserDetail from "../utils/getUserDetail";
+import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
+import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
+import CancelPopUp from "./Dashboard/CancelPopUp";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
+// const API_URL = "http://localhost:8000/api/filter";
+// const API_PST_URL = "http://localhost:8000/demographic_info/";
 const API_URL = "http://3.108.159.143:8000/api/filter";
 const API_PST_URL = "http://3.108.159.143:8000/demographic_info/";
 // const API_PST_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/demographic_info/";
@@ -84,6 +90,12 @@ export class Demographic extends Component {
       displayMode: "nationality_new",
       alertOpen: true,
       alertOpenInvalid: false,
+      selectedCitiesNames: [],
+      subscriber: true,
+      registeredUser: true,
+      subscriptionAlertOpen: false,
+      oneTimeSubPopUpOpen: false,
+      cancelPopUpOpen: false,
     };
     this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -111,6 +123,11 @@ export class Demographic extends Component {
   //GET request
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    const usrDetails = localStorage.getItem("user-details");
+    const user = getUserDetail(usrDetails);
+    if (!user.username) {
+      this.setState({ registeredUser: false });
+    }
     axios
       .get(API_URL)
       .then((res) => {
@@ -124,6 +141,20 @@ export class Demographic extends Component {
   }
 
   postData = async (displayMode) => {
+    const user = getUserDetail(localStorage.getItem("user-details"));
+    if (!user.username) {
+      this.setState({ subscriber: false });
+      return false;
+    }
+    const citiesSubscribed = user.cities;
+
+    if (
+      !this.state.selectedCitiesNames.every((city) =>
+        citiesSubscribed.includes(city)
+      )
+    ) {
+      this.setState({ subscriber: false });
+    }
     let isEmpty = false;
     // let isCatEmpty = false;
     console.log("DEMOGRAPH");
@@ -211,7 +242,32 @@ export class Demographic extends Component {
     // },nationality_checked:false})
   };
 
+  checkSubscription = () => {
+    if (!this.state.subscriber || !this.state.registeredUser) {
+      this.setState({ subscriptionAlertOpen: true });
+    }
+  };
+
+  handleSubscriptionAlert = () => {
+    this.setState({ subscriptionAlertOpen: false });
+  };
+  showOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: true });
+  };
+  handleCancelPopUp = (state) => {
+    this.setState({ cancelPopUpOpen: state });
+  };
+
+  hideOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: false });
+  };
+
   checkData = () => {
+    console.log(this.state);
+    if (!(this.state.subscriber && this.state.registeredUser)) {
+      this.setState({ subscriptionAlertOpen: true });
+      return;
+    }
     let isEmpty = false;
     // let isCatEmpty = false;
     if (this.state.postObject.cities.length === 0) isEmpty = true;
@@ -503,7 +559,7 @@ export class Demographic extends Component {
       cities.forEach((data) => {
         subcities.forEach((data2) => {
           if (data.id === data2) {
-            checkCity.push(data.city + ", ");
+            checkCity.push(data.city);
             data.zone.forEach((id) => {
               subzones.forEach((data3) => {
                 if (id.id === data3) {
@@ -574,11 +630,11 @@ export class Demographic extends Component {
         )} */}
 
         <div>
-              <Layout>
-            <Header style={{ padding: 0, height:"auto", lineHeight:1.5715}}>
-            <NavTwo />
-          </Header>
-            </Layout>
+          <Layout>
+            <Header style={{ padding: 0, height: "auto", lineHeight: 1.5715 }}>
+              <NavTwo />
+            </Header>
+          </Layout>
           <Layout
             style={{
               padding: "10px",
@@ -732,6 +788,22 @@ export class Demographic extends Component {
                       <div className="card_circle transition"></div>
                     </div>
                   </div>
+                )}
+                {this.state.subscriptionAlertOpen && (
+                  <SubscriptionAlert
+                    registered={this.state.registeredUser}
+                    handleSubscriptionAlert={this.handleSubscriptionAlert}
+                    showOneTimeSubPopUp={this.showOneTimeSubPopUp}
+                    handleCancelPopUp={this.handleCancelPopUp}
+                  />
+                )}
+                {this.state.oneTimeSubPopUpOpen && (
+                  <OneTimeSubPopUp
+                    hideOneTimeSubPopUp={this.hideOneTimeSubPopUp}
+                  />
+                )}
+                {this.state.cancelPopUpOpen && (
+                  <CancelPopUp handleCancelPopUp={this.handleCancelPopUp} />
                 )}
                 <Modal
                   open={this.state.isModalOpen}

@@ -1,4 +1,5 @@
 export default function getUserDetail(detailStr) {
+  console.log(detailStr);
   try {
     const usrData = detailStr
       .split("$$")
@@ -6,9 +7,9 @@ export default function getUserDetail(detailStr) {
     const signedinOn = new Date(
       detailStr.split("$$")[detailStr.split("$$").length - 1]
     );
-    if (signedinOn.setHours(24).getTime() > new Date().getTime()) {
-      localStorage.removeItem("user-details");
-    }
+    // if (signedinOn.setHours(24).getTime() > new Date().getTime()) {
+    //   localStorage.removeItem("user-details");
+    // }
 
     const username = usrData[0]
       .split(",")
@@ -31,12 +32,9 @@ export default function getUserDetail(detailStr) {
       categories,
     };
 
-    console.log(data);
-
     return data;
   } catch (err) {
     console.log(err);
-    localStorage.removeItem("user-details");
     return {
       username: false,
       cities: [],

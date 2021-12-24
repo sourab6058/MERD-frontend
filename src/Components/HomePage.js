@@ -29,7 +29,7 @@ class HomePage extends Component {
       link.href = SESSION_API + sid;
       link.click();
     } else if (userDetails) {
-      userDetails += "$$" + new Date().toUTCString;
+      userDetails += "$$" + new Date().toUTCString();
       localStorage.setItem("user-details", userDetails);
     } else {
       console.log("No Params");

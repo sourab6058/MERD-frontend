@@ -33,18 +33,14 @@ class Hero extends Component {
             Click Of A Mouse
           </h3>
           <div className="home-page-btns">
-            {this.state.username ? (
-              <h1>Welcome {this.state.username}</h1>
-            ) : (
-              <>
-                <Link className="home-page-subscribe button" to="/subscribe">
-                  Subscribe
-                </Link>
-                <Link className="home-page-readmore button" href="/">
-                  Read More
-                </Link>
-              </>
-            )}
+            <>
+              <Link className="home-page-subscribe button" to="/subscribe">
+                Subscribe
+              </Link>
+              <Link className="home-page-readmore button" href="/">
+                Read More
+              </Link>
+            </>
           </div>
         </div>
       </div>

@@ -1,12 +1,15 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Button } from "antd";
 
 import NavTwo from "./NavTwo";
 import Footer from "./Footer";
 
 import "../css/Reports.css";
+import getUserDetail from "../utils/getUserDetail";
 
 const API_URL = "http://3.108.159.143:8000/city_reports/";
+// const API_URL = "http://localhost:8000/city_reports/";
 // const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'
 
 export class CityReports extends Component {
@@ -15,11 +18,27 @@ export class CityReports extends Component {
     this.state = {
       selectedFile: "",
       files: [],
+      cities: [],
+      subscribedCities: [],
       filesToDelete: [],
+      subscriptionAlertOpen: false,
+      oneTimeSubPopUpOpen: false,
+      cancelPopUpOpen: false,
+      subscribed: true,
     };
   }
 
   componentDidMount() {
+    const usrDetail = localStorage.getItem("user-details");
+    const user = getUserDetail(usrDetail);
+    let files = [];
+
+    if (!user.username) {
+      this.setState({ subscribed: false });
+    } else {
+      this.setState({ subscribed: true });
+      this.setState({ subscribedCities: user.cities });
+    }
     axios
       .get(API_URL, {
         params: {
@@ -28,12 +47,29 @@ export class CityReports extends Component {
       })
       .then((res) => {
         console.log(res.data);
+        files = res.data.reports;
+        const cities = files.map((file) => file.split(".pdf")[0]);
+        this.setState({ cities });
         this.setState({ files: res.data.reports });
       })
       .catch((err) => {
         console.log(err);
       });
   }
+
+  handleSubscriptionAlert = () => {
+    this.setState({ subscriptionAlertOpen: false });
+  };
+  showOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: true });
+  };
+  handleCancelPopUp = (state) => {
+    this.setState({ cancelPopUpOpen: state });
+  };
+
+  hideOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: false });
+  };
 
   downloadBlob = (blob, name) => {
     // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
@@ -97,9 +133,28 @@ export class CityReports extends Component {
               <ul>
                 {this.state.files.map((file, idx) => (
                   <li key={idx}>
-                    <a key={idx} onClick={() => this.handleExport(file)}>
-                      {file}
-                    </a>
+                    <span>{file}</span>
+                    <br />
+                    {this.state.subscribedCities.includes(
+                      this.state.cities[idx]
+                    ) ? (
+                      <Button
+                        className="report-link"
+                        key={idx}
+                        onClick={() => this.handleExport(file)}
+                      >
+                        Download
+                      </Button>
+                    ) : (
+                      <>
+                        <Button className="report-link">
+                          <a href="#">Buy Once</a>
+                        </Button>
+                        <Button className="report-link" key={idx} disabled>
+                          Download
+                        </Button>
+                      </>
+                    )}
                   </li>
                 ))}
               </ul>
