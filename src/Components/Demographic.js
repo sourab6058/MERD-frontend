@@ -141,20 +141,6 @@ export class Demographic extends Component {
   }
 
   postData = async (displayMode) => {
-    const user = getUserDetail(localStorage.getItem("user-details"));
-    if (!user.username) {
-      this.setState({ subscriber: false });
-      return false;
-    }
-    const citiesSubscribed = user.cities;
-
-    if (
-      !this.state.selectedCitiesNames.every((city) =>
-        citiesSubscribed.includes(city)
-      )
-    ) {
-      this.setState({ subscriber: false });
-    }
     let isEmpty = false;
     // let isCatEmpty = false;
     console.log("DEMOGRAPH");
@@ -262,9 +248,14 @@ export class Demographic extends Component {
     this.setState({ oneTimeSubPopUpOpen: false });
   };
 
-  checkData = () => {
-    console.log(this.state);
-    if (!(this.state.subscriber && this.state.registeredUser)) {
+  checkData = (checkCities) => {
+    const citiesSubscribed = getUserDetail(
+      localStorage.getItem("user-details")
+    ).cities;
+    const validSelections = checkCities.every((city) =>
+      citiesSubscribed.includes(city)
+    );
+    if (!(validSelections && this.state.registeredUser)) {
       this.setState({ subscriptionAlertOpen: true });
       return;
     }
@@ -699,7 +690,7 @@ export class Demographic extends Component {
                   />
                   <Item>
                     <Button
-                      onClick={() => this.checkData()}
+                      onClick={() => this.checkData(checkCity)}
                       icon={<CaretRightOutlined />}
                     >
                       Render Tables
@@ -1052,9 +1043,6 @@ export class Demographic extends Component {
             </Layout>
           </Layout>
         </div>
-
-        {/* <FileUpload api={'upload_data/'} title={'Upload Data'} />
-                <FileUpload api={'upload_census_data/'} title={'Upload Census Data'} /> */}
         <Footer />
       </div>
     );

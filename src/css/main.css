@@ -12,6 +12,9 @@
   margin: 0;
   padding: 0;
 }
+html {
+  scroll-behavior: smooth;
+}
 body {
   /* Defaults */
   overflow-x: hidden;
@@ -1259,4 +1262,5 @@ h4 small {
 
 .site-layout-background {
   margin: 5px;
+  height: auto;
 }

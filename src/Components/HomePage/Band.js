@@ -9,9 +9,10 @@ import "../../css/HomePage/Band.css";
 const DOWNLOAD_URL = "http://3.108.159.143:8000/brochurepdf/";
 
 class Band extends Component {
-  state = {
-    scrolledPast: false,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
   componentDidMount() {
     Aos.init({ duration: 1000 });
     this.setState({ scrolledPast: true });
@@ -62,7 +63,7 @@ class Band extends Component {
 
   render() {
     return (
-      <div data-aos="fade-up" className="band">
+      <div data-aos="fade-up" className="band" ref={this.props.bandRef}>
         <span data-aos="fade-left" className="services">
           Our Services
         </span>

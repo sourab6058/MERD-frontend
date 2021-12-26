@@ -13,12 +13,19 @@ import CookieDialog from "./CookieDialog";
 const SESSION_API = "https://hosting.digifyworks.com/merd/user-details/?sid=";
 
 class HomePage extends Component {
-  state = {
-    dialogOpen: true,
+  constructor(props) {
+    super(props);
+    this.bandRef = React.createRef();
+    this.productsRef = React.createRef();
+  }
+
+  scrollToBand = () => {
+    this.bandRef.current.scrollIntoView();
   };
-  handleClose = () => {
-    this.setState({ dialogOpen: false });
+  scrollToProducts = () => {
+    this.productsRef.current.scrollIntoView();
   };
+
   componentDidMount = () => {
     const queryParams = new URLSearchParams(window.location.search);
     const sid = queryParams.get("sid");
@@ -38,13 +45,13 @@ class HomePage extends Component {
   render() {
     return (
       <div className="Mainclass">
-        {/* {this.state.dialogOpen && (
-          <CookieDialog handleClose={this.handleClose} />
-        )} */}
-        <NavTwo />
+        <NavTwo
+          scrollToBand={this.scrollToBand}
+          scrollToProducts={this.scrollToProducts}
+        />
         <Hero />
-        <Cards />
-        <Band />
+        <Band bandRef={this.bandRef} />
+        <Cards productsRef={this.productsRef} />
         <Footer />
       </div>
     );

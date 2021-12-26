@@ -34,8 +34,8 @@
 
 .serviceslink {
   font-size: 2rem;
-  border: 1px solid blue;
-  color: blue;
+  border: 1px solid var(--lightBlue);
+  color: var(--lightBlue);
   border-radius: 0.25rem;
   width: fit-content;
   margin-top: 2rem;
@@ -47,6 +47,6 @@
 }
 
 .serviceslink:hover {
-  background-color: blue;
+  background-color: var(--lightBlue);
   color: white;
 }

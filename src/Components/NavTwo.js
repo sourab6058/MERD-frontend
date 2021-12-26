@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { slide as Menu } from "react-burger-menu";
+import { slide as BurgerMenu } from "react-burger-menu";
 
 import getUserDetail from "../utils/getUserDetail";
 
 import "../css/Navbar.css";
+import { Button, Dropdown, Menu } from "antd";
 
-export default function NavTwo() {
+export default function NavTwo({ scrollToBand, scrollToProducts }) {
   const [username, setUsername] = useState();
   useEffect(() => {
     const userDetails = localStorage.getItem("user-details");
@@ -15,14 +16,38 @@ export default function NavTwo() {
       setUsername(user.username);
     }
   });
+  function handleLogout() {
+    localStorage.removeItem("user-details");
+    window.location.href = "https://hosting.digifyworks.com/merd/logout/";
+  }
+  const usermenu = (
+    <Menu>
+      <Menu.Item>
+        <a
+          rel="noopener noreferrer"
+          href="https://hosting.digifyworks.com/merd/"
+        >
+          View Account
+        </a>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to="/subscribe">Subscribe More</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <a rel="noopener noreferrer" onClick={handleLogout}>
+          Log Out
+        </a>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <nav className="nav-container">
       <div className="bgm">
-        <Menu>
-          <a id="about" className="menu-item" href="/">
+        <BurgerMenu>
+          <a id="about" className="menu-item">
             About
           </a>
-          <a id="products" className="menu-item" href="">
+          <a id="products" className="menu-item">
             Products
           </a>
           <Link id="subscribe" className="menu-item" to="/subscribe">
@@ -37,7 +62,7 @@ export default function NavTwo() {
           <a id="cu" className="menu-item" href="">
             Contact Us
           </a>
-        </Menu>
+        </BurgerMenu>
       </div>
       <Link to="/" className="cmp-logo">
         <span className="cpm-name">middle east retail data</span>
@@ -48,10 +73,10 @@ export default function NavTwo() {
       </Link>
       <ul>
         <li>
-          <a href="_blank">About</a>
+          <a onClick={scrollToBand}>About</a>
         </li>
         <li>
-          <a href="/projects">Products</a>
+          <a onClick={scrollToProducts}>Products</a>
         </li>
         <li>
           <Link to="/subscribe">Subscribe</Link>
@@ -74,12 +99,15 @@ export default function NavTwo() {
           Sign In
         </a>
       ) : (
-        <a
+        <Dropdown
+          overlay={usermenu}
+          placement="bottomLeft"
           className="sign-in-links"
-          href="https://hosting.digifyworks.com/merd/"
         >
-          {username}
-        </a>
+          <Button className="sign-in-links">
+            {username.length > 11 ? username.substring(0, 11) : username}
+          </Button>
+        </Dropdown>
       )}
     </nav>
   );

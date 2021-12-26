@@ -7,9 +7,9 @@ const darkLights = require("../../img/darkLights.jpg");
 const rodsAbstract = require("../../img/rodsAbstract.jpg");
 const angel = require("../../img/angel.jpg");
 
-const Cards = () => {
+const Cards = ({ productsRef }) => {
   return (
-    <div className="cards-container">
+    <div className="cards-container" ref={productsRef}>
       <Card
         link={"demographic"}
         linkText="See Demographic Information"
