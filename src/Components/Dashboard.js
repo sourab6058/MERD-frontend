@@ -54,6 +54,7 @@ const { Content, Sider, Header } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
 const API_URL = "http://3.108.159.143:8000/api/filter";
+// const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
   constructor(props) {
@@ -237,6 +238,10 @@ export class NewDashboard extends Component {
       this.setState({ isModalOpen: true, alertOpenInvalid: false });
     }
   };
+
+  getIntersection(list1, list2) {
+    return list1.filter((item) => list2.includes(item));
+  }
 
   getCsvData = () => {
     //Passing control to utils/rendercsv for the generation of csv-react readable data (Multidimensional Array)
@@ -609,11 +614,89 @@ export class NewDashboard extends Component {
     console.log(citiesSelected, citiesSubscribed);
     console.log(catgSeleted, catgSubscribed);
 
-    const validSelections =
-      citiesSelected.every((city) => citiesSubscribed.includes(city)) &&
-      catgSeleted.every((cat) => catgSubscribed.includes(cat));
+    const cityIntersection = citiesSelected.filter((city) =>
+      citiesSubscribed.includes(city)
+    );
+    const catgIntersection = catgSeleted.filter((catg) =>
+      catgSubscribed.includes(catg)
+    );
 
-    this.setState({ subscriber: validSelections });
+    if (cityIntersection === [] || catgIntersection === []) {
+      this.setState({ subscriber: false });
+    } else {
+      let tempData = this.state.postObject;
+      tempData.cities = cityIntersection;
+      tempData.categories = catgIntersection;
+      this.setState({ postObject: tempData });
+    }
+  };
+  getNotSubscribedCitiesAndCatgs = () => {
+    const user = localStorage.getItem("user-details");
+    const userDetails = getUserDetail(user);
+
+    const citiesSelected = this.state.postObject.cities;
+    const citiesSubscribed = [];
+
+    userDetails.cities.forEach((city) => {
+      this.state.cities.forEach((cityOption) => {
+        if (city === cityOption.city) {
+          citiesSubscribed.push(cityOption.id);
+        }
+      });
+    });
+
+    const catgSeleted = this.state.postObject.categories;
+    const catgSubscribed = [];
+
+    userDetails.categories.forEach((catg) => {
+      this.state.category.forEach((catgOption) => {
+        if (catg === catgOption.name) {
+          catgSubscribed.push(catgOption.id);
+        }
+      });
+    });
+    let cityNotSubscribedIds = citiesSelected.filter(
+      (city) => !citiesSubscribed.includes(city)
+    );
+    let catgNotSubscribedIds = catgSeleted.filter(
+      (catg) => !catgSubscribed.includes(catg)
+    );
+
+    let citiesNotSubscribed = [];
+    let catgsNotSubscribed = [];
+
+    cityNotSubscribedIds.forEach((city) => {
+      this.state.cities.forEach((cityOption) => {
+        if (city === cityOption.id) {
+          citiesNotSubscribed.push(cityOption.city);
+        }
+      });
+    });
+
+    catgNotSubscribedIds.forEach((catg) => {
+      this.state.category.forEach((catgOption) => {
+        if (catg === catgOption.id) {
+          catgsNotSubscribed.push(catgOption.name);
+        }
+      });
+    });
+    if (citiesNotSubscribed.length * catgsNotSubscribed.length)
+      return (
+        <p>
+          You are not subscribed to cities:{citiesNotSubscribed.join()}
+          <br /> You are not subscribed to categories:
+          {catgsNotSubscribed.join()}
+        </p>
+      );
+    else if (citiesNotSubscribed.length)
+      return (
+        <p>You are not subscribed to cities:{citiesNotSubscribed.join()} </p>
+      );
+    else if (catgsNotSubscribed.length)
+      return (
+        <p>You are not subscribed to catgs:{catgsNotSubscribed.join()} </p>
+      );
+    else return <p>Wanna see more data?</p>;
   };
 
   render() {
@@ -813,7 +896,7 @@ export class NewDashboard extends Component {
             <Sider width={300} className="site-layout-background">
               {!this.state.menuLoading ? (
                 <Menu
-                  mode="inline"
+                  mode="vertical"
                   defaultSelectedKeys={["1"]}
                   defaultOpenKeys={["sub1"]}
                   style={{
@@ -1021,7 +1104,11 @@ export class NewDashboard extends Component {
               {this.state.alertOpenInvalid && (
                 <Alert
                   title={<span style={{ color: "red" }}>Warning !</span>}
-                  contentText={"Please Select all required options"}
+                  contentText={
+                    this.state.subscriber
+                      ? "Please Select all required options"
+                      : "You have made selections you are not subscribed to"
+                  }
                   btnText={"OK"}
                   ModalHandlerClose={this.ModalHandlerClose}
                 />
@@ -1139,12 +1226,16 @@ export class NewDashboard extends Component {
               {!this.state.registeredUser ? (
                 <h1 align="center">You need to subscribe to access data.</h1>
               ) : (
-                this.state.loading && (
-                  <Tables
-                    data={this.state.tableData}
-                    displayMode={this.state.displayMode}
-                    purchaseMode={this.state.postObject.purchaseMode}
-                  ></Tables>
+                this.state.loading &&
+                this.state.subscriber && (
+                  <>
+                    <Tables
+                      data={this.state.tableData}
+                      displayMode={this.state.displayMode}
+                      purchaseMode={this.state.postObject.purchaseMode}
+                    ></Tables>
+                    {this.getNotSubscribedCitiesAndCatgs()}
+                  </>
                 )
               )}
             </Content>
