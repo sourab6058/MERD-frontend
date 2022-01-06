@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button } from "antd";
+import reportsImg from "../img/research-landing.jpg";
 
 import NavTwo from "./NavTwo";
 import Footer from "./Footer";
@@ -120,10 +121,20 @@ export class TouristReports extends Component {
     return (
       <>
         <NavTwo />
+        <div className="header">
+          <img className="headerImg" src={reportsImg} alt="building"/>
+          <div className="header-text">
+            <h2 className="heading">Tourist Reports</h2>
+            <p className="heading-text">Your source for market research</p>
+          </div>
+        </div>
         <div className="reports-container">
           {this.state.files.length ? (
             <>
-              <h3>Tourist Reports</h3>
+            <div className="city-report">
+            <span className="recent-report">Recent Reports</span>
+            </div>
+              
               <br />
               <ul>
                 {this.state.files.map((file, idx) => (
@@ -142,12 +153,13 @@ export class TouristReports extends Component {
                       </Button>
                     ) : (
                       <>
-                        <Button className="report-link">Buy Once</Button>
+                        <Button className="report-link-buy"><a href="#">Buy Once</a></Button>
                         <Button className="report-link" key={idx} disabled>
                           Download
                         </Button>
                       </>
                     )}
+                    <hr/>
                   </li>
                 ))}
               </ul>

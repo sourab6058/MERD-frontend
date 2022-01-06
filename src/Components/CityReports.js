@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button } from "antd";
+import reportsImg from "../img/research-landing.jpg";
 
 import NavTwo from "./NavTwo";
 import Footer from "./Footer";
@@ -125,16 +126,25 @@ export class CityReports extends Component {
     return (
       <>
         <NavTwo />
+        <div className="header">
+          <img className="headerImg" src={reportsImg} alt="building"/>
+          <div className="header-text">
+            <h2 className="heading">City Market Reports</h2>
+            <p className="heading-text">Your source for market research</p>
+          </div>
+        </div>
         <div className="reports-container">
           {this.state.files.length ? (
             <>
-              <h3>City Reports</h3>
-              <br />
-              <ul>
+              <div className="city-report">
+              <span className="recent-report">Recent Reports</span>
+              </div>
+              <ul className="report-list">
                 {this.state.files.map((file, idx) => (
-                  <li key={idx}>
+                  <li className="list-item" key={idx}>
                     <span>{file}</span>
                     <br />
+                    
                     {this.state.subscribedCities.includes(
                       this.state.cities[idx]
                     ) ? (
@@ -145,18 +155,24 @@ export class CityReports extends Component {
                       >
                         Download
                       </Button>
+                      
                     ) : (
                       <>
-                        <Button className="report-link">
+
+                        <Button className="report-link-buy">
                           <a href="#">Buy Once</a>
                         </Button>
                         <Button className="report-link" key={idx} disabled>
                           Download
                         </Button>
+                        
                       </>
                     )}
+                    <hr/>
                   </li>
-                ))}
+                
+                ))
+                }
               </ul>
             </>
           ) : (
