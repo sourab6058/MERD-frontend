@@ -1,0 +1,23 @@
+.dashboard-icon{
+    background-color: #3D56B2;
+    padding: 100px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dashboard-icon:hover{
+    background-color: var(--darkBlue);
+}
+.MuiAvatar-root.MuiAvatar-circular.MuiAvatar-colorDefault{
+    width: 50px;
+    height: 50px;
+    margin-right: 28px;
+}
+.MuiSvgIcon-root.dashboard-icon-inner{
+    width: 2em;
+    height: 30px;
+}
+.selection-made-text{
+    padding-left: 16px;
+}

@@ -1124,14 +1124,31 @@ p {
 }
 
 .cta {
+  background: #fff;
+  background-image: -webkit-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -moz-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -ms-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -o-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: linear-gradient(to bottom, #3D56B2, #3D56B2);
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Arial;
   color: #fff;
-  border: 2px solid #2196f3;
-  background-color: #2196f3;
-  padding: 10px 25px;
-  border-radius: 50px;
-  font-size: 17px;
+  font-size: 22px;
+  padding: 3px 8px 3px 8px;
+  border: solid #fff 2px;
   text-decoration: none;
-  font-weight: bold;
+  margin: auto;
+}
+.cta:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #577BC1, #577BC1);
+  background-image: -moz-linear-gradient(top, #577BC1, #577BC1);
+  background-image: -ms-linear-gradient(top, #577BC1, #577BC1);
+  background-image: -o-linear-gradient(top, #577BC1, #577BC1);
+  background-image: linear-gradient(to bottom, #577BC1, #577BC1);
+  text-decoration: none;
 }
 h4 small {
   color: lightslategray;
@@ -1255,12 +1272,50 @@ h4 small {
     cursor: pointer;
   }
 }
-.view-market-size-btn:hover {
-  background: linear-gradient(90.07deg, #0082f3 0.06%, #0066c0 101.73%);
-  color: white;
+.view-market-size-div{
+  overflow: hidden;
+  margin-top: 20px;
+  
 }
-
+.view-market-size-btn{
+  background: #3D56B2;
+  background-image: -webkit-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -moz-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -ms-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: -o-linear-gradient(top, #3D56B2, #3D56B2);
+  background-image: linear-gradient(to bottom, #3D56B2, #3D56B2);
+  -webkit-border-radius: 3;
+  -moz-border-radius: 3;
+  border-radius: 3px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 15px 10px 15px;
+  text-decoration: none;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+  .view-market-size-btn:hover{
+    background: #577BC1;
+    color: #fff;
+    background-image: -webkit-linear-gradient(top, #144380, #144380);
+    background-image: -moz-linear-gradient(top, #144380, #144380);
+    background-image: -ms-linear-gradient(top, #144380, #144380);
+    background-image: -o-linear-gradient(top, #144380, #144380);
+    background-image: linear-gradient(to bottom, #144380, #144380);
+    text-decoration: none;
+  }
+  .view-market-size-btn-text{
+    color: #fff;
+    font-size: 1.1rem;
+    
+  }
 .site-layout-background {
   margin: 5px;
   height: auto;
+}
+.ant-menu-vertical .ant-menu-item, .ant-menu-vertical-left .ant-menu-item, .ant-menu-vertical-right .ant-menu-item, .ant-menu-inline .ant-menu-item, .ant-menu-vertical .ant-menu-submenu-title, .ant-menu-vertical-left .ant-menu-submenu-title, .ant-menu-vertical-right .ant-menu-submenu-title, .ant-menu-inline .ant-menu-submenu-title{
+  overflow: visible;
 }

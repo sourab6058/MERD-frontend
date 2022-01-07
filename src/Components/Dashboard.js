@@ -18,6 +18,7 @@ import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
 import "../css/modal.css";
+import "../css/dashboard.css";
 
 import SubCategory from "./Dashboard/Menu/SubCategory";
 import SubCity from "./Dashboard//Menu/SubCity";
@@ -903,7 +904,7 @@ export class NewDashboard extends Component {
                     height: "100%",
                     borderRight: 0,
                     overflowY: "scroll",
-                    overflowX: "hidden",
+                    overflowX: "hidden"
                   }}
                   theme={"light"}
                 >
@@ -962,15 +963,17 @@ export class NewDashboard extends Component {
                       selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
                     />
                   </SubMenu>
+                  <div className="view-market-size-div">
                   <Item>
                     <Button
                       onClick={() => this.checkData()}
                       icon={<CaretRightOutlined />}
                       className="view-market-size-btn"
                     >
-                      View Market Size
+                    <span className="view-market-size-btn-text">View Market Size</span>
                     </Button>
                   </Item>
+                  </div>
                 </Menu>
               ) : (
                 <div
@@ -1020,15 +1023,19 @@ export class NewDashboard extends Component {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography>Selections Made</Typography>
+                  <Typography className="selection-made-text">Selections Made</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
                     <ListItem>
                       <ListItemAvatar>
-                        <Avatar>
-                          <CityIcon />
+                        
+                        <Avatar className="dashboard-avatar">
+                        <div className="dashboard-icon">
+                          <CityIcon className="dashboard-icon-inner"/>
+                          </div>
                         </Avatar>
+                        
                       </ListItemAvatar>
                       <ListItemText
                         primary="Cities and zones"
@@ -1042,27 +1049,32 @@ export class NewDashboard extends Component {
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                          <YearIcon />
+                        <div className="dashboard-icon">
+                          <YearIcon className="dashboard-icon-inner" />
+                          </div>
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
                         primary="Years and months"
                         secondary={
-                          (this.state.postObject.years.length > 0
-                            ? "Years>" + checkYear
-                            : "Select years") +
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
                               ? ", months>The whole year"
-                              : ", months>" + checkMonth
-                            : ", Select months")
+                              : ", months >" + checkMonth
+                            : "Select months, ")+
+                          (this.state.postObject.years.length > 0
+                            ? "Years >" + checkYear
+                            : "Select years") 
+                          
                         }
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                          <CategoryIcon />
+                        <div className="dashboard-icon">
+                          <CategoryIcon className="dashboard-icon-inner"/>
+                          </div>
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
@@ -1083,7 +1095,9 @@ export class NewDashboard extends Component {
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                          <NationalityIcon />
+                        <div className="dashboard-icon">
+                          <NationalityIcon className="dashboard-icon-inner" />
+                          </div>
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
