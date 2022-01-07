@@ -122,7 +122,7 @@ export class TouristReports extends Component {
       <>
         <NavTwo />
         <div className="header">
-          <img className="headerImg" src={reportsImg} alt="building"/>
+          <img className="headerImg" src={reportsImg} alt="building" />
           <div className="header-text">
             <h2 className="heading">Tourist Reports</h2>
             <p className="heading-text">Your source for market research</p>
@@ -131,14 +131,20 @@ export class TouristReports extends Component {
         <div className="reports-container">
           {this.state.files.length ? (
             <>
-            <div className="city-report">
-            <span className="recent-report">Recent Reports</span>
-            </div>
-              
+              <div className="city-report">
+                <span className="recent-report">Recent Reports</span>
+              </div>
+
               <br />
               <ul>
                 {this.state.files.map((file, idx) => (
-                  <li key={idx}>
+                  <li
+                    key={idx}
+                    className="list-item"
+                    style={{
+                      backgroundColor: idx % 2 ? "transparent" : "#dbe1ff",
+                    }}
+                  >
                     <span>{file}</span>
                     <br />
                     {this.state.subscribedCities.includes(
@@ -153,13 +159,15 @@ export class TouristReports extends Component {
                       </Button>
                     ) : (
                       <>
-                        <Button className="report-link-buy"><a href="#">Buy Once</a></Button>
+                        <Button className="report-link-buy">
+                          <a href="#">Buy Once</a>
+                        </Button>
                         <Button className="report-link" key={idx} disabled>
                           Download
                         </Button>
                       </>
                     )}
-                    <hr/>
+                    <hr />
                   </li>
                 ))}
               </ul>
