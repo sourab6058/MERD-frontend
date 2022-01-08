@@ -12,8 +12,7 @@ import {
 import CheckIcon from "@material-ui/icons/CheckCircleOutline";
 import CrossIcon from "@material-ui/icons/CancelOutlined";
 
-const REGISTERATION_URL =
-  "https://hosting.digifyworks.com/merd/subscription-confirmation/";
+const REGISTERATION_URL = "https://merd.online/subscription-confirmation/";
 
 const SubcriptionPlansTable = ({ subscriptionsCount, cities, categories }) => {
   const [sixMonthsTotal, setSixMonthsTotal] = useState(0);

@@ -61,7 +61,7 @@ export default function SubscriptionAlert({
                 Subscribe
               </Link>
               <a
-                href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
+                href="https://merd.online/subscription-process-cancel/"
                 className="cta"
               >
                 Cancel
