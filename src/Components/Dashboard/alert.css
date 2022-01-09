@@ -17,3 +17,24 @@
     font-size: 1.2rem;
     color: #fff;
 }
+.registeration-required-title{
+    color: #fff;
+    text-align: center;
+    margin: 0;
+    font-size: 1.5rem;
+}
+.registeration-required-content{
+    color: #fff;
+    font-size: 1.3rem;
+
+}
+.MuiDialogActions-root.MuiDialogActions-spacing{
+    flex: 0 auto;
+    display: flex;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+}
+.registration-required-btn-subscribe{
+    margin-right: 1rem;
+}

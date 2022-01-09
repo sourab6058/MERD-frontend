@@ -48,6 +48,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
 import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
+import { size } from "lodash";
 let optionData = require("./Dashboard/optionData.json");
 
 const { SubMenu, Item } = Menu;
@@ -965,7 +966,7 @@ export class NewDashboard extends Component {
                   </SubMenu>
                   <div className="view-market-size-div">
                   <Item>
-                    <Button
+                    <Button 
                       onClick={() => this.checkData()}
                       icon={<CaretRightOutlined />}
                       className="view-market-size-btn"
@@ -1038,11 +1039,11 @@ export class NewDashboard extends Component {
                         
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Cities and zones"
+                        primary="Cities and Zones"
                         secondary={
                           this.state.postObject.cities.length > 0
                             ? this.citiesAndZonesDisplayer(checkZone)
-                            : "Select cities & zones"
+                            : "Select Cities & Zones"
                         }
                       />
                     </ListItem>
@@ -1055,16 +1056,16 @@ export class NewDashboard extends Component {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Years and months"
+                        primary="Years and Months"
                         secondary={
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
-                              ? ", months>The whole year"
-                              : ", months >" + checkMonth
-                            : "Select months, ")+
+                              ? "Months:- The whole year "
+                              : "Months:- " + checkMonth
+                            : "Select Months ")+
                           (this.state.postObject.years.length > 0
-                            ? "Years >" + checkYear
-                            : "Select years") 
+                            ? ", Years:- " + checkYear
+                            : ", Select Years") 
                           
                         }
                       />
@@ -1088,7 +1089,7 @@ export class NewDashboard extends Component {
                                 checkSubCategory,
                                 checkSubSubCategory
                               )
-                            : "Select categories"
+                            : "Select Categories"
                         }
                       />
                     </ListItem>
@@ -1108,7 +1109,7 @@ export class NewDashboard extends Component {
                               this.state.nationality.length
                               ? "All Nationalities"
                               : checkNationality
-                            : "Select nationalities"
+                            : "Select Nationalities"
                         }
                       />
                     </ListItem>
@@ -1117,7 +1118,7 @@ export class NewDashboard extends Component {
               </Accordion>
               {this.state.alertOpenInvalid && (
                 <Alert
-                  title={<span style={{ color: "red" }}>Warning !</span>}
+                  title={<span style={{ color: "#fff" }}>Caution!</span>}
                   contentText={
                     this.state.subscriber
                       ? "Please Select all required options"
@@ -1168,7 +1169,7 @@ export class NewDashboard extends Component {
                     value={this.state.displayMode}
                   >
                     <Space direction="vertical">
-                      <Radio
+                      <Radio className="formatSelectionOptions"
                         value="distinct"
                         onClick={() =>
                           this.setState({ displayMode: "distinct" })
@@ -1176,10 +1177,10 @@ export class NewDashboard extends Component {
                         type="primary"
                         size="large"
                       >
-                        Broken down in detail (by category, nationality,
-                        neighbourhood and time frame){" "}
+                        <span className="formatSelectionOptions">Broken down in detail (by category, nationality,
+                        neighbourhood and time frame){" "}</span>
                       </Radio>
-                      <Radio
+                      <Radio className="formatSelectionOptions"
                         value="nationality"
                         onClick={() =>
                           this.setState({ displayMode: "nationality" })
@@ -1187,30 +1188,31 @@ export class NewDashboard extends Component {
                         type="primary"
                         size="large"
                       >
-                        Broken down by neighbourhood and category with all
-                        months in a year added{" "}
+                      <span className="formatSelectionOptions">Broken down by neighbourhood and category with all
+                        months in a year added{" "}</span>
                       </Radio>
-                      <Radio
+                      <Radio className="formatSelectionOptions"
                         value="zones"
                         onClick={() => this.setState({ displayMode: "zones" })}
                         type="primary"
                         size="large"
                       >
-                        Broken down by category only with all months in a year
-                        added{" "}
+                      <span className="formatSelectionOptions">Broken down by category only with all months in a year
+                        added{" "}</span>
                       </Radio>
                     </Space>
                   </Radio.Group>
-                  <Button
+                  <div className="formatSelctionButtons-div">
+                  <Button style={{all:"unset"}}
                     disabled={this.state.displayMode !== null ? false : true}
                     onClick={() => this.postData(this.state.displayMode)}
                   >
-                    {" "}
-                    Generate Tables
+                    <span className="formatSelctionButtons cta">Generate Tables</span>
                   </Button>
-                  <Button onClick={() => this.setState({ isModalOpen: false })}>
-                    Close
+                  <Button style={{all:"unset"}} onClick={() => this.setState({ isModalOpen: false })}>
+                  <span className="formatSelctionButtons cta">Close</span>
                   </Button>
+                  </div>
                 </div>
               </Modal>
               <div style={{ textAlign: "right", margin: "10px" }}>
@@ -1238,7 +1240,7 @@ export class NewDashboard extends Component {
                 </CSVLink>
               </div>
               {!this.state.registeredUser ? (
-                <h1 align="center">You need to subscribe to access data.</h1>
+                <h1 style={{fontSize:"1.5rem"}} >You need to subscribe to access data.</h1>
               ) : (
                 this.state.loading &&
                 this.state.subscriber && (

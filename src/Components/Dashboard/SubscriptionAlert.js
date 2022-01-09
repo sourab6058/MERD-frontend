@@ -50,23 +50,26 @@ export default function SubscriptionAlert({
         <div>
           {" "}
           <Dialog aria-labelledby="simple-dialog-title" open={true}>
-            <DialogTitle>Registeration required.</DialogTitle>
+            <div className="dashboard-alert">
+            <DialogTitle><h2 className="registeration-required-title">Registeration Required</h2></DialogTitle>
             <DialogContent>
               <DialogContentText>
-                <h4 align="center">You can subscribe to view data.</h4>
+                <h4 className="registeration-required-content" align="center">You need to subscribe to view data.</h4>
               </DialogContentText>
             </DialogContent>
             <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
-              <Link to="subscribe" className="cta">
-                Subscribe
+              <div className="registration-required-buttons">
+              <Link className="registration-required-btn-subscribe" to="subscribe" >
+               <span className="cta">Subscribe</span>
               </Link>
               <a
                 href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
-                className="cta"
               >
-                Cancel
+              <span className="cta">Cancel</span>
               </a>
+              </div>
             </DialogActions>
+            </div>
           </Dialog>
         </div>
       )}
