@@ -14,7 +14,12 @@ import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
-import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
+import {
+  CaretRightOutlined,
+  DownloadOutlined,
+  RightOutlined,
+  LeftOutlined,
+} from "@ant-design/icons";
 import "antd/dist/antd.css";
 
 import "../css/modal.css";
@@ -34,6 +39,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import CategoryIcon from "@material-ui/icons/Category";
@@ -94,6 +100,7 @@ export class NewDashboard extends Component {
       },
       registeredUser: true,
       loading: false,
+      siderWidth: 300,
       csvData: [],
       menuLoading: true,
       isModalOpen: false,
@@ -181,6 +188,7 @@ export class NewDashboard extends Component {
     //changing tableData to [] so loading screen appears again in Table.js
     this.setState({ tableData: [] });
     this.setState({ loading: true });
+    this.setState({ siderWidth: 0 });
 
     let dataToBePost = this.state.postObject;
     dataToBePost["filter_type"] = displayMode;
@@ -497,6 +505,28 @@ export class NewDashboard extends Component {
       if (idx < list.length - 1) return item + ", ";
       else return item;
     });
+  };
+  getPurchaseModePlace = () => {
+    let finalStr = "";
+    let placeStr = "";
+    const purchasePlace = this.state.postObject.placeOfPurchase;
+    if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase.";
+    else if (purchasePlace.length === 2)
+      placeStr = "Inside the city and outside the city.";
+    else if (purchasePlace[0] == "in") placeStr = "Inside the Cities.";
+    else if (purchasePlace[0] == "out") placeStr = "Outside the Cities.";
+
+    let modeStr = "";
+
+    const mode = this.state.postObject.purchaseMode;
+
+    if (mode.length == 0) modeStr = "Select Mode Of Purchase.";
+    else if (mode.length === 2) modeStr = "Online and Offline Both.";
+    else if (mode[0] == "online") modeStr = "Only Online Mode.";
+    else if (mode[0] == "offline") modeStr = "Only Offline Mode.";
+
+    finalStr = modeStr + placeStr;
+    return finalStr;
   };
 
   categoryDisplayer = (cat, sub, subsub) => {
@@ -914,7 +944,10 @@ export class NewDashboard extends Component {
               overflowY: "auto",
             }}
           >
-            <Sider width={300} className="site-layout-background">
+            <Sider
+              width={this.state.siderWidth}
+              className="site-layout-background"
+            >
               {!this.state.menuLoading ? (
                 <Menu
                   mode="vertical"
@@ -984,16 +1017,19 @@ export class NewDashboard extends Component {
                     />
                   </SubMenu>
                   <div className="view-market-size-div">
-                  <Item>
-                    <span className="view-market-size-btn">
-                    <Button style={{all:"unset"}}
-                      onClick={() => this.checkData()}
-                      icon={<CaretRightOutlined />}
-                    >
-                    <span className="view-market-size-btn-text">View Market Size</span>
-                    </Button>
-                    </span>
-                  </Item>
+                    <Item>
+                      <span className="view-market-size-btn">
+                        <Button
+                          style={{ all: "unset" }}
+                          onClick={() => this.checkData()}
+                          icon={<CaretRightOutlined />}
+                        >
+                          <span className="view-market-size-btn-text">
+                            View Market Size
+                          </span>
+                        </Button>
+                      </span>
+                    </Item>
                   </div>
                 </Menu>
               ) : (
@@ -1021,6 +1057,20 @@ export class NewDashboard extends Component {
                 </div>
               )}
             </Sider>
+            <span
+              onClick={() =>
+                this.setState({
+                  siderWidth: this.state.siderWidth === 300 ? 0 : 300,
+                })
+              }
+              className="menu-expand-more"
+            >
+              {this.state.siderWidth === 0 ? (
+                <RightOutlined style={{ fontSize: "2rem" }} />
+              ) : (
+                <LeftOutlined style={{ fontSize: "2rem" }} />
+              )}
+            </span>
             <Content
               className="site-layout-background"
               style={{
@@ -1059,7 +1109,7 @@ export class NewDashboard extends Component {
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Cities and Zones"
+                        primary="Cities & Zones"
                         secondary={
                           this.state.postObject.cities.length > 0
                             ? this.citiesAndZonesDisplayer(checkZone)
@@ -1132,6 +1182,19 @@ export class NewDashboard extends Component {
                         }
                       />
                     </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <div className="dashboard-icon">
+                            <ShoppingCartIcon className="dashboard-icon-inner" />
+                          </div>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Purchase Mode and Place Of Purchase"
+                        secondary={this.getPurchaseModePlace()}
+                      />
+                    </ListItem>
                   </List>
                 </AccordionDetails>
               </Accordion>
@@ -1188,7 +1251,8 @@ export class NewDashboard extends Component {
                     value={this.state.displayMode}
                   >
                     <Space direction="vertical">
-                      <Radio className="formatSelectionOptions"
+                      <Radio
+                        className="formatSelectionOptions"
                         value="distinct"
                         onClick={() =>
                           this.setState({ displayMode: "distinct" })
@@ -1196,10 +1260,13 @@ export class NewDashboard extends Component {
                         type="primary"
                         size="large"
                       >
-                        <span className="formatSelectionOptions">Broken down in detail (by category, nationality,
-                        neighbourhood and time frame){" "}</span>
+                        <span className="formatSelectionOptions">
+                          Broken down in detail (by category, nationality,
+                          neighbourhood and time frame){" "}
+                        </span>
                       </Radio>
-                      <Radio className="formatSelectionOptions"
+                      <Radio
+                        className="formatSelectionOptions"
                         value="nationality"
                         onClick={() =>
                           this.setState({ displayMode: "nationality" })
@@ -1207,30 +1274,41 @@ export class NewDashboard extends Component {
                         type="primary"
                         size="large"
                       >
-                      <span className="formatSelectionOptions">Broken down by neighbourhood and category with all
-                        months in a year added{" "}</span>
+                        <span className="formatSelectionOptions">
+                          Broken down by neighbourhood and category with all
+                          months in a year added{" "}
+                        </span>
                       </Radio>
-                      <Radio className="formatSelectionOptions"
+                      <Radio
+                        className="formatSelectionOptions"
                         value="zones"
                         onClick={() => this.setState({ displayMode: "zones" })}
                         type="primary"
                         size="large"
                       >
-                      <span className="formatSelectionOptions">Broken down by category only with all months in a year
-                        added{" "}</span>
+                        <span className="formatSelectionOptions">
+                          Broken down by category only with all months in a year
+                          added{" "}
+                        </span>
                       </Radio>
                     </Space>
                   </Radio.Group>
                   <div className="formatSelctionButtons-div">
-                  <Button style={{all:"unset"}}
-                    disabled={this.state.displayMode !== null ? false : true}
-                    onClick={() => this.postData(this.state.displayMode)}
-                  >
-                    <span className="formatSelctionButtons cta">Generate Tables</span>
-                  </Button>
-                  <Button style={{all:"unset"}} onClick={() => this.setState({ isModalOpen: false })}>
-                  <span className="formatSelctionButtons cta">Close</span>
-                  </Button>
+                    <Button
+                      style={{ all: "unset" }}
+                      disabled={this.state.displayMode !== null ? false : true}
+                      onClick={() => this.postData(this.state.displayMode)}
+                    >
+                      <span className="formatSelctionButtons cta">
+                        Generate Tables
+                      </span>
+                    </Button>
+                    <Button
+                      style={{ all: "unset" }}
+                      onClick={() => this.setState({ isModalOpen: false })}
+                    >
+                      <span className="formatSelctionButtons cta">Close</span>
+                    </Button>
                   </div>
                 </div>
               </Modal>
@@ -1259,7 +1337,9 @@ export class NewDashboard extends Component {
                 </CSVLink>
               </div>
               {!this.state.registeredUser ? (
-                <h1 style={{fontSize:"1.5rem"}} >You need to subscribe to access data.</h1>
+                <h1 style={{ fontSize: "1.5rem" }}>
+                  You need to subscribe to access data.
+                </h1>
               ) : (
                 this.state.loading &&
                 this.state.subscriber && (
@@ -1269,7 +1349,6 @@ export class NewDashboard extends Component {
                       displayMode={this.state.displayMode}
                       purchaseMode={this.state.postObject.purchaseMode}
                     ></Tables>
-                    {this.getNotSubscribedCitiesAndCatgs()}
                   </>
                 )
               )}
