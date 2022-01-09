@@ -984,29 +984,16 @@ export class NewDashboard extends Component {
                     />
                   </SubMenu>
                   <div className="view-market-size-div">
-<<<<<<< HEAD
                   <Item>
-                    <Button 
+                    <span className="view-market-size-btn">
+                    <Button style={{all:"unset"}}
                       onClick={() => this.checkData()}
                       icon={<CaretRightOutlined />}
-                      className="view-market-size-btn"
                     >
                     <span className="view-market-size-btn-text">View Market Size</span>
                     </Button>
+                    </span>
                   </Item>
-=======
-                    <Item>
-                      <Button
-                        onClick={() => this.checkData()}
-                        icon={<CaretRightOutlined />}
-                        className="view-market-size-btn"
-                      >
-                        <span className="view-market-size-btn-text">
-                          View Market Size
-                        </span>
-                      </Button>
-                    </Item>
->>>>>>> e6ee9d8d57c0e362abf49c335af06b93ee3909e4
                   </div>
                 </Menu>
               ) : (
@@ -1093,22 +1080,12 @@ export class NewDashboard extends Component {
                         secondary={
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
-<<<<<<< HEAD
-                              ? "Months:- The whole year "
+                              ? "Months:- The whole year"
                               : "Months:- " + checkMonth
-                            : "Select Months ")+
+                            : "Select Months") +
                           (this.state.postObject.years.length > 0
                             ? ", Years:- " + checkYear
-                            : ", Select Years") 
-                          
-=======
-                              ? ", months>The whole year"
-                              : ", months >" + checkMonth
-                            : "Select months, ") +
-                          (this.state.postObject.years.length > 0
-                            ? "Years >" + checkYear
-                            : "Select years")
->>>>>>> e6ee9d8d57c0e362abf49c335af06b93ee3909e4
+                            : ", Select Years")
                         }
                       />
                     </ListItem>
