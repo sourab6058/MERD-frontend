@@ -74,6 +74,12 @@ export class NewDashboard extends Component {
       years: [],
       category: [],
       nationality: [],
+      notSubscribed: {
+        cities: [],
+        catgs: [],
+      },
+      selectedCities: [],
+      selectedCatgs: [],
       postObject: {
         cities: [],
         zones: [],
@@ -629,7 +635,13 @@ export class NewDashboard extends Component {
       let tempData = this.state.postObject;
       tempData.cities = cityIntersection;
       tempData.categories = catgIntersection;
-      this.setState({ postObject: tempData });
+
+      this.setState({
+        postObject: tempData,
+        selectedCities: citiesSelected,
+        selectedCatgs: catgSeleted,
+      });
+      this.setState();
     }
   };
   getNotSubscribedCitiesAndCatgs = () => {
@@ -682,6 +694,14 @@ export class NewDashboard extends Component {
         }
       });
     });
+
+    this.setState({
+      notSubscribed: {
+        cities: citiesNotSubscribed,
+        catgs: catgsNotSubscribed,
+      },
+    });
+
     if (citiesNotSubscribed.length * catgsNotSubscribed.length)
       return (
         <p>
@@ -870,7 +890,6 @@ export class NewDashboard extends Component {
           ref={(el) => (this.top = el)}
           style={{ position: "absolute", top: 0, left: 0 }}
         ></div>{" "}
-        {/* <Nav /> */}
         {this.state.alertOpen && (
           <div ref={this.setWrapperRef}>
             <Alert
@@ -905,7 +924,7 @@ export class NewDashboard extends Component {
                     height: "100%",
                     borderRight: 0,
                     overflowY: "scroll",
-                    overflowX: "hidden"
+                    overflowX: "hidden",
                   }}
                   theme={"light"}
                 >
@@ -965,6 +984,7 @@ export class NewDashboard extends Component {
                     />
                   </SubMenu>
                   <div className="view-market-size-div">
+<<<<<<< HEAD
                   <Item>
                     <Button 
                       onClick={() => this.checkData()}
@@ -974,6 +994,19 @@ export class NewDashboard extends Component {
                     <span className="view-market-size-btn-text">View Market Size</span>
                     </Button>
                   </Item>
+=======
+                    <Item>
+                      <Button
+                        onClick={() => this.checkData()}
+                        icon={<CaretRightOutlined />}
+                        className="view-market-size-btn"
+                      >
+                        <span className="view-market-size-btn-text">
+                          View Market Size
+                        </span>
+                      </Button>
+                    </Item>
+>>>>>>> e6ee9d8d57c0e362abf49c335af06b93ee3909e4
                   </div>
                 </Menu>
               ) : (
@@ -1024,19 +1057,19 @@ export class NewDashboard extends Component {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className="selection-made-text">Selections Made</Typography>
+                  <Typography className="selection-made-text">
+                    Selections Made
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
                     <ListItem>
                       <ListItemAvatar>
-                        
                         <Avatar className="dashboard-avatar">
-                        <div className="dashboard-icon">
-                          <CityIcon className="dashboard-icon-inner"/>
+                          <div className="dashboard-icon">
+                            <CityIcon className="dashboard-icon-inner" />
                           </div>
                         </Avatar>
-                        
                       </ListItemAvatar>
                       <ListItemText
                         primary="Cities and Zones"
@@ -1050,8 +1083,8 @@ export class NewDashboard extends Component {
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                        <div className="dashboard-icon">
-                          <YearIcon className="dashboard-icon-inner" />
+                          <div className="dashboard-icon">
+                            <YearIcon className="dashboard-icon-inner" />
                           </div>
                         </Avatar>
                       </ListItemAvatar>
@@ -1060,6 +1093,7 @@ export class NewDashboard extends Component {
                         secondary={
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
+<<<<<<< HEAD
                               ? "Months:- The whole year "
                               : "Months:- " + checkMonth
                             : "Select Months ")+
@@ -1067,14 +1101,22 @@ export class NewDashboard extends Component {
                             ? ", Years:- " + checkYear
                             : ", Select Years") 
                           
+=======
+                              ? ", months>The whole year"
+                              : ", months >" + checkMonth
+                            : "Select months, ") +
+                          (this.state.postObject.years.length > 0
+                            ? "Years >" + checkYear
+                            : "Select years")
+>>>>>>> e6ee9d8d57c0e362abf49c335af06b93ee3909e4
                         }
                       />
                     </ListItem>
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                        <div className="dashboard-icon">
-                          <CategoryIcon className="dashboard-icon-inner"/>
+                          <div className="dashboard-icon">
+                            <CategoryIcon className="dashboard-icon-inner" />
                           </div>
                         </Avatar>
                       </ListItemAvatar>
@@ -1096,8 +1138,8 @@ export class NewDashboard extends Component {
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                        <div className="dashboard-icon">
-                          <NationalityIcon className="dashboard-icon-inner" />
+                          <div className="dashboard-icon">
+                            <NationalityIcon className="dashboard-icon-inner" />
                           </div>
                         </Avatar>
                       </ListItemAvatar>

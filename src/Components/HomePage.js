@@ -10,7 +10,7 @@ import HeroMap from "./HomePage/HeroMap";
 import Hero from "./HomePage/Hero";
 import CookieDialog from "./CookieDialog";
 
-const SESSION_API = "https://hosting.digifyworks.com/merd/user-details/?sid=";
+const SESSION_API = "https://merd.online/user-details/?sid=";
 
 class HomePage extends Component {
   constructor(props) {
@@ -38,6 +38,7 @@ class HomePage extends Component {
     } else if (userDetails) {
       userDetails += "$$" + new Date().toUTCString();
       localStorage.setItem("user-details", userDetails);
+      window.history.pushState("homepage", "homepage", "#");
     } else {
       console.log("No Params");
     }

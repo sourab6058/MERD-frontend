@@ -18,15 +18,12 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
   });
   function handleLogout() {
     localStorage.removeItem("user-details");
-    window.location.href = "https://hosting.digifyworks.com/merd/logout/";
+    window.location.href = " https://merd.online/logout/";
   }
   const usermenu = (
     <Menu>
       <Menu.Item>
-        <a
-          rel="noopener noreferrer"
-          href="https://hosting.digifyworks.com/merd/"
-        >
+        <a rel="noopener noreferrer" href="https://merd.online/">
           View Account
         </a>
       </Menu.Item>
@@ -92,10 +89,7 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
         </li>
       </ul>
       {!username ? (
-        <a
-          className="sign-in-links"
-          href="https://hosting.digifyworks.com/merd/login/?redirect_to=https%3A%2F%2Fhosting.digifyworks.com%2Fmerd%2F"
-        >
+        <a className="sign-in-links" href="https://merd.online/login/">
           Sign In
         </a>
       ) : (

@@ -63,7 +63,12 @@ export default function SubscriptionAlert({
                <span className="cta">Subscribe</span>
               </Link>
               <a
+<<<<<<< HEAD
                 href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
+=======
+                href="https://merd.online/subscription-process-cancel/"
+                className="cta"
+>>>>>>> e6ee9d8d57c0e362abf49c335af06b93ee3909e4
               >
               <span className="cta">Cancel</span>
               </a>
