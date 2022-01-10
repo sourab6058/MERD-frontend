@@ -28,7 +28,7 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
         </a>
       </Menu.Item>
       <Menu.Item>
-        <Link to="/subscribe">Subscribe More</Link>
+        <Link to="/subscribe-more">Subscribe More</Link>
       </Menu.Item>
       <Menu.Item>
         <a rel="noopener noreferrer" onClick={handleLogout}>

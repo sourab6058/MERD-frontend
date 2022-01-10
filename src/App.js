@@ -9,6 +9,7 @@ import Demographic from "./Components/Demographic";
 import Projects from "./Components/Projects/Projects";
 import MapComponent from "./Components/MapComponent";
 import SubscriptionJourney from "./Components/SubscriptionPages";
+import SubscribeMore from "./Components/SubscribeMore";
 import OneTime from "./Components/SubscriptionPages/OneTime";
 import CityReports from "./Components/CityReports";
 import TouristReports from "./Components/TouristReports";
@@ -35,6 +36,7 @@ class App extends Component {
               <Route path="/demographic" exact component={Demographic} />
               <Route path="/map" exact component={MapComponent} />
               <Route path="/subscribe" exact component={SubscriptionJourney} />
+              <Route path="/subscribe-more" exact component={SubscribeMore} />
               <Route path="/cityreport" exact component={CityReports} />
               <Route path="/touristreport" exact component={TouristReports} />
               <Route path="/contactus" exact component={WebChat} />
