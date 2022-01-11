@@ -7,61 +7,89 @@
 }
 
 .footer {
-  /* border: 1px solid red; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-width: 100vw;
+  background-color: #051c2c  ;
+  color: #fff;
+}
+.footer-container{
+  margin: 2rem auto;
+}
+.merd-logo-container{
+  display: inline-block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
 }
 .merd-logo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase;
-  color: black;
+  text-transform: uppercase; 
+  margin-left: 1rem;
 }
 
 .merd-logo .merd-name {
-  font-size: 2rem;
-  letter-spacing: 2px;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
   font-weight: 600;
+  color: #fff;
 }
 
 .merd-logo .merd-moto {
-  font-size: 1rem;
+  font-size: 0.5rem;
   letter-spacing: 2px;
   font-weight: 400;
+  color: #fff;
 }
 
-.footer-links {
+.footer-links-container {
   list-style: none;
   margin-top: 1rem;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+.footer-container::before {
+  content: "";
+}
+
+.footer-container::after {
+  content: "";
 }
 
 .footer-links li {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-right: 1rem;
+  justify-content: start;
+  margin: 1rem;
 }
-
+.footer-link-div{
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+.footer-link-title{
+  color: rgb(87, 80, 80);
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
 .footer-link {
-  color: black;
-  margin-right: 1rem;
+  color: #fff;
+  margin: 0 1rem 0.5rem 0;
   font-size: 1rem;
 }
 
 .footer-link:hover {
   color: #a1a1a1;
+  text-decoration: underline;
 }
-
+.social-media-div{
+  margin: 2rem 1rem ;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
 .social-media-links {
   list-style: none;
   display: flex;
@@ -71,13 +99,12 @@
   margin-bottom: 0;
 }
 .sm-container {
-  border: 1px solid black;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 1rem;
-  color: blue;
-  background-color: white;
+  color: #fff;
+  background-color: #051c2c ;
   font-size: 4rem;
   padding: 4px;
   border-radius: 50%;
@@ -85,6 +112,17 @@
 .sm-container:nth-child(1):hover {
   transform: scale(1.5);
 }
-.rights {
+.follow-us{
+  color: #fff;
   font-size: 1rem;
+}
+.footer-hr{
+  border-color:rgb(134, 131, 131);
+}
+.rights {
+  display: block;
+  font-size: 1rem;
+  color: #fff;
+  text-align: center;
+  margin-top: 1rem;
 }

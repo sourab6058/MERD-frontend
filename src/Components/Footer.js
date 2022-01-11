@@ -19,32 +19,64 @@ const dotStyle = {
 const Footer = () => {
   return (
     <div className="footer">
-      <Link to="/" className="merd-logo">
+      <div className="footer-container">
+        <div className="merd-logo-container">
+        <Link to="/" className="merd-logo" >
         <span className="merd-name">Middle east retail data</span>
         <span className="merd-moto">accurate.instant.detailed.affordable</span>
       </Link>
+        </div>
+      
+      
       <ul className="footer-links">
+      <div className="footer-links-container">
+        
         <li>
-          <Link className="footer-link">Contact Us</Link>
-          <Dot style={dotStyle}></Dot>
+        <div className="footer-link-div">
+          <span className="footer-link-title">Services</span>
+          <Link className="footer-link">Demographic Information</Link>
+          <Link className="footer-link">Detailed Market Size</Link>
+          <Link className="footer-link">Catchment Analysis</Link>
+          <Link className="footer-link">Brochure</Link>
+          </div>
         </li>
+        
         <li>
+        <div className="footer-link-div">
+        <span className="footer-link-title">Company</span>
+          <Link className="footer-link">About</Link>
+          <Link className="footer-link">Products</Link>
           <Link className="footer-link">FAQ</Link>
-          <Dot style={dotStyle}></Dot>
+          <Link className="footer-link">Blog</Link>
+          </div>
         </li>
         <li>
-          <Link className="footer-link">Privacy Policy</Link>
-          <Dot style={dotStyle}></Dot>
+        <div className="footer-link-div">
+        <span className="footer-link-title">Users</span>
+          <Link className="footer-link">Subscribe</Link>
+          <Link className="footer-link">Sign In</Link>
+          <Link className="footer-link">Sign Up</Link>
+        </div>
         </li>
         <li>
-          <Link className="footer-link">Cookie Policy</Link>
-          <Dot style={dotStyle}></Dot>
+        <div className="footer-link-div">
+        <span className="footer-link-title">Market Reports</span>
+          <Link className="footer-link">City Reports</Link>
+          <Link className="footer-link">Tourist Reports</Link>
+        </div>
         </li>
         <li>
-          <Link className="footer-link">Terms of use</Link>
+        <div className="footer-link-div">
+        <span className="footer-link-title">Policies</span>
+          <Link className="footer-link">Privacy</Link>
+          <Link className="footer-link">Cookie</Link>
+          <Link className="footer-link">Terms Of Use</Link>
+        </div>
         </li>
+        </div>
       </ul>
-      <ul className="social-media-links">
+      <ul>
+      <div className="social-media-div">
         <li>
           <Link className="sm-container">
             <Facebook />
@@ -70,11 +102,15 @@ const Footer = () => {
             <Instagram />
           </Link>
         </li>
+        </div>
       </ul>
+      </div>
+      <hr className="footer-hr"/>
       <span className="rights">
         All rights reserved 2021 (MIDDLE EAST RETAIL DATA)
       </span>
-    </div>
+      </div>
+    
   );
 };
 
