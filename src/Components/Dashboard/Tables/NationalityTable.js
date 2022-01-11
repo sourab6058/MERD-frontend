@@ -24,6 +24,13 @@ class DistinctTable extends Component {
     num = roundToNearestThousand(num);
     return `$${this.numberWithCommas(num)}`;
   }
+  calcTotal(data) {
+    let total = 0;
+    data.forEach(
+      (row) => (total += roundToNearestThousand(row.total_market_size))
+    );
+    return total;
+  }
 
   render() {
     console.log(this.props.data);
@@ -66,6 +73,14 @@ class DistinctTable extends Component {
                     </TableCell>
                   </TableRow>
                 ))}
+                <TableRow key={uuidv4()}>
+                  <TableCell component="th" scope="row">
+                    Total
+                  </TableCell>
+                  <TableCell align="right">
+                    {`$${this.numberWithCommas(this.calcTotal(data))}`}
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>

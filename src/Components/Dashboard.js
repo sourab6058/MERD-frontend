@@ -950,7 +950,7 @@ export class NewDashboard extends Component {
             >
               {!this.state.menuLoading ? (
                 <Menu
-                  mode="vertical"
+                  mode="inline"
                   defaultSelectedKeys={["1"]}
                   defaultOpenKeys={["sub1"]}
                   style={{

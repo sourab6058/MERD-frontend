@@ -17,6 +17,9 @@ class HomePage extends Component {
     super(props);
     this.bandRef = React.createRef();
     this.productsRef = React.createRef();
+    this.state = {
+      subscribed: false,
+    };
   }
 
   scrollToBand = () => {
@@ -38,6 +41,7 @@ class HomePage extends Component {
     } else if (userDetails) {
       userDetails += "$$" + new Date().toUTCString();
       localStorage.setItem("user-details", userDetails);
+      this.setState({ subscribed: true });
       window.history.pushState("homepage", "homepage", "#");
     } else {
       console.log("No Params");
@@ -50,7 +54,7 @@ class HomePage extends Component {
           scrollToBand={this.scrollToBand}
           scrollToProducts={this.scrollToProducts}
         />
-        <Hero />
+        <Hero subscribed={this.state.subscribed} />
         <Band bandRef={this.bandRef} />
         <Cards productsRef={this.productsRef} />
         <Footer />

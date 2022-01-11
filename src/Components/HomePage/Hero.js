@@ -34,9 +34,18 @@ class Hero extends Component {
           </h3>
           <div className="home-page-btns">
             <>
-              <Link className="home-page-subscribe button" to="/subscribe">
-                Subscribe
-              </Link>
+              {this.props.subscribed ? (
+                <Link
+                  className="home-page-subscribe button"
+                  to="/subscribe-more"
+                >
+                  Subscribe
+                </Link>
+              ) : (
+                <Link className="home-page-subscribe button" to="/subscribe">
+                  Subscribe
+                </Link>
+              )}
               <Link className="home-page-readmore button" href="/">
                 Read More
               </Link>

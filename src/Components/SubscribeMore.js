@@ -91,7 +91,12 @@ export default class SubscribeMore extends Component {
               <h3>Categories</h3>
               <br />
               {this.state.categoriesOptions.map((cat, idx) => (
-                <Checkbox id={idx} onChange={this.handleCatgs} value={cat}>
+                <Checkbox
+                  id={idx}
+                  onChange={this.handleCatgs}
+                  value={cat}
+                  className="checkboxes"
+                >
                   {cat}
                 </Checkbox>
               ))}
