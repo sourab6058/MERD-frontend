@@ -111,7 +111,7 @@ export class NewDashboard extends Component {
       openUploadLinks: false,
       uploadLinkOpenerText: "Open file upload links",
       selectionListExpanded: false,
-      subscriber: false,
+      subscriber: true,
       subscriptionAlertOpen: false,
       oneTimeSubPopUpOpen: false,
       cancelPopUpOpen: false,
@@ -162,7 +162,13 @@ export class NewDashboard extends Component {
 
   postData = (displayMode) => {
     this.checkSubscription();
+    this.setState({ subscriber: true });
     const isSubscribed = this.checkUserRights();
+    if (!isSubscribed) {
+      this.setState({ subscriber: false, subscriptionAlertOpen: true });
+      console.log("not subscribed to the data");
+      return false;
+    }
 
     // this.setState({ postObject: isSubscribed });
     let isEmpty = false;
@@ -178,12 +184,9 @@ export class NewDashboard extends Component {
       this.state.postObject.subSubCategories.length === 0
     )
       isCatEmpty = true;
-    if (!isSubscribed) {
-      this.setState({ subscriptionAlertOpen: true });
-      console.log("not subscribed to the data");
-    }
+
     if (isEmpty || isCatEmpty) {
-      // alert('Please Select all required options');
+      alert("Please Select all required options");
       this.setState({ isModalOpen: false, alertOpenInvalid: true });
       console.log(this.state.postObject);
       return;
@@ -194,9 +197,10 @@ export class NewDashboard extends Component {
     //changing tableData to [] so loading screen appears again in Table.js
     this.setState({ tableData: [] });
     this.setState({ loading: true });
-    this.setState({ siderWidth: 0 });
+    // this.setState({ siderWidth: 0 });
 
-    let dataToBePost = this.state.postObject;
+    let dataToBePost = isSubscribed.postObject;
+    console.log(dataToBePost);
     dataToBePost["filter_type"] = displayMode;
 
     axios
@@ -235,13 +239,24 @@ export class NewDashboard extends Component {
   submitForm = () => {
     const user = getUserDetail();
 
-    const citiesSubscribed = user.cities;
-    const catgsSubscribed = user.categories;
+    let cities = [];
+    let categories = [];
 
-    let cities = "city";
-    let categories = "catgs";
+    this.state.cities.forEach((city) => {
+      this.state.notSubscribed.cities.forEach((nsCity) => {
+        if (city.id === nsCity) {
+          cities.push(city.city);
+        }
+      });
+    });
 
-    console.log(this.state.notSubscribed);
+    this.state.category.forEach((catg) => {
+      this.state.notSubscribed.catgs.forEach((nsCatg) => {
+        if (catg.id === nsCatg) {
+          categories.push(catg.name);
+        }
+      });
+    });
 
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
@@ -271,7 +286,7 @@ export class NewDashboard extends Component {
   checkData = () => {
     let isEmpty = false;
     let isCatEmpty = false;
-    const subscribedData = this.checkUserRights();
+    this.setState({ subscriber: true });
     if (this.state.postObject.cities.length === 0) isEmpty = true;
     if (this.state.postObject.zones.length === 0) isEmpty = true;
     if (this.state.postObject.nationalities.length === 0) isEmpty = true;
@@ -285,22 +300,16 @@ export class NewDashboard extends Component {
       this.state.postObject.subSubCategories.length === 0
     )
       isCatEmpty = true;
-    if (!subscribedData) {
-      this.setState({
-        alertOpenInvalid: true,
-        subscriber: false,
-      });
-      return;
-    }
     if (isEmpty || isCatEmpty) {
       // alert('Please Select all required options');
-      this.setState({ isModalOpen: false, alertOpenInvalid: true });
+      this.setState({
+        isModalOpen: false,
+        alertOpenInvalid: true,
+      });
       console.log("invalid");
       return;
     } else {
-      console.log(subscribedData);
       this.setState({ isModalOpen: true, alertOpenInvalid: false });
-      this.setState({ postObject: subscribedData.postObject });
     }
   };
 
@@ -717,20 +726,27 @@ export class NewDashboard extends Component {
       },
     });
 
-    if (cityIntersection === [] || catgIntersection === []) {
+    if (cityIntersection.length === 0 || catgIntersection.length === 0) {
       this.setState({ subscriber: false });
       return false;
-    } else {
-      let tempData = this.state.postObject;
-      tempData.cities = cityIntersection;
-      tempData.categories = catgIntersection;
-
-      return {
-        postObject: tempData,
-        selectedCities: citiesSelected,
-        selectedCatgs: catgSeleted,
-      };
     }
+
+    if (
+      cityIntersection.length !== citiesSubscribed.length ||
+      catgIntersection.length !== catgSubscribed.length
+    ) {
+      this.setState({ subscriber: false, alertOpenInvalid: true });
+    }
+
+    let tempData = this.state.postObject;
+    tempData.cities = cityIntersection;
+    tempData.categories = catgIntersection;
+
+    return {
+      postObject: tempData,
+      selectedCities: citiesSelected,
+      selectedCatgs: catgSeleted,
+    };
   };
   getNotSubscribedCitiesAndCatgs = () => {};
 
@@ -1019,7 +1035,7 @@ export class NewDashboard extends Component {
                 </div>
               )}
             </Sider>
-            <span
+            {/* <span
               onClick={() =>
                 this.setState({
                   siderWidth: this.state.siderWidth === 300 ? 0 : 300,
@@ -1032,7 +1048,7 @@ export class NewDashboard extends Component {
               ) : (
                 <LeftOutlined style={{ fontSize: "2rem" }} />
               )}
-            </span>
+            </span> */}
             <Content
               className="site-layout-background"
               style={{
@@ -1307,8 +1323,7 @@ export class NewDashboard extends Component {
                   You need to subscribe to access data.
                 </h1>
               ) : (
-                this.state.loading &&
-                this.state.subscriber && (
+                this.state.loading && (
                   <>
                     <Tables
                       data={this.state.tableData}
