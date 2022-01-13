@@ -94,8 +94,7 @@ export class Catchments extends Component {
 
   handleCitySelection = (e) => {
     this.setState({ selectedCity: e.target.value });
-    const usrDetail = localStorage.getItem("user-details");
-    const user = getUserDetail(usrDetail);
+    const user = getUserDetail();
 
     if (user.username) {
       this.setState({ subscribed: true });

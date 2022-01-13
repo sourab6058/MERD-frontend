@@ -28,8 +28,7 @@ export class TouristReports extends Component {
   }
 
   componentDidMount() {
-    const usrDetail = localStorage.getItem("user-details");
-    const user = getUserDetail(usrDetail);
+    const user = getUserDetail();
     let files = [];
 
     if (!user.username) {

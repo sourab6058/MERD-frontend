@@ -62,6 +62,7 @@ const { Content, Sider, Header } = Layout;
 
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
 const API_URL = "http://3.108.159.143:8000/api/filter";
+const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
 // const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
@@ -110,7 +111,7 @@ export class NewDashboard extends Component {
       openUploadLinks: false,
       uploadLinkOpenerText: "Open file upload links",
       selectionListExpanded: false,
-      subscriber: true,
+      subscriber: false,
       subscriptionAlertOpen: false,
       oneTimeSubPopUpOpen: false,
       cancelPopUpOpen: false,
@@ -125,7 +126,6 @@ export class NewDashboard extends Component {
   };
 
   setWrapperRef = (node) => {
-    console.log("ZZZZZZZ");
     this.wrapperRef = node;
   };
 
@@ -162,7 +162,9 @@ export class NewDashboard extends Component {
 
   postData = (displayMode) => {
     this.checkSubscription();
-    if (!this.state.registeredUser || !this.state.subscriber) return false;
+    const isSubscribed = this.checkUserRights();
+
+    // this.setState({ postObject: isSubscribed });
     let isEmpty = false;
     let isCatEmpty = false;
     if (this.state.postObject.cities.length === 0) isEmpty = true;
@@ -176,10 +178,14 @@ export class NewDashboard extends Component {
       this.state.postObject.subSubCategories.length === 0
     )
       isCatEmpty = true;
-
+    if (!isSubscribed) {
+      this.setState({ subscriptionAlertOpen: true });
+      console.log("not subscribed to the data");
+    }
     if (isEmpty || isCatEmpty) {
       // alert('Please Select all required options');
       this.setState({ isModalOpen: false, alertOpenInvalid: true });
+      console.log(this.state.postObject);
       return;
     }
 
@@ -192,13 +198,10 @@ export class NewDashboard extends Component {
 
     let dataToBePost = this.state.postObject;
     dataToBePost["filter_type"] = displayMode;
-    console.log("datatobePost", dataToBePost);
 
     axios
       .post(API_URL, dataToBePost)
       .then((res) => {
-        console.log("POST request succesful.");
-        console.log(res.data.results);
         let tableData = res.data.results;
         this.setState({ tableData });
       })
@@ -221,16 +224,54 @@ export class NewDashboard extends Component {
   };
   handleCancelPopUp = (state) => {
     this.setState({ cancelPopUpOpen: state });
+    this.setState({ alertOpenInvalid: false });
+    if (!state) this.submitForm();
   };
 
   hideOneTimeSubPopUp = () => {
     this.setState({ oneTimeSubPopUpOpen: false });
   };
 
+  submitForm = () => {
+    const user = getUserDetail();
+
+    const citiesSubscribed = user.cities;
+    const catgsSubscribed = user.categories;
+
+    let cities = "city";
+    let categories = "catgs";
+
+    console.log(this.state.notSubscribed);
+
+    let form = document.createElement("form");
+    form.style.visibility = "hidden"; // no user interaction is necessary
+    form.method = "POST"; // forms by default use GET query strings
+    form.target = "_blank";
+    form.action = CANCEL_URL;
+
+    const cityInput = document.createElement("input");
+    cityInput.name = "cities";
+    cityInput.value = cities.toString();
+    form.appendChild(cityInput);
+
+    const categoryInput = document.createElement("input");
+    categoryInput.name = "categories";
+    categoryInput.value = categories.toString();
+    form.appendChild(categoryInput);
+
+    const nameInput = document.createElement("input");
+    nameInput.name = "username";
+    nameInput.value = user.username.toString();
+    form.appendChild(nameInput);
+
+    document.body.appendChild(form); // forms cannot be submitted outside of body
+    form.submit();
+  };
+
   checkData = () => {
-    this.checkUserRights();
     let isEmpty = false;
     let isCatEmpty = false;
+    const subscribedData = this.checkUserRights();
     if (this.state.postObject.cities.length === 0) isEmpty = true;
     if (this.state.postObject.zones.length === 0) isEmpty = true;
     if (this.state.postObject.nationalities.length === 0) isEmpty = true;
@@ -244,20 +285,24 @@ export class NewDashboard extends Component {
       this.state.postObject.subSubCategories.length === 0
     )
       isCatEmpty = true;
-
+    if (!subscribedData) {
+      this.setState({
+        alertOpenInvalid: true,
+        subscriber: false,
+      });
+      return;
+    }
     if (isEmpty || isCatEmpty) {
       // alert('Please Select all required options');
       this.setState({ isModalOpen: false, alertOpenInvalid: true });
-      console.log("Invalid");
+      console.log("invalid");
       return;
     } else {
+      console.log(subscribedData);
       this.setState({ isModalOpen: true, alertOpenInvalid: false });
+      this.setState({ postObject: subscribedData.postObject });
     }
   };
-
-  getIntersection(list1, list2) {
-    return list1.filter((item) => list2.includes(item));
-  }
 
   getCsvData = () => {
     //Passing control to utils/rendercsv for the generation of csv-react readable data (Multidimensional Array)
@@ -581,7 +626,6 @@ export class NewDashboard extends Component {
     }
 
     let finalStr = [...catArray];
-    console.log(subObject);
     for (let [key, values] of Object.entries(subObject)) {
       finalStr.push(`${key.toUpperCase()}>${values}>All Items`);
     }
@@ -619,9 +663,7 @@ export class NewDashboard extends Component {
   };
 
   checkUserRights = () => {
-    const user = localStorage.getItem("user-details");
-    const userDetails = getUserDetail(user);
-    console.log(userDetails);
+    const userDetails = getUserDetail();
     if (!userDetails.username) {
       this.setState({ registeredUser: false });
       return false;
@@ -649,107 +691,48 @@ export class NewDashboard extends Component {
       });
     });
 
-    console.log(citiesSelected, citiesSubscribed);
-    console.log(catgSeleted, catgSubscribed);
+    const cityIntersection = [];
+    const cityNotSubscribed = [];
+    citiesSelected.forEach((city) => {
+      if (citiesSubscribed.includes(city)) {
+        cityIntersection.push(city);
+      } else {
+        cityNotSubscribed.push(city);
+      }
+    });
+    const catgIntersection = [];
+    const catgNotSubscribed = [];
+    catgSeleted.forEach((cat) => {
+      if (catgSubscribed.includes(cat)) {
+        catgIntersection.push(cat);
+      } else {
+        catgNotSubscribed.push(cat);
+      }
+    });
 
-    const cityIntersection = citiesSelected.filter((city) =>
-      citiesSubscribed.includes(city)
-    );
-    const catgIntersection = catgSeleted.filter((catg) =>
-      catgSubscribed.includes(catg)
-    );
+    this.setState({
+      notSubscribed: {
+        cities: cityNotSubscribed,
+        catgs: catgNotSubscribed,
+      },
+    });
 
     if (cityIntersection === [] || catgIntersection === []) {
       this.setState({ subscriber: false });
+      return false;
     } else {
       let tempData = this.state.postObject;
       tempData.cities = cityIntersection;
       tempData.categories = catgIntersection;
 
-      this.setState({
+      return {
         postObject: tempData,
         selectedCities: citiesSelected,
         selectedCatgs: catgSeleted,
-      });
-      this.setState();
+      };
     }
   };
-  getNotSubscribedCitiesAndCatgs = () => {
-    const user = localStorage.getItem("user-details");
-    const userDetails = getUserDetail(user);
-
-    const citiesSelected = this.state.postObject.cities;
-    const citiesSubscribed = [];
-
-    userDetails.cities.forEach((city) => {
-      this.state.cities.forEach((cityOption) => {
-        if (city === cityOption.city) {
-          citiesSubscribed.push(cityOption.id);
-        }
-      });
-    });
-
-    const catgSeleted = this.state.postObject.categories;
-    const catgSubscribed = [];
-
-    userDetails.categories.forEach((catg) => {
-      this.state.category.forEach((catgOption) => {
-        if (catg === catgOption.name) {
-          catgSubscribed.push(catgOption.id);
-        }
-      });
-    });
-    let cityNotSubscribedIds = citiesSelected.filter(
-      (city) => !citiesSubscribed.includes(city)
-    );
-    let catgNotSubscribedIds = catgSeleted.filter(
-      (catg) => !catgSubscribed.includes(catg)
-    );
-
-    let citiesNotSubscribed = [];
-    let catgsNotSubscribed = [];
-
-    cityNotSubscribedIds.forEach((city) => {
-      this.state.cities.forEach((cityOption) => {
-        if (city === cityOption.id) {
-          citiesNotSubscribed.push(cityOption.city);
-        }
-      });
-    });
-
-    catgNotSubscribedIds.forEach((catg) => {
-      this.state.category.forEach((catgOption) => {
-        if (catg === catgOption.id) {
-          catgsNotSubscribed.push(catgOption.name);
-        }
-      });
-    });
-
-    this.setState({
-      notSubscribed: {
-        cities: citiesNotSubscribed,
-        catgs: catgsNotSubscribed,
-      },
-    });
-
-    if (citiesNotSubscribed.length * catgsNotSubscribed.length)
-      return (
-        <p>
-          You are not subscribed to cities:{citiesNotSubscribed.join()}
-          <br /> You are not subscribed to categories:
-          {catgsNotSubscribed.join()}
-        </p>
-      );
-    else if (citiesNotSubscribed.length)
-      return (
-        <p>You are not subscribed to cities:{citiesNotSubscribed.join()} </p>
-      );
-    else if (catgsNotSubscribed.length)
-      return (
-        <p>You are not subscribed to catgs:{catgsNotSubscribed.join()} </p>
-      );
-    else return <p>Wanna see more data?</p>;
-  };
+  getNotSubscribedCitiesAndCatgs = () => {};
 
   render() {
     let checkCity = [];
@@ -764,7 +747,6 @@ export class NewDashboard extends Component {
       const cities = this.state.cities;
       const subcities = this.state.postObject.cities;
       const subzones = this.state.postObject.zones;
-      console.log("cities", this.state.cities);
       //checkArray will get all zones of particular city
 
       //Populating checkArray
@@ -779,9 +761,6 @@ export class NewDashboard extends Component {
                 }
               });
             });
-
-            console.log("if loop");
-            console.log(checkCity);
           }
         });
       });
@@ -794,9 +773,6 @@ export class NewDashboard extends Component {
         subyear.forEach((data2) => {
           if (data === data2) {
             checkYear.push(data);
-
-            console.log("if loop");
-            console.log(checkYear);
           }
         });
       });
@@ -852,9 +828,6 @@ export class NewDashboard extends Component {
         subcat.forEach((data2) => {
           if (data.id === data2) {
             checkCategory.push(data.name);
-
-            console.log("if loop");
-            console.log("cat", checkCategory);
           }
         });
       });
@@ -868,9 +841,6 @@ export class NewDashboard extends Component {
           data.sub_category.forEach((data3) => {
             if (data3.id === data2) {
               checkSubCategory.push(data3.name);
-
-              console.log("if loop");
-              console.log("sub", checkSubCategory);
             }
           });
         });
@@ -886,9 +856,6 @@ export class NewDashboard extends Component {
             data3.sub_sub_category.forEach((data4) => {
               if (data4.id === data2) {
                 checkSubSubCategory.push(data4.name);
-
-                console.log("if loop");
-                console.log("subsub", checkSubSubCategory);
               }
             });
           });
@@ -903,16 +870,11 @@ export class NewDashboard extends Component {
         subnat.forEach((data2) => {
           if (data.id === data2) {
             checkNationality.push(data.nationality);
-
-            console.log("if loop");
-            console.log(checkNationality);
           }
         });
       });
       checkNationality = this.insertCommas(checkNationality);
     }
-    console.log("states of market");
-    console.log(this.state);
 
     return (
       <div>
@@ -1198,18 +1160,22 @@ export class NewDashboard extends Component {
                   </List>
                 </AccordionDetails>
               </Accordion>
-              {this.state.alertOpenInvalid && (
-                <Alert
-                  title={<span style={{ color: "#fff" }}>Caution!</span>}
-                  contentText={
-                    this.state.subscriber
-                      ? "Please Select all required options"
-                      : "You have made selections you are not subscribed to"
-                  }
-                  btnText={"OK"}
-                  ModalHandlerClose={this.ModalHandlerClose}
-                />
-              )}
+              {this.state.alertOpenInvalid &&
+                (this.state.subscriber ? (
+                  <Alert
+                    title={<span style={{ color: "#fff" }}>Caution!</span>}
+                    contentText={"Please Select all required options"}
+                    btnText={"OK"}
+                    ModalHandlerClose={this.ModalHandlerClose}
+                  />
+                ) : (
+                  <SubscriptionAlert
+                    registered={this.state.registeredUser}
+                    handleSubscriptionAlert={this.handleSubscriptionAlert}
+                    showOneTimeSubPopUp={this.showOneTimeSubPopUp}
+                    handleCancelPopUp={this.handleCancelPopUp}
+                  />
+                ))}
               {this.state.subscriptionAlertOpen && (
                 <SubscriptionAlert
                   registered={this.state.registeredUser}

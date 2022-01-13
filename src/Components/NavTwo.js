@@ -10,15 +10,13 @@ import { Button, Dropdown, Menu } from "antd";
 export default function NavTwo({ scrollToBand, scrollToProducts }) {
   const [username, setUsername] = useState();
   useEffect(() => {
-    const userDetails = localStorage.getItem("user-details");
-    if (userDetails) {
-      const user = getUserDetail(userDetails);
-      setUsername(user.username);
-    }
+    const user = getUserDetail();
+    if (user.username) setUsername(user.username);
   });
   function handleLogout() {
-    localStorage.removeItem("user-details");
-    window.location.href = " https://merd.online/logout/";
+    document.cookie =
+      " user-details" + "=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+    window.location.href = "https://merd.online/logout/";
   }
   const usermenu = (
     <Menu>

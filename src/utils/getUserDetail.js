@@ -1,15 +1,15 @@
-export default function getUserDetail(detailStr) {
-  console.log(detailStr);
+export default function getUserDetail() {
+  const details = document.cookie;
+  const cookieList = details.split(";");
+  const reqdCookie = cookieList.find((cookie) =>
+    cookie.includes("user-details")
+  );
+  let detailStr;
+  if (reqdCookie) {
+    detailStr = reqdCookie.split("=")[1];
+  }
   try {
-    const usrData = detailStr
-      .split("$$")
-      .slice(0, detailStr.split("$$").length - 1);
-    const signedinOn = new Date(
-      detailStr.split("$$")[detailStr.split("$$").length - 1]
-    );
-    // if (signedinOn.setHours(24).getTime() > new Date().getTime()) {
-    //   localStorage.removeItem("user-details");
-    // }
+    const usrData = detailStr.split("$$");
 
     const username = usrData[0]
       .split(",")

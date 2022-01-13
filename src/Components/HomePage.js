@@ -39,8 +39,7 @@ class HomePage extends Component {
       link.href = SESSION_API + sid;
       link.click();
     } else if (userDetails) {
-      userDetails += "$$" + new Date().toUTCString();
-      localStorage.setItem("user-details", userDetails);
+      document.cookie = `user-details=${userDetails}`;
       this.setState({ subscribed: true });
       window.history.pushState("homepage", "homepage", "#");
     } else {
