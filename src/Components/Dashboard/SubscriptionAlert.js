@@ -34,7 +34,7 @@ export default function SubscriptionAlert({
               </DialogContentText>
             </DialogContent>
             <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
-              <Link className="cta" to="subscribe">
+              <Link className="cta" to="subscribe-more">
                 Subscribe
               </Link>
               <span className="cta" onClick={handleOneTimeSubscribe}>
@@ -51,26 +51,34 @@ export default function SubscriptionAlert({
           {" "}
           <Dialog aria-labelledby="simple-dialog-title" open={true}>
             <div className="dashboard-alert">
-            <DialogTitle><h2 className="registeration-required-title">Registeration Required</h2></DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                <h4 className="registeration-required-content" align="center">You need to subscribe to view data.</h4>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
-              <div className="registration-required-buttons">
-              <Link className="registration-required-btn-subscribe" to="subscribe" >
-               <span className="cta">Subscribe</span>
-              </Link>
-              <a
-                href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
-                href="https://merd.online/subscription-process-cancel/"
-                
-              >
-              <span className="cta">Cancel</span>
-              </a>
-              </div>
-            </DialogActions>
+              <DialogTitle>
+                <h2 className="registeration-required-title">
+                  Registeration Required
+                </h2>
+              </DialogTitle>
+              <DialogContent>
+                <DialogContentText>
+                  <h4 className="registeration-required-content" align="center">
+                    You need to subscribe to view data.
+                  </h4>
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
+                <div className="registration-required-buttons">
+                  <Link
+                    className="registration-required-btn-subscribe"
+                    to="subscribe"
+                  >
+                    <span className="cta">Subscribe</span>
+                  </Link>
+                  <a
+                    href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
+                    href="https://merd.online/subscription-process-cancel/"
+                  >
+                    <span className="cta">Cancel</span>
+                  </a>
+                </div>
+              </DialogActions>
             </div>
           </Dialog>
         </div>

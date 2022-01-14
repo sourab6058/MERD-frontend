@@ -8,8 +8,10 @@ import Footer from "./Footer";
 
 import "../css/Reports.css";
 import getUserDetail from "../utils/getUserDetail";
+import postForm from "../utils/postForm";
 
 const API_URL = "http://3.108.159.143:8000/tourist_reports/";
+const BUY_ONCE_URL = "https://merd.online/subscription-confirmation/";
 // const API_URL = "http://localhost:8000/tourist_reports/";
 // const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'
 
@@ -116,6 +118,12 @@ export class TouristReports extends Component {
       });
   };
 
+  handleBuyOnce = (file) => {
+    const report = file.split(".pdf")[0] + " tourist report";
+    postForm(BUY_ONCE_URL, report);
+    console.log(report);
+  };
+
   render() {
     return (
       <>
@@ -159,7 +167,9 @@ export class TouristReports extends Component {
                     ) : (
                       <>
                         <Button className="report-link-buy">
-                          <a href="#">Buy Once</a>
+                          <a onClick={() => this.handleBuyOnce(file)}>
+                            Buy Once
+                          </a>
                         </Button>
                         <Button className="report-link" key={idx} disabled>
                           Download

@@ -234,6 +234,8 @@ export class NewDashboard extends Component {
 
   hideOneTimeSubPopUp = () => {
     this.setState({ oneTimeSubPopUpOpen: false });
+    this.setState({ subscriptionAlertOpen: false });
+    this.submitForm();
   };
 
   submitForm = () => {
@@ -258,6 +260,8 @@ export class NewDashboard extends Component {
       });
     });
 
+    console.log(cities.join(), categories.join());
+
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
     form.method = "POST"; // forms by default use GET query strings
@@ -266,17 +270,17 @@ export class NewDashboard extends Component {
 
     const cityInput = document.createElement("input");
     cityInput.name = "cities";
-    cityInput.value = cities.toString();
+    cityInput.value = cities.join();
     form.appendChild(cityInput);
 
     const categoryInput = document.createElement("input");
     categoryInput.name = "categories";
-    categoryInput.value = categories.toString();
+    categoryInput.value = categories.join();
     form.appendChild(categoryInput);
 
     const nameInput = document.createElement("input");
     nameInput.name = "username";
-    nameInput.value = user.username.toString();
+    nameInput.value = user.username;
     form.appendChild(nameInput);
 
     document.body.appendChild(form); // forms cannot be submitted outside of body
@@ -732,10 +736,16 @@ export class NewDashboard extends Component {
     }
 
     if (
-      cityIntersection.length !== citiesSubscribed.length ||
-      catgIntersection.length !== catgSubscribed.length
+      cityIntersection.length !== citiesSelected.length ||
+      catgIntersection.length !== catgSeleted.length
     ) {
       this.setState({ subscriber: false, alertOpenInvalid: true });
+      console.log(
+        cityIntersection,
+        citiesSubscribed,
+        catgIntersection,
+        catgSubscribed
+      );
     }
 
     let tempData = this.state.postObject;
@@ -748,7 +758,6 @@ export class NewDashboard extends Component {
       selectedCatgs: catgSeleted,
     };
   };
-  getNotSubscribedCitiesAndCatgs = () => {};
 
   render() {
     let checkCity = [];
