@@ -18,7 +18,7 @@
   display: flex;
   /* border: 1px solid red; */
   z-index: 1;
-  background: #fff;
+  background: #144380;
 }
 .bgm {
   visibility: hidden;
@@ -27,7 +27,7 @@
   font-size: 1.3rem;
   letter-spacing: 1px;
   font-weight: 600;
-  color: #0f74c3;
+  color: #fff;
   font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
@@ -49,14 +49,14 @@
   
 }
 .nav-container .cmp-logo .cpm-name {
-  color: #0f74c3;
+  color: #fff;
   padding: 0;
 }
 .cmp-logo .sub-text {
   font-size: 0.5rem;
   letter-spacing: 2px;
   font-weight: 400;
-  color: #0f74c3;
+  color: #fff;
   margin: 0;
   padding: 0;
 }
@@ -77,20 +77,20 @@
   /* padding-bottom: auto; */
   font-size: 1rem;
   text-decoration: none;
-  color: #000;
+  color: #fff;
   padding-top: 2.75rem;
   padding-bottom: 1.5rem;
   /* padding-inline: 5px; */
   /* border: 1px solid white; */
 }
 .nav-container ul li a:hover {
-  border-bottom: 5px solid #000;
+  border-bottom: 5px solid #fff;
 }
 .nav-container .sign-in-links {
   margin-top: 1rem;
   margin-right: 4rem;
-  border: 2px solid #000;
-  color: #000;
+  border: 2px solid #fff;
+  color: #fff;
   padding-inline: 1rem;
   border-radius: 2rem;
 }
@@ -108,7 +108,7 @@
 
 /* Color/shape of burger icon bars */
 .bm-burger-bars {
-  background: #000;
+  background: #fff;
 }
 
 /* Color/shape of burger icon bars on hover*/
