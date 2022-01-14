@@ -61,9 +61,9 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
       </div>
       <Link to="/" className="cmp-logo">
         <span className="cpm-name">middle east retail data</span>
-        <br />
+        
         <span className="sub-text">
-          ACCURATE. INSTANT. DETAILED. AFFORDABLE
+          ACCURATE.INSTANT.DETAILED.AFFORDABLE
         </span>
       </Link>
       <ul>

@@ -85,11 +85,11 @@ export default class SubscribeMore extends Component {
       <>
         <NavTwo />
         <div className="subscribe-more">
-          <h1>Subscribe More</h1>
+          <h1 className="subscribe-more-title">Subscribe More</h1>
           <div className="options-container">
             <Paper className="categories options">
-              <h3>Categories</h3>
-              <br />
+              <h3 className="option-title">Categories</h3>
+            
               {this.state.categoriesOptions.map((cat, idx) => (
                 <Checkbox
                   id={idx}
@@ -102,7 +102,7 @@ export default class SubscribeMore extends Component {
               ))}
             </Paper>
             <Paper className="cities options">
-              <h3>Cities</h3> <br />
+              <h3 className="option-title">Cities</h3>
               {this.state.citiesOptions.map((city, idx) => (
                 <Checkbox
                   id={this.state.categoriesOptions.length + idx}
@@ -115,7 +115,7 @@ export default class SubscribeMore extends Component {
             </Paper>
             <div className="order-container">
               <Paper className="order-part">
-                <h3>Your Order</h3>
+                <h3 className="option-title">Your Order</h3>
                 <Divider />
                 <div className="order-list">
                   <div className="row">
