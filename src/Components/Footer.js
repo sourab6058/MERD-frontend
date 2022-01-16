@@ -33,11 +33,12 @@ const Footer = () => {
         
         <li>
         <div className="footer-link-div">
-          <span className="footer-link-title">Services</span>
+          <span className="footer-link-title">Products/Services</span>
           <Link className="footer-link">Demographic Information</Link>
           <Link className="footer-link">Detailed Market Size</Link>
           <Link className="footer-link">Catchment Analysis</Link>
-          <Link className="footer-link">Brochure</Link>
+          <Link className="footer-link">City Reports</Link>
+          <Link className="footer-link">Tourist Reports</Link>
           </div>
         </li>
         
@@ -45,9 +46,8 @@ const Footer = () => {
         <div className="footer-link-div">
         <span className="footer-link-title">Company</span>
           <Link className="footer-link">About</Link>
-          <Link className="footer-link">Products</Link>
           <Link className="footer-link">FAQ</Link>
-          <Link className="footer-link">Blog</Link>
+          <Link className="footer-link">Retail Articles</Link>
           </div>
         </li>
         <li>
@@ -55,14 +55,6 @@ const Footer = () => {
         <span className="footer-link-title">Users</span>
           <Link className="footer-link">Subscribe</Link>
           <Link className="footer-link">Sign In</Link>
-          <Link className="footer-link">Sign Up</Link>
-        </div>
-        </li>
-        <li>
-        <div className="footer-link-div">
-        <span className="footer-link-title">Market Reports</span>
-          <Link className="footer-link">City Reports</Link>
-          <Link className="footer-link">Tourist Reports</Link>
         </div>
         </li>
         <li>
@@ -79,11 +71,6 @@ const Footer = () => {
       <div className="social-media-div">
         <li>
           <Link className="sm-container">
-            <Facebook />
-          </Link>
-        </li>
-        <li>
-          <Link className="sm-container">
             <LinkedIn />
           </Link>
         </li>
@@ -92,22 +79,12 @@ const Footer = () => {
             <Twitter />
           </Link>
         </li>
-        <li>
-          <Link className="sm-container">
-            <YouTube />
-          </Link>
-        </li>
-        <li>
-          <Link className="sm-container">
-            <Instagram />
-          </Link>
-        </li>
         </div>
       </ul>
       </div>
       <hr className="footer-hr"/>
       <span className="rights">
-        All rights reserved 2021 (MIDDLE EAST RETAIL DATA)
+        All rights reserved 2022 (MIDDLE EAST RETAIL DATA)
       </span>
       </div>
     
