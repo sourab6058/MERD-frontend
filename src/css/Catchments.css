@@ -14,7 +14,7 @@
   min-height: 100vh;
   left: 0;
   transition: all 300ms;
-  background-color: blue;
+  background-color: rgb(0, 0, 60);
 }
 .carousal-outer {
   position: relative;
@@ -94,7 +94,7 @@
 }
 
 .custom-btn:hover {
-  background-color: blue;
+  background-color: rgb(8, 8, 145);
   border: 1px solid white;
   color: white;
 }
