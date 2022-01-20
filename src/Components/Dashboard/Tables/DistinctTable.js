@@ -32,6 +32,9 @@ function roundToNearestThousand(num) {
 }
 
 class DistinctTable extends Component {
+  constructor(props) {
+    super(props);
+  }
   calculateMonthTotals = (data, months) => {
     monthTotals = [];
 
@@ -70,6 +73,22 @@ class DistinctTable extends Component {
     return `$${this.numberWithCommas(num)}`;
   }
 
+  getZonesList() {
+    const zones = this.props.data.map((row) => row.zone);
+    return zones.join();
+  }
+
+  getMonthNameList(months) {
+    return months.length === 12
+      ? "All Months"
+      : months.map((month) => monthNames[month]).join();
+  }
+
+  componentDidMount = () => {
+    console.log(this.props);
+    this.getZonesList();
+  };
+
   render() {
     const purchaseMode = this.props.purchaseMode;
     if (this.props.data.length > 0) {
@@ -89,7 +108,12 @@ class DistinctTable extends Component {
 
         return (
           <TableContainer component={Paper} style={{ padding: "0.5rem" }}>
-            <h3>{this.props.city}</h3>
+            <span>
+              {this.props.city}/Zones:{this.getZonesList()}/
+              {this.props.category}/{this.props.year}/
+              {this.getMonthNameList(months)}/{this.props.nationality}/
+              {this.props.purchaseMode}/{this.props.placeOfPurchase}
+            </span>
             <Table aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>

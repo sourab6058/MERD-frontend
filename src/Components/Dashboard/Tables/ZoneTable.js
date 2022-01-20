@@ -20,6 +20,9 @@ class ZoneTable extends Component {
     super(props);
     this.state = {};
   }
+  componentDidMount = () => {
+    console.log(this.props);
+  };
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
@@ -36,6 +39,18 @@ class ZoneTable extends Component {
     );
     return total;
   }
+  getZones(city, citiesAndZones) {
+    const zones = citiesAndZones.forEach((cityAndZone) => {
+      if (cityAndZone.includes(city)) {
+        return cityAndZone;
+      }
+    });
+
+    return zones;
+  }
+  getCategories = (propertyName, data) => {
+    return data.map((row) => row[propertyName]).join();
+  };
   render() {
     console.log(this.props.data.length);
     if (this.props.data.length > 0) {
@@ -44,14 +59,28 @@ class ZoneTable extends Component {
       //     if (obj.total_market_size > 0) empty = false;
       // })
       if (!empty) {
-        const { data, propertyName, year, city } = this.props;
+        const {
+          data,
+          propertyName,
+          year,
+          city,
+          zones,
+          months,
+          nationalities,
+          purchaseMode,
+          placeOfPuchase,
+        } = this.props;
 
         return (
           <TableContainer
             component={Paper}
             style={{ width: "50%", margin: "0 auto", padding: "0.25rem" }}
           >
-            <h3>{city}</h3>
+            <span>
+              {city}/{this.getZones(city, zones)}/
+              {this.getCategories(propertyName, data)}/{year}/{months}/
+              {nationalities}/{purchaseMode}/{placeOfPuchase}
+            </span>
             <Table aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>

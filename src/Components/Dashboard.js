@@ -14,12 +14,7 @@ import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
-import {
-  CaretRightOutlined,
-  DownloadOutlined,
-  RightOutlined,
-  LeftOutlined,
-} from "@ant-design/icons";
+import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.css";
 
 import "../css/modal.css";
@@ -54,7 +49,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
 import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
-import { size } from "lodash";
 let optionData = require("./Dashboard/optionData.json");
 
 const { SubMenu, Item } = Menu;
@@ -164,6 +158,7 @@ export class NewDashboard extends Component {
     this.checkSubscription();
     this.setState({ subscriber: true });
     const isSubscribed = this.checkUserRights();
+
     if (!isSubscribed) {
       this.setState({ subscriber: false, subscriptionAlertOpen: true });
       console.log("not subscribed to the data");
@@ -649,7 +644,7 @@ export class NewDashboard extends Component {
     }
     return this.insertCommas(finalStr);
   };
-  citiesAndZonesDisplayer = (zones) => {
+  zonesToCity = (zones) => {
     const cities = this.state.cities;
     let citiesAndZones = {};
     zones.forEach((zone) => {
@@ -676,6 +671,7 @@ export class NewDashboard extends Component {
   };
 
   checkUserRights = () => {
+    console.log(this.state);
     const userDetails = getUserDetail();
     if (!userDetails.username) {
       this.setState({ registeredUser: false });
@@ -1099,7 +1095,7 @@ export class NewDashboard extends Component {
                         primary="Cities & Zones"
                         secondary={
                           this.state.postObject.cities.length > 0
-                            ? this.citiesAndZonesDisplayer(checkZone)
+                            ? this.zonesToCity(checkZone)
                             : "Select Cities & Zones"
                         }
                       />
@@ -1338,6 +1334,21 @@ export class NewDashboard extends Component {
                       data={this.state.tableData}
                       displayMode={this.state.displayMode}
                       purchaseMode={this.state.postObject.purchaseMode}
+                      placeOfPurchase={this.state.postObject.placeOfPurchase}
+                      months={
+                        checkMonth.length === 12 //if all the months are selected
+                          ? "The whole year"
+                          : checkMonth
+                      }
+                      nationalities={
+                        this.state.postObject.nationalities.length > 0
+                          ? checkNationality.length === //if all the nationalities are checked
+                            this.state.nationality.length
+                            ? "All Nationalities"
+                            : checkNationality
+                          : "Select Nationalities"
+                      }
+                      zones={this.zonesToCity(checkZone)}
                     ></Tables>
                   </>
                 )

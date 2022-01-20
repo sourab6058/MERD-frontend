@@ -32,24 +32,40 @@ class DistinctTable extends Component {
     return total;
   }
 
+  getZonesList = () => {
+    return this.props.data.map((row) => row.zone).join();
+  };
+
   render() {
-    console.log(this.props.data);
+    console.log(this.props);
     if (this.props.data.length > 0) {
       let empty = false;
       // this.props.data.forEach(obj => {
       //     if (obj.total_market_size > 0) empty = false;
       // })
       if (!empty) {
-        const { data, year, city } = this.props;
+        const {
+          data,
+          city,
+          category,
+          placeOfPurchase,
+          purchaseMode,
+          year,
+          months,
+          nationalities,
+        } = this.props;
 
         data.sort((a, b) => (parseInt(a.zone) > parseInt(b.zone) ? 1 : -1));
 
         return (
           <TableContainer
             component={Paper}
-            style={{ width: "50%", margin: "0 auto" }}
+            style={{ width: "50%", margin: "2rem auto" }}
           >
-            <h3>{`Market Size data of ${city} for the year ${year}`}</h3>
+            <span>
+              {city}/Zones:{this.getZonesList()}/{category}/{year}/{months}/
+              {nationalities}/{purchaseMode}/{placeOfPurchase}
+            </span>
             <Table aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>

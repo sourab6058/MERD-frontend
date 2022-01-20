@@ -21,6 +21,12 @@ export class Tables extends Component {
       this.props.purchaseMode.length === 2
         ? "(Offline & Online)"
         : this.props.purchaseMode[0];
+    const placeOfPurchase =
+      this.props.placeOfPurchase.length === 2
+        ? "All Places"
+        : this.props.placeOfPurchase[0] === "in"
+        ? "Bought In The Cities"
+        : "Bought Outside The Cities";
     let year = -1;
     if (data && data.length > 0) {
       console.log("LOOOOOK");
@@ -102,11 +108,20 @@ export class Tables extends Component {
                                                       data={nationality.data}
                                                       year={year.year}
                                                       city={city.city}
+                                                      category={
+                                                        subsubcategory.subsubcategory
+                                                      }
                                                       totalMarketSize={
                                                         nationality.total_zone_market_size
                                                       }
+                                                      nationality={
+                                                        nationality.nationality
+                                                      }
                                                       purchaseMode={
                                                         purchaseMode
+                                                      }
+                                                      placeOfPurchase={
+                                                        placeOfPurchase
                                                       }
                                                     />
                                                   </div>
@@ -134,10 +149,19 @@ export class Tables extends Component {
                                                 data={nationality.data}
                                                 year={year.year}
                                                 city={city.city}
+                                                category={
+                                                  subcategory.subcategory
+                                                }
                                                 totalMarketSize={
                                                   nationality.total_zone_market_size
                                                 }
+                                                nationality={
+                                                  nationality.nationality
+                                                }
                                                 purchaseMode={purchaseMode}
+                                                placeOfPurchase={
+                                                  placeOfPurchase
+                                                }
                                               />
                                             </div>
                                           )
@@ -162,12 +186,15 @@ export class Tables extends Component {
                                     </Typography>
                                     <DistinctTable
                                       data={nationality.data}
+                                      category={category.category}
                                       year={year.year}
                                       city={city.city}
+                                      nationality={nationality.nationality}
                                       totalMarketSize={
                                         nationality.total_zone_market_size
                                       }
                                       purchaseMode={purchaseMode}
+                                      placeOfPurchase={placeOfPurchase}
                                     />
                                   </div>
                                 ))}
@@ -219,8 +246,12 @@ export class Tables extends Component {
                                 propertyName="category"
                                 data={city.market_data}
                                 year={year.year}
+                                months={this.props.months}
                                 city={city.city}
                                 purchaseMode={purchaseMode}
+                                nationalities={this.props.nationalities}
+                                placeOfPurchase={placeOfPurchase}
+                                zones={this.props.zones}
                               />
                             </div>
                           ))
@@ -242,6 +273,7 @@ export class Tables extends Component {
                                       data={category.subcategories}
                                       year={year.year}
                                       city={city.city}
+                                      nationalities={this.props.nationalities}
                                       purchaseMode={purchaseMode}
                                     />
                                   ) : (
@@ -259,6 +291,10 @@ export class Tables extends Component {
                                             data={subcategory.subsubcategories}
                                             year={year.year}
                                             city={city.city}
+                                            placeOfPurchase={placeOfPurchase}
+                                            nationalities={
+                                              this.props.nationalities
+                                            }
                                             purchaseMode={purchaseMode}
                                           />
                                         </div>
@@ -277,6 +313,7 @@ export class Tables extends Component {
           </div>
         );
       } else if (displayMode === "nationality") {
+        console.log(data);
         return (
           <div style={{ textAlign: "center" }}>
             {data.map((division) => (
@@ -285,16 +322,17 @@ export class Tables extends Component {
                   <div key={uuidv4()}>
                     {year.cities.map((city) =>
                       city.categories.map((category) => (
-                        <div key={uuidv4()} style={{ margin: "20px 0" }}>
-                          <Typography variant="h3">
-                            {_.capitalize(category.category)}
-                          </Typography>
+                        <div key={uuidv4()} style={{ margin: "20px 4rem" }}>
                           {category.hasOwnProperty("data") ? (
                             <NationalityTable
                               data={category.data}
                               year={year.year}
+                              months={this.props.months}
                               city={city.city}
                               purchaseMode={purchaseMode}
+                              placeOfPurchase={placeOfPurchase}
+                              category={category.category}
+                              nationalities={this.props.nationalities}
                             />
                           ) : (
                             category.subcategories.map((subcategory) => (
@@ -308,6 +346,8 @@ export class Tables extends Component {
                                     year={year.year}
                                     city={city.city}
                                     purchaseMode={purchaseMode}
+                                    nationalities={this.props.nationalities}
+                                    placeOfPurchase={placeOfPurchase}
                                   />
                                 ) : (
                                   subcategory.subsubcategories.map(
@@ -323,7 +363,11 @@ export class Tables extends Component {
                                           data={subsubcategory.data}
                                           year={year.year}
                                           city={city.city}
+                                          nationalities={
+                                            this.props.nationalities
+                                          }
                                           purchaseMode={purchaseMode}
+                                          placeOfPurchase={placeOfPurchase}
                                         />
                                       </div>
                                     )
@@ -358,6 +402,8 @@ export class Tables extends Component {
                       year={division.year}
                       city={division.city}
                       purchaseMode={purchaseMode}
+                      nationalities={this.props.nationalities}
+                      placeOfPurchase={placeOfPurchase}
                     />
                   </div>
                 </div>
