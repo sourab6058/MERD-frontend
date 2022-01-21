@@ -159,6 +159,8 @@ export class NewDashboard extends Component {
     this.setState({ subscriber: true });
     const isSubscribed = this.checkUserRights();
 
+    console.log(isSubscribed);
+
     if (!isSubscribed) {
       this.setState({ subscriber: false, subscriptionAlertOpen: true });
       console.log("not subscribed to the data");
@@ -667,7 +669,41 @@ export class NewDashboard extends Component {
       else cityItem += zones;
       finalStr.push(cityItem);
     }
+    console.log(this.insertCommas(finalStr));
     return this.insertCommas(finalStr);
+  };
+
+  getCategory = (id, propertyName) => {
+    if (propertyName == "category") {
+      let category = this.state.category.find((cat) => cat.id === id);
+      return { name: category.name, id: category.id };
+    } else if (propertyName === "subcategory") {
+      let category = {};
+      this.state.category.forEach((cat) => {
+        cat.sub_category.forEach((sub_cat) => {
+          if (sub_cat.id === id) {
+            category.name = cat.name;
+            category.id = cat.id;
+            return;
+          }
+        });
+      });
+      return category;
+    } else if (propertyName === "subsubcategory") {
+      let category = {};
+      this.state.category.forEach((cat) => {
+        cat.sub_category.forEach((sub_cat) => {
+          sub_cat.sub_sub_category.forEach((sub_sub_cat) => {
+            if (sub_sub_cat.id === id) {
+              category.name = cat.name;
+              category.id = cat.id;
+              return;
+            }
+          });
+        });
+      });
+      return category;
+    }
   };
 
   checkUserRights = () => {
@@ -699,6 +735,28 @@ export class NewDashboard extends Component {
         }
       });
     });
+    let allSubscribed = true;
+    const subCatgSelected = this.state.postObject.subCategories;
+
+    const subCatIntersection = subCatgSelected.filter((subSel) => {
+      const catId = this.getCategory(subSel, "subcategory").id;
+      if (catgSubscribed.includes(catId)) {
+        return subSel;
+      } else {
+        allSubscribed = false;
+      }
+    });
+
+    const subSubCatgSelected = this.state.postObject.subSubCategories;
+
+    const subsubCatIntersection = subSubCatgSelected.filter((subSubSel) => {
+      const catId = this.getCategory(subSubSel, "subsubcategory").id;
+      if (catgSubscribed.includes(catId)) {
+        return subSubSel;
+      } else {
+        allSubscribed = false;
+      }
+    });
 
     const cityIntersection = [];
     const cityNotSubscribed = [];
@@ -726,14 +784,25 @@ export class NewDashboard extends Component {
       },
     });
 
-    if (cityIntersection.length === 0 || catgIntersection.length === 0) {
+    if (
+      catgIntersection.length === 0 &&
+      subCatIntersection.length === 0 &&
+      subsubCatIntersection.length === 0
+    ) {
+      this.setState({ subscriber: false });
+      return false;
+    }
+
+    if (cityIntersection.length === 0) {
       this.setState({ subscriber: false });
       return false;
     }
 
     if (
       cityIntersection.length !== citiesSelected.length ||
-      catgIntersection.length !== catgSeleted.length
+      catgIntersection.length !== catgSeleted.length ||
+      subCatIntersection.length !== subCatgSelected.length ||
+      subsubCatIntersection.length !== subSubCatgSelected.length
     ) {
       this.setState({ subscriber: false, alertOpenInvalid: true });
       console.log(
@@ -747,6 +816,8 @@ export class NewDashboard extends Component {
     let tempData = this.state.postObject;
     tempData.cities = cityIntersection;
     tempData.categories = catgIntersection;
+    tempData.subCategories = subCatIntersection;
+    tempData.subSubCategories = subsubCatIntersection;
 
     return {
       postObject: tempData,
@@ -898,7 +969,7 @@ export class NewDashboard extends Component {
     }
 
     return (
-      <div>
+      <div style={{ position: "relative" }}>
         <div
           ref={(el) => (this.top = el)}
           style={{ position: "absolute", top: 0, left: 0 }}
@@ -1329,7 +1400,7 @@ export class NewDashboard extends Component {
                 </h1>
               ) : (
                 this.state.loading && (
-                  <>
+                  <div style={{ marginBlock: "4rem" }}>
                     <Tables
                       data={this.state.tableData}
                       displayMode={this.state.displayMode}
@@ -1350,7 +1421,7 @@ export class NewDashboard extends Component {
                       }
                       zones={this.zonesToCity(checkZone)}
                     ></Tables>
-                  </>
+                  </div>
                 )
               )}
             </Content>

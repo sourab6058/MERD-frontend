@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 export class Tables extends Component {
   render() {
     console.log("SHOWDATA");
-    console.log(this.props);
+    console.log(this.props.zones);
     const data = this.props.data;
     const displayMode = this.props.displayMode;
     const purchaseMode =
@@ -123,6 +123,10 @@ export class Tables extends Component {
                                                       placeOfPurchase={
                                                         placeOfPurchase
                                                       }
+                                                      zones={this.props.zones}
+                                                      monthsSelected={
+                                                        this.props.months
+                                                      }
                                                     />
                                                   </div>
                                                 )
@@ -162,6 +166,10 @@ export class Tables extends Component {
                                                 placeOfPurchase={
                                                   placeOfPurchase
                                                 }
+                                                monthsSelected={
+                                                  this.props.months
+                                                }
+                                                zones={this.props.zones}
                                               />
                                             </div>
                                           )
@@ -195,6 +203,8 @@ export class Tables extends Component {
                                       }
                                       purchaseMode={purchaseMode}
                                       placeOfPurchase={placeOfPurchase}
+                                      monthsSelected={this.props.months}
+                                      zones={this.props.zones}
                                     />
                                   </div>
                                 ))}
@@ -275,6 +285,9 @@ export class Tables extends Component {
                                       city={city.city}
                                       nationalities={this.props.nationalities}
                                       purchaseMode={purchaseMode}
+                                      placeOfPurchase={placeOfPurchase}
+                                      zones={this.props.zones}
+                                      months={this.props.months}
                                     />
                                   ) : (
                                     category.subcategories.map(
@@ -296,6 +309,9 @@ export class Tables extends Component {
                                               this.props.nationalities
                                             }
                                             purchaseMode={purchaseMode}
+                                            placeOfPurchase={placeOfPurchase}
+                                            months={this.props.months}
+                                            zones={this.props.zones}
                                           />
                                         </div>
                                       )
@@ -333,6 +349,7 @@ export class Tables extends Component {
                               placeOfPurchase={placeOfPurchase}
                               category={category.category}
                               nationalities={this.props.nationalities}
+                              zones={this.props.zones}
                             />
                           ) : (
                             category.subcategories.map((subcategory) => (
@@ -345,9 +362,12 @@ export class Tables extends Component {
                                     data={subcategory.data}
                                     year={year.year}
                                     city={city.city}
+                                    category={subcategory.subcategory}
                                     purchaseMode={purchaseMode}
                                     nationalities={this.props.nationalities}
                                     placeOfPurchase={placeOfPurchase}
+                                    months={this.props.months}
+                                    zones={this.props.zones}
                                   />
                                 ) : (
                                   subcategory.subsubcategories.map(
@@ -368,6 +388,9 @@ export class Tables extends Component {
                                           }
                                           purchaseMode={purchaseMode}
                                           placeOfPurchase={placeOfPurchase}
+                                          months={this.props.months}
+                                          zones={this.props.zones}
+                                          category={subsubcategory.subcategory}
                                         />
                                       </div>
                                     )

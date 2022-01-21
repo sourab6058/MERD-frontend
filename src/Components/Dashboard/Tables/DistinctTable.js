@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 
 import { v4 as uuidv4 } from "uuid";
 
+import "../../../css/tables.css";
+
 const monthNames = {
   1: "January",
   2: "February",
@@ -73,21 +75,19 @@ class DistinctTable extends Component {
     return `$${this.numberWithCommas(num)}`;
   }
 
-  getZonesList() {
-    const zones = this.props.data.map((row) => row.zone);
-    return zones.join();
+  getZones(city, citiesAndZones) {
+    console.log(citiesAndZones);
+    const zones = citiesAndZones.find((cityAndZone) => {
+      if (cityAndZone.includes(city)) {
+        return cityAndZone.split("<")[1];
+      }
+    });
   }
-
   getMonthNameList(months) {
     return months.length === 12
       ? "All Months"
       : months.map((month) => monthNames[month]).join();
   }
-
-  componentDidMount = () => {
-    console.log(this.props);
-    this.getZonesList();
-  };
 
   render() {
     const purchaseMode = this.props.purchaseMode;
@@ -97,7 +97,17 @@ class DistinctTable extends Component {
         if (obj.total_market_size > 0) empty = false;
       });
       if (!empty) {
-        const { data } = this.props;
+        const {
+          data,
+          city,
+          zones,
+          category,
+          year,
+          monthsSelected,
+          nationality,
+          purchaseMode,
+          placeOfPurchase,
+        } = this.props;
         data.sort((a, b) => (parseInt(a.zone) > parseInt(b.zone) ? 1 : -1));
         data.forEach((data) => {
           data.month.sort((a, b) => (a.month > b.month ? 1 : -1));
@@ -108,11 +118,9 @@ class DistinctTable extends Component {
 
         return (
           <TableContainer component={Paper} style={{ padding: "0.5rem" }}>
-            <span>
-              {this.props.city}/Zones:{this.getZonesList()}/
-              {this.props.category}/{this.props.year}/
-              {this.getMonthNameList(months)}/{this.props.nationality}/
-              {this.props.purchaseMode}/{this.props.placeOfPurchase}
+            <span className="table-header">
+              {city}/Zones:{this.getZones(city, zones)}/{category}/{year}/
+              {monthsSelected}/{nationality}/{purchaseMode}/{placeOfPurchase}
             </span>
             <Table aria-label="simple table" size="small">
               <TableHead>

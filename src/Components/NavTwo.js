@@ -21,7 +21,7 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
   const usermenu = (
     <Menu>
       <Menu.Item>
-        <a rel="noopener noreferrer" href="https://merd.online/">
+        <a rel="noopener noreferrer" href="https://merd.online/account/">
           View Account
         </a>
       </Menu.Item>
@@ -61,10 +61,8 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
       </div>
       <Link to="/" className="cmp-logo">
         <span className="cpm-name">middle east retail data</span>
-        
-        <span className="sub-text">
-          ACCURATE.INSTANT.DETAILED.AFFORDABLE
-        </span>
+
+        <span className="sub-text">ACCURATE.INSTANT.DETAILED.AFFORDABLE</span>
       </Link>
       <ul>
         <li>

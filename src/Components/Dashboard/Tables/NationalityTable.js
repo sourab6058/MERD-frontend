@@ -9,6 +9,8 @@ import Paper from "@material-ui/core/Paper";
 
 import { v4 as uuidv4 } from "uuid";
 
+import "../../../css/tables.css";
+
 function roundToNearestThousand(num) {
   if (typeof num !== "number") return;
   return 1000 * Math.round(num * 0.001);
@@ -62,7 +64,7 @@ class DistinctTable extends Component {
             component={Paper}
             style={{ width: "50%", margin: "2rem auto" }}
           >
-            <span>
+            <span className="table-header">
               {city}/Zones:{this.getZonesList()}/{category}/{year}/{months}/
               {nationalities}/{purchaseMode}/{placeOfPurchase}
             </span>

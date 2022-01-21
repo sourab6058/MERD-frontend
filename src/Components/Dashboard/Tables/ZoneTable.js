@@ -8,6 +8,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
+import "../../../css/tables.css";
+
 import { v4 as uuidv4 } from "uuid";
 
 function roundToNearestThousand(num) {
@@ -21,7 +23,7 @@ class ZoneTable extends Component {
     this.state = {};
   }
   componentDidMount = () => {
-    console.log(this.props);
+    console.log(this.props.zones);
   };
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -40,7 +42,8 @@ class ZoneTable extends Component {
     return total;
   }
   getZones(city, citiesAndZones) {
-    const zones = citiesAndZones.forEach((cityAndZone) => {
+    console.log(citiesAndZones);
+    const zones = citiesAndZones.find((cityAndZone) => {
       if (cityAndZone.includes(city)) {
         return cityAndZone;
       }
@@ -76,8 +79,8 @@ class ZoneTable extends Component {
             component={Paper}
             style={{ width: "50%", margin: "0 auto", padding: "0.25rem" }}
           >
-            <span>
-              {city}/{this.getZones(city, zones)}/
+            <span className="table-header">
+              {city}/Zones:{this.getZones(city, zones)}/
               {this.getCategories(propertyName, data)}/{year}/{months}/
               {nationalities}/{purchaseMode}/{placeOfPuchase}
             </span>
