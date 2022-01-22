@@ -1,5 +1,4 @@
 .sub-main-container {
-
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
@@ -17,18 +16,17 @@
   left: 0;
   transition: all 300ms;
 }
-.handshake-img-div{
+.handshake-img-div {
   width: 100%;
   height: 20rem;
-  
 }
-.handshake-img{
+.handshake-img {
   object-fit: cover;
   width: 100%;
   height: 20rem;
-  box-shadow: 0px 0px 50px 28px rgba(105,103,103,0.53);
-  -webkit-box-shadow: 0px 0px 50px 28px rgba(105,103,103,0.53);
-  -moz-box-shadow: 0px 0px 50px 28px rgba(105,103,103,0.53);
+  box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
+  -webkit-box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
+  -moz-box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
 }
 .sub-hero {
   min-width: 100vw;
@@ -43,16 +41,16 @@
   background-color: #fff;
   text-align: center;
 }
-.sub-hero-text{
+.sub-hero-text {
   color: #000;
   display: block;
   width: 86%;
 }
-.sub-content{
+.sub-content {
   display: flex;
   flex-direction: row;
 }
-.sub-text{
+.sub-text {
   text-align: start;
 }
 .next-btn {
@@ -64,10 +62,13 @@
   cursor: pointer;
   font-size: 2rem;
 }
-.next-btn-div{
-  
+.prev-btn {
+  position: absolute;
+  border: 1px solid red;
+  top: 20px;
+  left: 20px;
+  z-index: 1;
 }
-
 .next-btn:hover {
   background-color: #000;
   color: rgb(249, 249, 252);
@@ -88,6 +89,7 @@
 }
 
 .option-main {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

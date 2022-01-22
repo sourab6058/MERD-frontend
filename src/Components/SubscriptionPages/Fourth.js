@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import ResetIcon from "@material-ui/icons/Cached";
+import { ArrowBackIos } from "@material-ui/icons";
 import { Modal } from "antd";
 import { Menu, Dropdown } from "antd";
 import axios from "axios";
@@ -46,6 +47,7 @@ const Fourth = ({
   setSubscriptionsCount,
   setCities,
   setCategories,
+  handlePrev,
 }) => {
   const [options, setOptions] = useState(data);
   const [openProceedModal, setOpenProceedModal] = useState(false);
@@ -173,6 +175,9 @@ const Fourth = ({
       )}
       <div className="option-main">
         <div className="sub-option-container">
+          <span onClick={handlePrev} className="prev-btn">
+            <ArrowBackIos style={{ fontSize: "3rem" }} />
+          </span>
           Now, lets get started with the selections. Choose the city and
           category you want to subscribe.
           <div className="title-dd-section">

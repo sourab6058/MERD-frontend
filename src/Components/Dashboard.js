@@ -62,6 +62,7 @@ const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
 export class NewDashboard extends Component {
   constructor(props) {
     super(props);
+    this.dataToBeEmailed = null;
 
     //optionData is the raw data received from the backend
     //All other array variables are used to render the menu
@@ -139,7 +140,7 @@ export class NewDashboard extends Component {
   //GET request
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
-    this.scrollToTop(); //scrolls to the top, on loading, otherwise scrolls to footer.
+    window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
     this.createData(optionData);
     // axios
     //   .get(API_URL)
@@ -226,60 +227,56 @@ export class NewDashboard extends Component {
   handleCancelPopUp = (state) => {
     this.setState({ cancelPopUpOpen: state });
     this.setState({ alertOpenInvalid: false });
-    if (!state) this.submitForm();
+    if (!state) this.submitForm(this.dataToBeEmailed, false);
   };
 
   hideOneTimeSubPopUp = () => {
     this.setState({ oneTimeSubPopUpOpen: false });
     this.setState({ subscriptionAlertOpen: false });
-    this.submitForm();
+    this.submitForm(this.dataToBeEmailed, true);
   };
 
-  submitForm = () => {
+  submitForm = (data, oneTime) => {
     const user = getUserDetail();
-
-    let cities = [];
-    let categories = [];
-
-    this.state.cities.forEach((city) => {
-      this.state.notSubscribed.cities.forEach((nsCity) => {
-        if (city.id === nsCity) {
-          cities.push(city.city);
-        }
-      });
-    });
-
-    this.state.category.forEach((catg) => {
-      this.state.notSubscribed.catgs.forEach((nsCatg) => {
-        if (catg.id === nsCatg) {
-          categories.push(catg.name);
-        }
-      });
-    });
-
-    console.log(cities.join(), categories.join());
 
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
     form.method = "POST"; // forms by default use GET query strings
     form.target = "_blank";
-    form.action = CANCEL_URL;
+    form.action = "https://merd.online/subscription-process-cancel/";
+    if (oneTime) {
+      let input = document.createElement("input");
+      input.name = "Type";
+      input.value = "One Time Buy";
+      form.appendChild(input);
 
-    const cityInput = document.createElement("input");
-    cityInput.name = "cities";
-    cityInput.value = cities.join();
-    form.appendChild(cityInput);
+      input = document.createElement("input");
+      input.name = "Username";
+      input.value = user.username;
+      form.appendChild(input);
+      for (let attribute in data) {
+        input = document.createElement("input");
+        input.name = attribute;
+        input.value = data[attribute].join();
+        form.appendChild(input);
+      }
+    } else {
+      let input = document.createElement("input");
+      input.name = "Type";
+      input.value = "Cancel";
+      form.appendChild(input);
 
-    const categoryInput = document.createElement("input");
-    categoryInput.name = "categories";
-    categoryInput.value = categories.join();
-    form.appendChild(categoryInput);
-
-    const nameInput = document.createElement("input");
-    nameInput.name = "username";
-    nameInput.value = user.username;
-    form.appendChild(nameInput);
-
+      input = document.createElement("input");
+      input.name = "Username";
+      input.value = user.username;
+      form.appendChild(input);
+      for (let attribute in data) {
+        input = document.createElement("input");
+        input.name = attribute;
+        input.value = data[attribute].join();
+        form.appendChild(input);
+      }
+    }
     document.body.appendChild(form); // forms cannot be submitted outside of body
     form.submit();
   };
@@ -735,15 +732,12 @@ export class NewDashboard extends Component {
         }
       });
     });
-    let allSubscribed = true;
     const subCatgSelected = this.state.postObject.subCategories;
 
     const subCatIntersection = subCatgSelected.filter((subSel) => {
       const catId = this.getCategory(subSel, "subcategory").id;
       if (catgSubscribed.includes(catId)) {
         return subSel;
-      } else {
-        allSubscribed = false;
       }
     });
 
@@ -753,8 +747,6 @@ export class NewDashboard extends Component {
       const catId = this.getCategory(subSubSel, "subsubcategory").id;
       if (catgSubscribed.includes(catId)) {
         return subSubSel;
-      } else {
-        allSubscribed = false;
       }
     });
 
@@ -813,18 +805,85 @@ export class NewDashboard extends Component {
       );
     }
 
-    let tempData = this.state.postObject;
-    tempData.cities = cityIntersection;
-    tempData.categories = catgIntersection;
-    tempData.subCategories = subCatIntersection;
-    tempData.subSubCategories = subsubCatIntersection;
+    let dataToBeEmailed = {
+      cities: [],
+      categories: [],
+      years: this.state.postObject.years,
+      months: [],
+      nationalities: [],
+      placeOfPurchase: this.state.postObject.placeOfPurchase,
+      purchaseMode: this.state.postObject.purchaseMode,
+    };
+
+    citiesSelected.forEach((city) => {
+      this.state.cities.forEach((cityOption) => {
+        if (city === cityOption.id) {
+          dataToBeEmailed.cities = [...dataToBeEmailed.cities, cityOption.city];
+        }
+      });
+    });
+
+    dataToBeEmailed.categories = catgSeleted.map(
+      (catg) => this.getCategory(catg, "category").name
+    );
+    dataToBeEmailed.categories = [
+      ...dataToBeEmailed.categories,
+      ...subCatgSelected.map((sc) => this.getCategory(sc, "subcategory").name),
+    ];
+    dataToBeEmailed.categories = [
+      ...dataToBeEmailed.categories,
+      ...subSubCatgSelected.map(
+        (ssc) => this.getCategory(ssc, "subsubcategory").name
+      ),
+    ];
+
+    dataToBeEmailed.categories = [...new Set(dataToBeEmailed.categories)];
+
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    dataToBeEmailed.months = this.state.postObject.months.map(
+      (mon) => monthNames[mon - 1]
+    );
+
+    this.state.nationality.forEach((natOption) => {
+      this.state.postObject.nationalities.forEach((nat) => {
+        if (natOption.id === nat) {
+          dataToBeEmailed.nationalities.push(natOption.nationality);
+        }
+      });
+    });
+
+    this.dataToBeEmailed = dataToBeEmailed;
+
+    console.log(this.dataToBeEmailed);
+
+    let allowedData = this.state.postObject;
+    allowedData.cities = cityIntersection;
+    allowedData.categories = catgIntersection;
+    allowedData.subCategories = subCatIntersection;
+    allowedData.subSubCategories = subsubCatIntersection;
 
     return {
-      postObject: tempData,
+      postObject: allowedData,
       selectedCities: citiesSelected,
       selectedCatgs: catgSeleted,
     };
   };
+
+  getDataToEmail = (postData) => {};
 
   render() {
     let checkCity = [];
