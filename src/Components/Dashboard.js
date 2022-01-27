@@ -9,6 +9,7 @@ import axios from "axios";
 import * as _ from "lodash";
 
 import rendercsv from "../utils/rendercsv";
+import renderExcel from "../utils/renderExcel";
 import getUserDetail from "../utils/getUserDetail";
 import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
@@ -313,16 +314,61 @@ export class NewDashboard extends Component {
 
   getCsvData = () => {
     //Passing control to utils/rendercsv for the generation of csv-react readable data (Multidimensional Array)
+    const cities = this.state.cities;
+    const subcities = this.state.postObject.cities;
+    const subzones = this.state.postObject.zones;
+
+    const checkCity = [];
+    const checkZone = [];
+    //checkArray will get all zones of particular city
+
+    //Populating checkArray
+    cities.forEach((data) => {
+      subcities.forEach((data2) => {
+        if (data.id === data2) {
+          checkCity.push(data.city);
+          data.zone.forEach((id) => {
+            subzones.forEach((data3) => {
+              if (id.id === data3) {
+                checkZone.push(id);
+              }
+            });
+          });
+        }
+      });
+    });
+
+    const zones = this.zonesToCity(checkZone);
+
+    let nationalities = [];
+
+    const nat = this.state.nationality;
+    const subnat = this.state.postObject.nationalities;
+    nat.forEach((data) => {
+      subnat.forEach((data2) => {
+        if (data.id === data2) {
+          nationalities.push(data.nationality);
+        }
+      });
+    });
+    if (nationalities.length === this.state.nationality.length)
+      nationalities = ["All Nationalities"];
+
     let csvData = rendercsv(
       this.state.tableData,
       this.state.postObject.months,
-      this.state.displayMode
+      this.state.displayMode,
+      this.state.postObject.purchaseMode,
+      this.state.postObject.placeOfPurchase,
+      zones,
+      nationalities
     );
 
     //If data received, update state. *May not need this if condition
     if (csvData) {
       this.setState({ csvData });
     }
+    return csvData;
   };
 
   //Used to create state variables that are used to display the menus
@@ -1444,14 +1490,15 @@ export class NewDashboard extends Component {
                 >
                   Registered(for testing)
                 </Checkbox> */}
-                <CSVLink onClick={this.getCsvData} data={this.state.csvData}>
-                  <Button
-                    icon={<DownloadOutlined />}
-                    disabled={this.state.tableData.length > 0 ? false : true}
-                  >
-                    Download CSV
-                  </Button>
-                </CSVLink>
+                {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
+                <Button
+                  icon={<DownloadOutlined />}
+                  // disabled={this.state.tableData.length > 0 ? false : true}
+                  onClick={() => renderExcel(this.getCsvData())}
+                >
+                  Download CSV
+                </Button>
+                {/* </CSVLink> */}
               </div>
               {!this.state.registeredUser ? (
                 <h1 style={{ fontSize: "1.5rem" }}>
