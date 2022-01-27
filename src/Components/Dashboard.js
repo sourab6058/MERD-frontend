@@ -16,7 +16,7 @@ import { CSVLink } from "react-csv";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
-import "antd/dist/antd.css";
+import "antd/dist/antd.min.css";
 
 import "../css/modal.css";
 import "../css/dashboard.css";
