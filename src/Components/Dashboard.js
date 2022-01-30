@@ -243,8 +243,8 @@ export class NewDashboard extends Component {
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
     form.method = "POST"; // forms by default use GET query strings
-    form.target = "_blank";
-    form.action = "https://merd.online/subscription-process-cancel/";
+    form.target = "hidden-frame";
+    form.action = CANCEL_URL;
     if (oneTime) {
       let input = document.createElement("input");
       input.name = "Type";
@@ -252,7 +252,7 @@ export class NewDashboard extends Component {
       form.appendChild(input);
 
       input = document.createElement("input");
-      input.name = "Username";
+      input.name = "username";
       input.value = user.username;
       form.appendChild(input);
       for (let attribute in data) {
@@ -268,7 +268,7 @@ export class NewDashboard extends Component {
       form.appendChild(input);
 
       input = document.createElement("input");
-      input.name = "Username";
+      input.name = "username";
       input.value = user.username;
       form.appendChild(input);
       for (let attribute in data) {
@@ -1493,7 +1493,7 @@ export class NewDashboard extends Component {
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
                 <Button
                   icon={<DownloadOutlined />}
-                  // disabled={this.state.tableData.length > 0 ? false : true}
+                  disabled={this.state.tableData.length > 0 ? false : true}
                   onClick={() => renderExcel(this.getCsvData())}
                 >
                   Download CSV
@@ -1533,6 +1533,7 @@ export class NewDashboard extends Component {
             </Content>
           </Layout>
         </div>
+        <iframe name="hidden-frame" style={{ visibility: "hidden" }}></iframe>
         <Footer />
       </div>
     );

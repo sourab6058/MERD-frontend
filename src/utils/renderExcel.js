@@ -12,9 +12,17 @@ async function renderExcel(csvData) {
   console.table(csvData);
   // return;
 
-  const data = [];
+  const data = [
+    repeatCell(6, {
+      value: "Middle East Retail Data",
+      align: "center",
+      fontWeight: "bold",
+      backgroundColor: "#144380",
+      color: "#ffffff",
+    }),
+  ];
 
-  csvData.forEach((row, idx) => {
+  csvData.forEach((row) => {
     if (row.length === 1) {
       //for title
       data.push([
@@ -71,7 +79,7 @@ async function renderExcel(csvData) {
 
   // When passing `data` for each cell.
   await writeXlsxFile(data, {
-    fileName: "file.xlsx",
+    fileName: "MERD.xlsx",
   });
 }
 
