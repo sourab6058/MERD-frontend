@@ -243,7 +243,7 @@ export class NewDashboard extends Component {
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
     form.method = "POST"; // forms by default use GET query strings
-    form.target = "hidden-frame";
+    form.target = "_blank";
     form.action = CANCEL_URL;
     if (oneTime) {
       let input = document.createElement("input");
@@ -822,35 +822,6 @@ export class NewDashboard extends Component {
       },
     });
 
-    if (
-      catgIntersection.length === 0 &&
-      subCatIntersection.length === 0 &&
-      subsubCatIntersection.length === 0
-    ) {
-      this.setState({ subscriber: false });
-      return false;
-    }
-
-    if (cityIntersection.length === 0) {
-      this.setState({ subscriber: false });
-      return false;
-    }
-
-    if (
-      cityIntersection.length !== citiesSelected.length ||
-      catgIntersection.length !== catgSeleted.length ||
-      subCatIntersection.length !== subCatgSelected.length ||
-      subsubCatIntersection.length !== subSubCatgSelected.length
-    ) {
-      this.setState({ subscriber: false, alertOpenInvalid: true });
-      console.log(
-        cityIntersection,
-        citiesSubscribed,
-        catgIntersection,
-        catgSubscribed
-      );
-    }
-
     let dataToBeEmailed = {
       cities: [],
       categories: [],
@@ -915,6 +886,28 @@ export class NewDashboard extends Component {
     this.dataToBeEmailed = dataToBeEmailed;
 
     console.log(this.dataToBeEmailed);
+    if (
+      catgIntersection.length === 0 &&
+      subCatIntersection.length === 0 &&
+      subsubCatIntersection.length === 0
+    ) {
+      this.setState({ subscriber: false });
+      return false;
+    }
+
+    if (cityIntersection.length === 0) {
+      this.setState({ subscriber: false });
+      return false;
+    }
+
+    if (
+      cityIntersection.length !== citiesSelected.length ||
+      catgIntersection.length !== catgSeleted.length ||
+      subCatIntersection.length !== subCatgSelected.length ||
+      subsubCatIntersection.length !== subSubCatgSelected.length
+    ) {
+      this.setState({ subscriber: false, alertOpenInvalid: true });
+    }
 
     let allowedData = this.state.postObject;
     allowedData.cities = cityIntersection;
