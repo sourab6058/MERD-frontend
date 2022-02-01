@@ -253,11 +253,12 @@ export class NewDashboard extends Component {
       input.name = "type";
       input.value = "One Time Buy";
       form.appendChild(input);
-
-      input = document.createElement("input");
-      input.name = "username";
-      input.value = user.username;
-      form.appendChild(input);
+      if (user.username) {
+        input = document.createElement("input");
+        input.name = "username";
+        input.value = user.username;
+        form.appendChild(input);
+      }
       for (let attribute in data) {
         input = document.createElement("input");
         input.name = attribute;
