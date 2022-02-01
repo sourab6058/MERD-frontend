@@ -240,14 +240,17 @@ export class NewDashboard extends Component {
   submitForm = (data, oneTime) => {
     const user = getUserDetail();
 
+    let formTarget = user.username ? "hidden-frame" : "_blank";
+    formTarget = "_blank";
+
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
     form.method = "POST"; // forms by default use GET query strings
-    form.target = "_blank";
+    form.target = formTarget;
     form.action = CANCEL_URL;
     if (oneTime) {
       let input = document.createElement("input");
-      input.name = "Type";
+      input.name = "type";
       input.value = "One Time Buy";
       form.appendChild(input);
 
@@ -263,7 +266,7 @@ export class NewDashboard extends Component {
       }
     } else {
       let input = document.createElement("input");
-      input.name = "Type";
+      input.name = "type";
       input.value = "Cancel";
       form.appendChild(input);
 
@@ -749,78 +752,14 @@ export class NewDashboard extends Component {
     }
   };
 
+  getDataToEmail = (postData) => {};
+
   checkUserRights = () => {
-    console.log(this.state);
     const userDetails = getUserDetail();
-    if (!userDetails.username) {
-      this.setState({ registeredUser: false });
-      return false;
-    }
-
     const citiesSelected = this.state.postObject.cities;
-    const citiesSubscribed = [];
-
-    userDetails.cities.forEach((city) => {
-      this.state.cities.forEach((cityOption) => {
-        if (city === cityOption.city) {
-          citiesSubscribed.push(cityOption.id);
-        }
-      });
-    });
-
     const catgSeleted = this.state.postObject.categories;
-    const catgSubscribed = [];
-
-    userDetails.categories.forEach((catg) => {
-      this.state.category.forEach((catgOption) => {
-        if (catg === catgOption.name) {
-          catgSubscribed.push(catgOption.id);
-        }
-      });
-    });
     const subCatgSelected = this.state.postObject.subCategories;
-
-    const subCatIntersection = subCatgSelected.filter((subSel) => {
-      const catId = this.getCategory(subSel, "subcategory").id;
-      if (catgSubscribed.includes(catId)) {
-        return subSel;
-      }
-    });
-
     const subSubCatgSelected = this.state.postObject.subSubCategories;
-
-    const subsubCatIntersection = subSubCatgSelected.filter((subSubSel) => {
-      const catId = this.getCategory(subSubSel, "subsubcategory").id;
-      if (catgSubscribed.includes(catId)) {
-        return subSubSel;
-      }
-    });
-
-    const cityIntersection = [];
-    const cityNotSubscribed = [];
-    citiesSelected.forEach((city) => {
-      if (citiesSubscribed.includes(city)) {
-        cityIntersection.push(city);
-      } else {
-        cityNotSubscribed.push(city);
-      }
-    });
-    const catgIntersection = [];
-    const catgNotSubscribed = [];
-    catgSeleted.forEach((cat) => {
-      if (catgSubscribed.includes(cat)) {
-        catgIntersection.push(cat);
-      } else {
-        catgNotSubscribed.push(cat);
-      }
-    });
-
-    this.setState({
-      notSubscribed: {
-        cities: cityNotSubscribed,
-        catgs: catgNotSubscribed,
-      },
-    });
 
     let dataToBeEmailed = {
       cities: [],
@@ -870,7 +809,6 @@ export class NewDashboard extends Component {
       "November",
       "December",
     ];
-
     dataToBeEmailed.months = this.state.postObject.months.map(
       (mon) => monthNames[mon - 1]
     );
@@ -885,45 +823,108 @@ export class NewDashboard extends Component {
 
     this.dataToBeEmailed = dataToBeEmailed;
 
-    console.log(this.dataToBeEmailed);
-    if (
-      catgIntersection.length === 0 &&
-      subCatIntersection.length === 0 &&
-      subsubCatIntersection.length === 0
-    ) {
-      this.setState({ subscriber: false });
+    console.log(dataToBeEmailed);
+
+    if (userDetails.username) {
+      const citiesSubscribed = [];
+
+      userDetails.cities.forEach((city) => {
+        this.state.cities.forEach((cityOption) => {
+          if (city === cityOption.city) {
+            citiesSubscribed.push(cityOption.id);
+          }
+        });
+      });
+
+      const catgSubscribed = [];
+
+      userDetails.categories.forEach((catg) => {
+        this.state.category.forEach((catgOption) => {
+          if (catg === catgOption.name) {
+            catgSubscribed.push(catgOption.id);
+          }
+        });
+      });
+
+      const subCatIntersection = subCatgSelected.filter((subSel) => {
+        const catId = this.getCategory(subSel, "subcategory").id;
+        if (catgSubscribed.includes(catId)) {
+          return subSel;
+        }
+      });
+
+      const subsubCatIntersection = subSubCatgSelected.filter((subSubSel) => {
+        const catId = this.getCategory(subSubSel, "subsubcategory").id;
+        if (catgSubscribed.includes(catId)) {
+          return subSubSel;
+        }
+      });
+
+      const cityIntersection = [];
+      const cityNotSubscribed = [];
+      citiesSelected.forEach((city) => {
+        if (citiesSubscribed.includes(city)) {
+          cityIntersection.push(city);
+        } else {
+          cityNotSubscribed.push(city);
+        }
+      });
+      const catgIntersection = [];
+      const catgNotSubscribed = [];
+      catgSeleted.forEach((cat) => {
+        if (catgSubscribed.includes(cat)) {
+          catgIntersection.push(cat);
+        } else {
+          catgNotSubscribed.push(cat);
+        }
+      });
+
+      this.setState({
+        notSubscribed: {
+          cities: cityNotSubscribed,
+          catgs: catgNotSubscribed,
+        },
+      });
+
+      if (
+        catgIntersection.length === 0 &&
+        subCatIntersection.length === 0 &&
+        subsubCatIntersection.length === 0
+      ) {
+        this.setState({ subscriber: false });
+        return false;
+      }
+
+      if (cityIntersection.length === 0) {
+        this.setState({ subscriber: false });
+        return false;
+      }
+
+      if (
+        cityIntersection.length !== citiesSelected.length ||
+        catgIntersection.length !== catgSeleted.length ||
+        subCatIntersection.length !== subCatgSelected.length ||
+        subsubCatIntersection.length !== subSubCatgSelected.length
+      ) {
+        this.setState({ subscriber: false, alertOpenInvalid: true });
+      }
+
+      let allowedData = this.state.postObject;
+      allowedData.cities = cityIntersection;
+      allowedData.categories = catgIntersection;
+      allowedData.subCategories = subCatIntersection;
+      allowedData.subSubCategories = subsubCatIntersection;
+
+      return {
+        postObject: allowedData,
+        selectedCities: citiesSelected,
+        selectedCatgs: catgSeleted,
+      };
+    } else {
+      this.setState({ registeredUser: false });
       return false;
     }
-
-    if (cityIntersection.length === 0) {
-      this.setState({ subscriber: false });
-      return false;
-    }
-
-    if (
-      cityIntersection.length !== citiesSelected.length ||
-      catgIntersection.length !== catgSeleted.length ||
-      subCatIntersection.length !== subCatgSelected.length ||
-      subsubCatIntersection.length !== subSubCatgSelected.length
-    ) {
-      this.setState({ subscriber: false, alertOpenInvalid: true });
-    }
-
-    let allowedData = this.state.postObject;
-    allowedData.cities = cityIntersection;
-    allowedData.categories = catgIntersection;
-    allowedData.subCategories = subCatIntersection;
-    allowedData.subSubCategories = subsubCatIntersection;
-
-    return {
-      postObject: allowedData,
-      selectedCities: citiesSelected,
-      selectedCatgs: catgSeleted,
-    };
   };
-
-  getDataToEmail = (postData) => {};
-
   render() {
     let checkCity = [];
     let checkZone = [];

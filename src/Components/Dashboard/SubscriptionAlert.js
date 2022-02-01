@@ -16,9 +16,9 @@ export default function SubscriptionAlert({
     handleSubscriptionAlert();
     showOneTimeSubPopUp();
   }
-  function handleCancel() {
+  function handleCancel(state) {
     handleSubscriptionAlert();
-    handleCancelPopUp(true);
+    handleCancelPopUp(state);
   }
   return (
     <>
@@ -40,7 +40,7 @@ export default function SubscriptionAlert({
               <span className="cta" onClick={handleOneTimeSubscribe}>
                 Try one time
               </span>
-              <span onClick={handleCancel} className="cta">
+              <span onClick={() => handleCancel(true)} className="cta">
                 Cancel
               </span>
             </DialogActions>
@@ -71,12 +71,9 @@ export default function SubscriptionAlert({
                   >
                     <span className="cta">Subscribe</span>
                   </Link>
-                  <a
-                    href="https://hosting.digifyworks.com/merd/subscription-process-cancel/"
-                    href="https://merd.online/subscription-process-cancel/"
-                  >
-                    <span className="cta">Cancel</span>
-                  </a>
+                  <span className="cta" onClick={() => handleCancel(false)}>
+                    Cancel
+                  </span>
                 </div>
               </DialogActions>
             </div>
