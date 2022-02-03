@@ -63,6 +63,7 @@ const Fourth = ({
         list.splice(idx, 1);
       }
     }
+    console.log(list);
   }
 
   const CategoryMenu = ({ options }) => {

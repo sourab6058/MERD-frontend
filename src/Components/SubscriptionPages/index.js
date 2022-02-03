@@ -26,6 +26,7 @@ const SubscriptionJourney = () => {
       setCities={setCities}
       setCategories={setCategories}
       setSubscriptionsCount={setSubscriptionsCount}
+      setShowPlansTable={setShowPlansTable}
     />,
   ];
 
