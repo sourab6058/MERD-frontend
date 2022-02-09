@@ -128,16 +128,22 @@ export class Demographic extends Component {
     if (!user.username) {
       this.setState({ registeredUser: false });
     }
-    axios
-      .get(API_URL)
-      .then((res) => {
-        let optionData = Object.entries(res.data.filters[0]);
-        optionData = sortZones(optionData);
-        this.createData(optionData);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (localStorage.getItem("option-data")) {
+      const optionData = JSON.parse(localStorage.getItem("option-data"));
+      this.createData(optionData);
+    } else {
+      axios
+        .get(API_URL)
+        .then((res) => {
+          let optionData = Object.entries(res.data.filters[0]);
+          optionData = sortZones(optionData);
+          localStorage.setItem("option-data", JSON.stringify(optionData));
+          this.createData(optionData);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }
 
   postData = async (displayMode) => {

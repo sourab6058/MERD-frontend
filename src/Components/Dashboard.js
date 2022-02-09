@@ -240,6 +240,13 @@ export class NewDashboard extends Component {
   submitForm = (data, oneTime) => {
     const user = getUserDetail();
 
+    const createFormInput = (name, value, form) => {
+      let input = document.createElement("input");
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    };
+
     let formTarget = user.username ? "hidden-frame" : "_blank";
     formTarget = "_blank";
 
@@ -248,41 +255,19 @@ export class NewDashboard extends Component {
     form.method = "POST"; // forms by default use GET query strings
     form.target = formTarget;
     form.action = CANCEL_URL;
-    if (oneTime) {
-      let input = document.createElement("input");
-      input.name = "type";
-      input.value = "One Time Buy";
-      form.appendChild(input);
-      if (user.username) {
-        input = document.createElement("input");
-        input.name = "username";
-        input.value = user.username;
-        form.appendChild(input);
-      }
-      for (let attribute in data) {
-        input = document.createElement("input");
-        input.name = attribute;
-        input.value = data[attribute].join();
-        form.appendChild(input);
-      }
-    } else {
-      let input = document.createElement("input");
-      input.name = "type";
-      input.value = "Cancel";
-      form.appendChild(input);
 
-      input = document.createElement("input");
-      input.name = "username";
-      input.value = user.username;
-      form.appendChild(input);
-      for (let attribute in data) {
-        input = document.createElement("input");
-        input.name = attribute;
-        input.value = data[attribute].join();
-        form.appendChild(input);
-      }
+    if (user.username) {
+      createFormInput("username", user.username, form);
     }
-    document.body.appendChild(form); // forms cannot be submitted outside of body
+    if (oneTime) {
+      createFormInput("type", "One Time Buy", form);
+    } else {
+      createFormInput("type", "Cancel", form);
+    }
+    for (let attribute in data) {
+      createFormInput(attribute, data[attribute].join(), form);
+    }
+    document.body.appendChild(form);
     form.submit();
   };
 
