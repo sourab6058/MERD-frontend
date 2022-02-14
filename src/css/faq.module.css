@@ -1,0 +1,42 @@
+.terms {
+  flex: 1;
+  padding: 40px 65px 0 65px;
+}
+.termItem {
+  padding-top: 30px;
+  border-bottom: 1px solid rgba(35, 35, 35, 0.1);
+}
+.termContent {
+  margin-left: 16px;
+  padding-bottom: 30px;
+}
+.termImg {
+  width: 24px;
+  height: 24px;
+}
+.textLg {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+}
+.textBase {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  flex-wrap: wrap;
+}
+@media (max-width: 768px) {
+  .terms {
+    flex: 1;
+    padding: 16px;
+  }
+  .termItem {
+    display: flex;
+    flex-direction: column;
+    padding-top: 16px;
+    padding-bottom: 10px;
+    border-bottom: 0.1rem solid rgba(35, 35, 35, 0.1);
+  }
+}

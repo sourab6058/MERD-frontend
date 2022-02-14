@@ -100,6 +100,10 @@ export class Demographic extends Component {
     this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   ModalHandlerClose = async () => {

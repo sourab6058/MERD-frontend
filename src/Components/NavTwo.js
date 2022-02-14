@@ -37,7 +37,7 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
   );
   return (
     <nav className="nav-container">
-      <div className="bgm">
+      <div className="bgm" >
         <BurgerMenu>
           <a id="about" className="menu-item">
             About
@@ -48,17 +48,15 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
           <Link id="subscribe" className="menu-item" to="/subscribe">
             Subscribe
           </Link>
-          <a id="faq" className="menu-item" href="">
+          <Link id="faq" className="menu-item" to="/faq" >
             FAQ
-          </a>
-          <a id="ra" className="menu-item" href="">
-            Retail Articles
-          </a>
-          <a id="cu" className="menu-item" href="">
+          </Link>
+          <Link id="cu" className="menu-item" to="/contactus">
             Contact Us
-          </a>
+          </Link>
         </BurgerMenu>
       </div>
+      
       <Link to="/" className="cmp-logo">
         <span className="cpm-name">middle east retail data</span>
 
@@ -69,25 +67,22 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
           <a onClick={scrollToBand}>About</a>
         </li>
         <li>
-          <a onClick={scrollToProducts}>Products</a>
+          <Link onClick={scrollToProducts}>Products</Link>
         </li>
         <li>
           <Link to="/subscribe">Subscribe</Link>
         </li>
         <li>
-          <a href="_blank">FAQ</a>
-        </li>
-        <li>
-          <a href="_blank">Retail Articles</a>
+          <Link to="/faq">FAQ</Link>
         </li>
         <li>
           <Link to="/contactus">Contact Us</Link>
         </li>
       </ul>
       {!username ? (
-        <a className="sign-in-links" href="https://merd.online/login/">
+        <Button className="sign-in-links" href="https://merd.online/login/">
           Sign In
-        </a>
+        </Button>
       ) : (
         <Dropdown
           overlay={usermenu}

@@ -35,7 +35,7 @@ const Footer = () => {
       <div className="footer-container">
         <div className="merd-logo-container">
           <Link to="/" className="merd-logo">
-            <span className="merd-name">Middle east retail data</span>
+            <span className="merd-name ">Middle east retail data</span>
             <span className="merd-moto">
               accurate.instant.detailed.affordable
             </span>
@@ -46,21 +46,21 @@ const Footer = () => {
           <div className="footer-links-container">
             <li>
               <div className="footer-link-div">
-                <span className="footer-link-title">Products/Services</span>
-                <Link className="footer-link">Demographic Information</Link>
-                <Link className="footer-link">Detailed Market Size</Link>
-                <Link className="footer-link">Catchment Analysis</Link>
-                <Link className="footer-link">City Reports</Link>
-                <Link className="footer-link">Tourist Reports</Link>
+                <Link to="/" className="footer-link-title">Products/Services</Link>
+                <Link to="/demographic" className="footer-link">Demographic Information</Link>
+                <Link to="/dashboard" className="footer-link">Detailed Market Size</Link>
+                <Link to="/catchments" className="footer-link">Catchment Analysis</Link>
+                <Link to="/cityreport" className="footer-link">City Reports</Link>
+                <Link to="/touristreport" className="footer-link">Tourist Reports</Link>
               </div>
             </li>
 
             <li>
               <div className="footer-link-div">
                 <span className="footer-link-title">Company</span>
-                <Link className="footer-link">About</Link>
-                <Link className="footer-link">FAQ</Link>
-                <Link className="footer-link">Retail Articles</Link>
+                <Link to="/" className="footer-link">About</Link>
+                <Link to='/faq' className="footer-link">FAQ</Link>
+
               </div>
             </li>
             <li>

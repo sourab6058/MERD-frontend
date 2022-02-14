@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Radio, Space, Dropdown, Menu, Checkbox } from "antd";
 import { ArrowBack, ExpandMore } from "@material-ui/icons";
 import { Link } from "react-router-dom";
@@ -40,6 +40,12 @@ export class Catchments extends Component {
       oneTimeSubPopUpOpen: false,
       cancelPopUpOpen: false,
     };
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
   }
 
   handleSubscriptionAlert = () => {
@@ -166,7 +172,7 @@ export class Catchments extends Component {
           onChange={this.handleCitySelection}
           value={this.state.selectedCity}
         >
-          <Space direction="vertical">
+          <Space direction="vertical" className="h-52 overflow-y-scroll">
             {this.state.citiesOptions.map((city) => (
               <Menu.Item key={city.id}>
                 <Radio key={city.id} value={city.name}>
@@ -236,17 +242,19 @@ export class Catchments extends Component {
             />
           )}
           <div
-            className="catchments"
+            className="catchments bg-gray-50"
             style={{ left: `${this.state.scrollX}vw` }}
           >
-            <div className="intro slide">
+            <div className="intro slide text-black text-3xl">
               We understand you like to conduct a catchments analysis. Please
               choose the city and the mall
-              <span className="custom-btn" onClick={this.handleNext}>
+              <button type="button" onClick={this.handleNext} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 Proceed
-              </span>
+                <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              </button>
             </div>
-            <div className="slide slide2">
+
+            <div className="slide slide2  text-black">
               Select a city from the dropdown below
               {this.state.citiesOptions.length ? (
                 <Dropdown overlay={citiesMenu} placement="bottomCenter" arrow>
@@ -266,7 +274,7 @@ export class Catchments extends Component {
                 <span className="custom-btn disabled">Proceed</span>
               )}
             </div>
-            <div className="slide slide3">
+            <div className="slide slide3 text-black text-3xl">
               Select a mall from the dropdown below
               {this.state.mallOptions.length ? (
                 <Dropdown overlay={mallsMenu} placement="bottomCenter" arrow>

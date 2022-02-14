@@ -29,6 +29,10 @@ export class CityReports extends Component {
       cancelPopUpOpen: false,
       subscribed: true,
     };
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   componentDidMount() {
@@ -134,28 +138,28 @@ export class CityReports extends Component {
       <>
         <NavTwo />
         <div className="header">
-          <img className="headerImg" src={reportsImg} alt="building" />
+          <img className="headerImg mb-3 brightness-50" src="https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
           <div className="header-text">
-            <h2 className="heading">City Market Reports</h2>
-            <p className="heading-text">Your source for market research</p>
+            <h2 className="heading text-5xl">City Market Reports</h2>
+            <p className="heading-text text-xl">Your source for market research</p>
           </div>
         </div>
         <div className="reports-container">
           {this.state.files.length ? (
             <>
               <div className="city-report">
-                <span className="recent-report">Recent Reports</span>
+                <span className="recent-report text-gray-800 text-3xl">Recent Reports</span>
               </div>
-              <ul className="report-list">
+              <ul className="grid grid-cols-2 gap-4 mt-4">
                 {this.state.files.map((file, idx) => (
                   <li
-                    className="list-item"
+                    className="p-4 border border-gray-200  rounded-lg drop-shadow-xl bg-white"
                     key={idx}
                     style={{
-                      backgroundColor: idx % 2 ? "transparent" : "#dbe1ff",
+                      backgroundColor: idx % 2 ? "white" : "",
                     }}
                   >
-                    <span>{file}</span>
+                    <span className="text-gray-800 text-2xl pb-4 ">{file}</span>
                     <br />
 
                     {this.state.subscribedCities.includes(
@@ -169,16 +173,16 @@ export class CityReports extends Component {
                         Download
                       </Button>
                     ) : (
-                      <>
-                        <Button className="report-link-buy">
+                      <div className="flex gap-4 pb-4 mt-4">
+                        <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center">
                           <a onClick={() => this.handleBuyOnce(file)}>
                             Buy Once
                           </a>
                         </Button>
-                        <Button className="report-link" key={idx} disabled>
-                          Download
+                        <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center" key={idx} disabled>
+                          Download <i class="fa-solid ml-2 text-black fa-download"></i>
                         </Button>
-                      </>
+                      </div>
                     )}
                     <hr />
                   </li>

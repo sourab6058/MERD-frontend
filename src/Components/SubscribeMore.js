@@ -23,6 +23,10 @@ export default class SubscribeMore extends Component {
       categoriesSubscribed: [],
       finalCost: 0,
     };
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
   componentDidMount = () => {
     //fetching category options
@@ -87,34 +91,34 @@ export default class SubscribeMore extends Component {
         <div className="subscribe-more">
           <h1 className="subscribe-more-title">Subscribe More</h1>
           <div className="options-container">
-          <Paper className="cities options">
+            <Paper className="cities options">
               <h3 className="option-title">Cities</h3>
               <div className="options-div">
-              {this.state.citiesOptions.map((city, idx) => (
-                <Checkbox
-                  id={this.state.categoriesOptions.length + idx}
-                  value={city}
-                  onChange={this.handleCities}
-                >
-                  <span className="checkbox-text">{city}</span>
-                </Checkbox>
-              ))}</div>
+                {this.state.citiesOptions.map((city, idx) => (
+                  <Checkbox
+                    id={this.state.categoriesOptions.length + idx}
+                    value={city}
+                    onChange={this.handleCities}
+                  >
+                    <span className="checkbox-text">{city}</span>
+                  </Checkbox>
+                ))}</div>
             </Paper>
             <Paper className="categories options">
               <h3 className="option-title">Categories</h3>
               <div className="options-div">
-              {this.state.categoriesOptions.map((cat, idx) => (
-                <Checkbox
-                  id={idx}
-                  onChange={this.handleCatgs}
-                  value={cat}
-                  className="checkboxes"
-                >
-                 <span className="checkbox-text">{cat}</span> 
-                </Checkbox>
-              ))}</div>
+                {this.state.categoriesOptions.map((cat, idx) => (
+                  <Checkbox
+                    id={idx}
+                    onChange={this.handleCatgs}
+                    value={cat}
+                    className="checkboxes"
+                  >
+                    <span className="checkbox-text">{cat}</span>
+                  </Checkbox>
+                ))}</div>
             </Paper>
-            
+
             <div className="order-container">
               <Paper className="order-part">
                 <h3 className="option-title">Your Order</h3>
@@ -149,7 +153,7 @@ export default class SubscribeMore extends Component {
                     <span
                       style={{ fontSize: "1.5rem", color: "rgb(90, 90, 90)" }}
                     >
-                     Grand Total
+                      Grand Total
                     </span>
                     <span
                       style={{ fontSize: "2rem", color: "rgb(0, 255, 34)" }}
@@ -162,7 +166,7 @@ export default class SubscribeMore extends Component {
               <span
                 className={
                   this.state.categoriesSelected.length *
-                  this.state.citiesSelected.length
+                    this.state.citiesSelected.length
                     ? "order-btn"
                     : "order-btn disabled"
                 }

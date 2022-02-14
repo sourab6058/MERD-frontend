@@ -9,27 +9,31 @@
   justify-content: center;
   align-items: center;
   text-align: left;
-  padding: 4rem;
+  padding-left: 60px;
+  padding-right: 60px;
   padding-bottom: 1rem;
 }
 .services {
   font-weight: 500;
-  margin-bottom: 2rem;
+  margin-bottom: 36px;
+  margin-top: 36px;
 }
 .serviceshead {
   font-weight: 200;
   font-size: 4rem;
   line-height: 2rem;
   text-align: left;
-  padding: 4rem;
-  padding-bottom: 1rem;
+  padding: 0rem;
+  margin-bottom: 0rem !important;
+  /* padding-bottom: 1rem; */
 }
 
 .serviceshead2 {
   font-weight: 500;
   text-align: left;
-
-  padding-top: 1rem;
+  font-size: 14px;
+  margin-top: 12px !important;
+  /* padding-top: 1rem; */
 }
 
 .serviceslink {

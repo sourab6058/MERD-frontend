@@ -115,6 +115,10 @@ export class NewDashboard extends Component {
     this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   ModalHandlerClose = async () => {
@@ -1248,8 +1252,8 @@ export class NewDashboard extends Component {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className="selection-made-text">
-                    Selections Made
+                  <Typography className="selection-made-text text-3xl font-bold">
+                  You Are Viewing Market Size For:
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>

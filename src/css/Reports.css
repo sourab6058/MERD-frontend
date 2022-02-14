@@ -13,9 +13,11 @@
   object-fit: cover;
 }
 .header {
+  /* height:65vh; */
   display: flex;
   justify-content: center;
   align-items: center;
+  /* background-image:url("https://images.pexels.com/photos/2087391/pexels-photo-2087391.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940") */
 }
 .header-text {
   position: absolute;

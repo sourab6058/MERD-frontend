@@ -10,6 +10,8 @@
   --light-blue: #0f74c3;
 }
 .nav-container {
+  padding-left: 40px;
+  padding-right: 40px;
   align-items: center;
   top: 0;
   left: 0;
@@ -17,7 +19,8 @@
   width: 100vw;
   display: flex;
   /* border: 1px solid red; */
-  z-index: 1;
+  z-index: 10000;
+  position: fixed;
   background: #144380;
 }
 .bgm {
@@ -40,13 +43,12 @@
   cursor: pointer;
   text-decoration: none;
 }
-.cmp-logo{
+.cmp-logo {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-transform: uppercase; 
-  
+  text-transform: uppercase;
 }
 .nav-container .cmp-logo .cpm-name {
   color: #fff;
@@ -64,14 +66,16 @@
 .nav-container ul {
   display: flex;
   list-style: none;
-  margin-right: auto;
+  margin-right: 41px;
 }
 .nav-container ul li {
   height: 100%;
   padding-top: 2rem;
   margin-inline: 1rem;
 }
-
+.bm-menu-wrap{
+  left:0;
+}
 .nav-container ul li a {
   /* border:1px solid white; */
   /* padding-bottom: auto; */
@@ -79,23 +83,28 @@
   text-decoration: none;
   color: #fff;
   padding-top: 2.75rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  margin-right: 24px;
   /* padding-inline: 5px; */
   /* border: 1px solid white; */
 }
 .nav-container ul li a:hover {
-  border-bottom: 5px solid #fff;
+  border-bottom: 0.8px solid #fff;
 }
 .nav-container .sign-in-links {
   margin-top: 1rem;
   margin-right: 4rem;
   border: 2px solid #fff;
+  background:#fff;
   color: #fff;
-  padding-inline: 1rem;
-  border-radius: 2rem;
+  padding:2rem;
+  font-weight:500;
+  /* padding-inline: 1rem; */
+  font-size: 16px;
+  border-radius: .5rem;
 }
 .nav-container .sign-in-links:hover {
-  background-color: var(--light-blue);
+  /* background-color: var(--light-blue); */ 
 }
 
 .bm-burger-button {

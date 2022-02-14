@@ -63,8 +63,8 @@ class Band extends Component {
 
   render() {
     return (
-      <div data-aos="fade-up" className="band" ref={this.props.bandRef}>
-        <span data-aos="fade-left" className="services">
+      <div className="band" ref={this.props.bandRef}>
+        <span className="services">
           Our Services
         </span>
         <p className="serviceshead">

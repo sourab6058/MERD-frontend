@@ -8,6 +8,8 @@ const rodsAbstract = require("../../img/rodsAbstract.jpg");
 const angel = require("../../img/angel.jpg");
 
 const Cards = ({ productsRef }) => {
+
+ 
   return (
     <div className="cards-container" ref={productsRef}>
       <Card

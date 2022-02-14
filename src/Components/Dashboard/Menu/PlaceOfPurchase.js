@@ -18,12 +18,12 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
         <div>
           <Menu.Item key="in1">
             <Checkbox disabled={true} checked={true}>
-              In the cities.
+              In City.
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="out1">
             <Checkbox disabled={true} checked={true}>
-              Outside the cities.
+              Outside City.
             </Checkbox>
           </Menu.Item>
         </div>
@@ -31,12 +31,12 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
         <div>
           <Menu.Item key="in2">
             <Checkbox onChange={(e) => addItem("placeOfPurchase", "in", e)}>
-              In the cities.
+            In City
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="out2">
             <Checkbox onChange={(e) => addItem("placeOfPurchase", "out", e)}>
-              Outside the cities.
+            Outside City.
             </Checkbox>
           </Menu.Item>
         </div>
