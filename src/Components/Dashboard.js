@@ -1174,7 +1174,7 @@ export class NewDashboard extends Component {
                       selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
                     />
                   </SubMenu>
-                  <div className="view-market-size-div">
+                  <div className="view-market-size-div" style={{textAlign:"center"}}>
                     <Item>
                       <span className="view-market-size-btn">
                         <Button
@@ -1182,7 +1182,7 @@ export class NewDashboard extends Component {
                           onClick={() => this.checkData()}
                           icon={<CaretRightOutlined />}
                         >
-                          <span className="view-market-size-btn-text">
+                          <span className="view-market-size-btn-text " >
                             View Market Size
                           </span>
                         </Button>
@@ -1252,7 +1252,7 @@ export class NewDashboard extends Component {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className="selection-made-text text-3xl font-bold">
+                  <Typography className="selection-made-text">
                   You Are Viewing Market Size For:
                   </Typography>
                 </AccordionSummary>

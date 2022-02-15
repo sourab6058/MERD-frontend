@@ -165,13 +165,15 @@ export class CityReports extends Component {
                     {this.state.subscribedCities.includes(
                       this.state.cities[idx]
                     ) ? (
+                      <div className="pb-4 mt-4">
                       <Button
-                        className="report-link"
+                        className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
                         key={idx}
                         onClick={() => this.handleExport(file)}
                       >
-                        Download
+                        Download <i class="fa-solid ml-2 text-black fa-download"></i>
                       </Button>
+                      </div>
                     ) : (
                       <div className="flex gap-4 pb-4 mt-4">
                         <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center">

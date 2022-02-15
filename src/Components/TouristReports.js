@@ -137,7 +137,7 @@ export class TouristReports extends Component {
           <img className="headerImg mb-3 brightness-50 " src="https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
           <div className="header-text">
             <h2 className="heading text-5xl">Tourist Reports</h2>
-            <p className="heading-text text-xl">Your source for market research</p>
+            <p className="heading-text text-xl font">Your source for market research</p>
           </div>
         </div>
         <div className="reports-container">
@@ -162,13 +162,15 @@ export class TouristReports extends Component {
                     {this.state.subscribedCities.includes(
                       this.state.cities[idx]
                     ) ? (
-                      <Button
-                        className="report-link"
+                     <div className="pb-4 mt-4">
+                        <Button
+                        className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
                         key={idx}
                         onClick={() => this.handleExport(file)}
                       >
-                        Download
+                        Download <i class="fa-solid ml-2 text-black fa-download"></i>
                       </Button>
+                     </div>
                     ) : (
                       <div className="flex gap-4 pb-4 mt-4">
                         <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center">
