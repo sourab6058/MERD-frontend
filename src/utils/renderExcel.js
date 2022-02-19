@@ -9,7 +9,7 @@ function repeatCell(span, obj) {
 }
 
 async function renderExcel(csvData) {
-  console.table(csvData);
+  console.table(csvData,"cdcdcd");
   // return;
 
   const data = [

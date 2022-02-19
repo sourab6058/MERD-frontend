@@ -13,6 +13,7 @@ import renderExcel from "../utils/renderExcel";
 import getUserDetail from "../utils/getUserDetail";
 import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
+import PdfDownloader from './pdfDownloader'
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
@@ -40,7 +41,7 @@ import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import CategoryIcon from "@material-ui/icons/Category";
 import NationalityIcon from "@material-ui/icons/Public";
-
+import PlaceIcon from '@material-ui/icons/Place';
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -55,6 +56,7 @@ let optionData = require("./Dashboard/optionData.json");
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
 
+// pdf downloader
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
 const API_URL = "http://3.108.159.143:8000/api/filter";
 const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
@@ -376,7 +378,9 @@ export class NewDashboard extends Component {
     if (csvData) {
       this.setState({ csvData });
     }
+    console.log(csvData, "csvDaata")
     return csvData;
+
   };
 
   //Used to create state variables that are used to display the menus
@@ -616,6 +620,28 @@ export class NewDashboard extends Component {
     let finalStr = "";
     let placeStr = "";
     const purchasePlace = this.state.postObject.placeOfPurchase;
+    if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase";
+    else if (purchasePlace.length === 2)
+      placeStr = "Inside the city and outside the city.";
+    else if (purchasePlace[0] == "in") placeStr = "Inside the Cities";
+    else if (purchasePlace[0] == "out") placeStr = "Outside the Cities";
+
+    let modeStr = "";
+
+    const mode = this.state.postObject.purchaseMode;
+
+    if (mode.length == 0) modeStr = "Select Mode Of Purchase";
+    else if (mode.length === 2) modeStr = "Online and Offline Both";
+    else if (mode[0] == "online") modeStr = "Only Online Mode";
+    else if (mode[0] == "offline") modeStr = "Only Offline Mode";
+
+    // finalStr = modeStr + placeStr;
+    return placeStr;
+  };
+  getPurchaseMode = () => {
+    let finalStr = "";
+    let placeStr = "";
+    const purchasePlace = this.state.postObject.placeOfPurchase;
     if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase.";
     else if (purchasePlace.length === 2)
       placeStr = "Inside the city and outside the city.";
@@ -631,8 +657,8 @@ export class NewDashboard extends Component {
     else if (mode[0] == "online") modeStr = "Only Online Mode.";
     else if (mode[0] == "offline") modeStr = "Only Offline Mode.";
 
-    finalStr = modeStr + placeStr;
-    return finalStr;
+
+    return modeStr;
   };
 
   categoryDisplayer = (cat, sub, subsub) => {
@@ -757,7 +783,7 @@ export class NewDashboard extends Component {
     }
   };
 
-  getDataToEmail = (postData) => {};
+  getDataToEmail = (postData) => { };
 
   checkUserRights = () => {
     const userDetails = getUserDetail();
@@ -1098,8 +1124,8 @@ export class NewDashboard extends Component {
           </Layout>
           <Layout
             style={{
-              height: "90vh",
-              overflowY: "auto",
+              // height: "1000vh",
+              // overflowY: "auto",
             }}
           >
             <Sider
@@ -1174,13 +1200,13 @@ export class NewDashboard extends Component {
                       selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
                     />
                   </SubMenu>
-                  <div className="view-market-size-div" style={{textAlign:"center"}}>
+                  <div className="view-market-size-div" style={{ textAlign: "center" }}>
                     <Item>
                       <span className="view-market-size-btn">
                         <Button
                           style={{ all: "unset" }}
                           onClick={() => this.checkData()}
-                          icon={<CaretRightOutlined />}
+                         
                         >
                           <span className="view-market-size-btn-text " >
                             View Market Size
@@ -1253,7 +1279,7 @@ export class NewDashboard extends Component {
                   id="panel1a-header"
                 >
                   <Typography className="selection-made-text">
-                  You Are Viewing Market Size For:
+                    You Are Viewing Market Size For:
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -1309,13 +1335,13 @@ export class NewDashboard extends Component {
                         primary="Categories"
                         secondary={
                           checkCategory.length > 0 ||
-                          checkSubCategory.length > 0 ||
-                          checkSubSubCategory.length > 0
+                            checkSubCategory.length > 0 ||
+                            checkSubSubCategory.length > 0
                             ? this.categoryDisplayer(
-                                checkCategory,
-                                checkSubCategory,
-                                checkSubSubCategory
-                              )
+                              checkCategory,
+                              checkSubCategory,
+                              checkSubSubCategory
+                            )
                             : "Select Categories"
                         }
                       />
@@ -1344,13 +1370,26 @@ export class NewDashboard extends Component {
                       <ListItemAvatar>
                         <Avatar>
                           <div className="dashboard-icon">
+                            <PlaceIcon className="dashboard-icon-inner" />
+                          </div>
+                        </Avatar>
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary="Place Of Purchase"
+                        secondary={this.getPurchaseModePlace()}
+                      />
+                    </ListItem>
+                    <ListItem>
+                      <ListItemAvatar>
+                        <Avatar>
+                          <div className="dashboard-icon">
                             <ShoppingCartIcon className="dashboard-icon-inner" />
                           </div>
                         </Avatar>
                       </ListItemAvatar>
                       <ListItemText
-                        primary="Purchase Mode and Place Of Purchase"
-                        secondary={this.getPurchaseModePlace()}
+                        primary="Purchase Mode"
+                        secondary={this.getPurchaseMode()}
                       />
                     </ListItem>
                   </List>
@@ -1359,8 +1398,8 @@ export class NewDashboard extends Component {
               {this.state.alertOpenInvalid &&
                 (this.state.subscriber ? (
                   <Alert
-                    title={<span style={{ color: "#fff" }}>Caution!</span>}
-                    contentText={"Please Select all required options"}
+                    // title={<span style={{ color: "#fff" }}>Caution!</span>}
+                    contentText={"You Need To Select All Filters Before Viewing Market Size"}
                     btnText={"OK"}
                     ModalHandlerClose={this.ModalHandlerClose}
                   />
@@ -1497,6 +1536,13 @@ export class NewDashboard extends Component {
                 >
                   Download CSV
                 </Button>
+                <Button
+                  icon={<DownloadOutlined />}
+                  disabled={this.state.tableData.length > 0 ? false : true}
+                  onClick={() => PdfDownloader(this.getCsvData())}
+                >
+                  Download pdf
+                </Button>
                 {/* </CSVLink> */}
               </div>
               {!this.state.registeredUser ? (
@@ -1532,6 +1578,8 @@ export class NewDashboard extends Component {
             </Content>
           </Layout>
         </div>
+        {/* TODO:to ask them if its */}
+
         <iframe name="hidden-frame" style={{ visibility: "hidden" }}></iframe>
         <Footer />
       </div>

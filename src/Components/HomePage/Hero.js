@@ -36,7 +36,7 @@ class Hero extends Component {
             <>
               {this.props.subscribed ? (
                 <Link
-                  className="rounded-full"
+                  className="font-bold text-lg  text-white bg-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-sm px-7 py-3 text-center mr-7 mb-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   to="/subscribe-more"
                 >
                   Subscribe

@@ -30,7 +30,7 @@ export class SubCategory extends Component {
         //Removing custom functional props as antd causes trouble with them
         ['selectallsubcategories', 'selectallsubsubcategories', 'additem'].forEach(item => delete filteredProps[item])
 
-        return (
+        return (   
             <SubMenu {...filteredProps} key={this.props.main.name} title={_.capitalize(this.props.main.name)}>
                 <Menu.Item><Checkbox onChange={(e) => this.checkedAll('categories', this.props.main.id, e)} >{`Select all ${this.props.main.name}`}</Checkbox></Menu.Item>
                 {this.props.main.sub_category.map(sub =>

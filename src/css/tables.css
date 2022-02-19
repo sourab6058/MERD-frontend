@@ -6,3 +6,35 @@
   font-size: 0.75rem;
   font-weight: 500;
 }
+.MuiTableHead-root {
+  border: 1px solid #000;
+}
+.MuiTableCell-head {
+  
+  border: 1px solid #000;
+}
+.MuiTableContainer-root {
+  height: fit-content !important;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.MuiTableCell-sizeSmall {
+  border: 1px solid !important;
+ 
+}
+/* .MuiTableRow-head th:first-child {
+  border-top-left-radius: 10px !important;
+  border-bottom-left-radius: 10px !important;
+}
+
+.MuiTableRow-head th:last-child {
+  border-top-right-radius: 10px !important;
+  border-bottom-right-radius: 10px !important;
+} */
+.MuiTableCell-alignRight {
+  border: 1px solid #000 !important;
+  
+  text-align: center !important;
+ 
+}

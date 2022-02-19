@@ -11,14 +11,12 @@ export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
 
   return (
     <>
-      <Menu.Item>
-        <Checkbox onChange={handleBothCheck}>Both</Checkbox>
-      </Menu.Item>
+     
       {disableCheck ? (
         <div>
           <Menu.Item key="offline1">
             <Checkbox disabled={true} checked={true}>
-              Offline
+            	Offline (Buy From Physical Location) 
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="online1">
@@ -31,7 +29,7 @@ export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
         <div>
           <Menu.Item key="offline2">
             <Checkbox onChange={(e) => addItem("purchaseMode", "offline", e)}>
-              Offline
+               Offline (Buy From Physical Location) 
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="online2">
@@ -41,6 +39,9 @@ export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
           </Menu.Item>
         </div>
       )}
+       <Menu.Item>
+        <Checkbox onChange={handleBothCheck}>Both</Checkbox>
+      </Menu.Item>
     </>
   );
 }

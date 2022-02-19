@@ -153,7 +153,7 @@ export class CityReports extends Component {
               <ul className="grid grid-cols-2 gap-4 mt-4">
                 {this.state.files.map((file, idx) => (
                   <li
-                    className="p-4 border border-gray-200  rounded-lg drop-shadow-xl bg-white"
+                    className="p-4 border border-sky-500   rounded-lg drop-shadow-xl bg-white"
                     key={idx}
                     style={{
                       backgroundColor: idx % 2 ? "white" : "",

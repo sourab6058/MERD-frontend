@@ -28,7 +28,17 @@
   width: fit-content;
   border-radius: 4px;
   padding:5px;
-  border: 1px solid #3d56b2;
+  font-size: 12px !important;
+  color: #000 !important;
+  border: 2px solid #3d56b2;
+
+}
+.MuiListItemText-primary{
+ 
+  text-transform: uppercase;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  margin-bottom: 3px !important;
 
 }
 .menu-expand-more {

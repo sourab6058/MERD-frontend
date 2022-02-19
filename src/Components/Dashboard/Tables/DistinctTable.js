@@ -6,6 +6,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
 
 import { v4 as uuidv4 } from "uuid";
 
@@ -88,7 +90,14 @@ class DistinctTable extends Component {
       ? "All Months"
       : months.map((month) => monthNames[month]).join();
   }
-
+  pdfDownloader = (csvData) =>{
+    console.log(csvData,"PDfData")
+    const doc = new jsPDF()
+    doc.text("MarketData",20,10)
+  
+    doc.autoTable(doc,{html:'#Mytable'})
+    doc.save('table.pdf')
+  }
   render() {
     const purchaseMode = this.props.purchaseMode;
     if (this.props.data.length > 0) {
@@ -118,11 +127,11 @@ class DistinctTable extends Component {
 
         return (
           <TableContainer component={Paper} style={{ padding: "0.5rem" }}>
-            <span className="table-header">
+            {/* <span className="table-header">
               {city}/Zones:{this.getZones(city, zones)}/{category}/{year}/
               {monthsSelected}/{nationality}/{purchaseMode}/{placeOfPurchase}
-            </span>
-            <Table aria-label="simple table" size="small">
+            </span> */}
+            <Table id="Mytable" aria-label="simple table" size="small" >
               <TableHead>
                 <TableRow>
                   <TableCell>Zone</TableCell>
@@ -133,7 +142,7 @@ class DistinctTable extends Component {
                   ))}
                   <TableCell align="right">
                     Total <br />
-                    {purchaseMode}
+                    {/* {purchaseMode} */}
                   </TableCell>
                 </TableRow>
               </TableHead>

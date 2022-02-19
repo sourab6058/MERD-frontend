@@ -152,7 +152,7 @@ export class TouristReports extends Component {
                 {this.state.files.map((file, idx) => (
                   <li
                     key={idx}
-                    className="p-4 border border-gray-200 rounded-lg drop-shadow-xl bg-white"
+                    className="p-4 border border-sky-500 rounded-lg drop-shadow-xl bg-white"
                     style={{
                       backgroundColor: idx % 2 ? "white" : "",
                     }}
@@ -166,9 +166,10 @@ export class TouristReports extends Component {
                         <Button
                         className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
                         key={idx}
-                        onClick={() => this.handleExport(file)}
+                        
                       >
-                        Download <i class="fa-solid ml-2 text-black fa-download"></i>
+                        <a onClick={() => this.handleExport(file)}>Download</a>
+                         <i class="fa-solid ml-2 text-black fa-download"></i>
                       </Button>
                      </div>
                     ) : (

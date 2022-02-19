@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-menu-title-content{
+
+  text-transform: capitalize;
+}

@@ -10,13 +10,16 @@ import FactsLoader from "./FactsLoader.js";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { v4 as uuidv4 } from "uuid";
+import { YoutubeSearchedForSharp } from "@material-ui/icons";
 
 export class Tables extends Component {
   render() {
     console.log("SHOWDATA");
-    console.log(this.props.zones);
+    console.log(this.props.zones,"zonesss");
     const data = this.props.data;
+    console.table(data,"main-data**")
     const displayMode = this.props.displayMode;
+    console.log(displayMode,"displayMode**")
     const purchaseMode =
       this.props.purchaseMode.length === 2
         ? "(Offline & Online)"
@@ -53,18 +56,23 @@ export class Tables extends Component {
                 {division.map((year) => (
                   <div
                     key={uuidv4()}
-                    style={{
-                      maxHeight: "90vh",
-                      overflowY: "auto",
-                    }}
+                    className="pb-12"
+                    // style={{
+                    //   maxHeight: "90vh",
+                    //   overflowY: "auto",
+                    // }}
                   >
                     {" "}
-                    <h3>Market Size for</h3>
+                   
+                    {year.cities.map((city) => (
+                      <div key={uuidv4()}>
+                         <h3>Market Size for {city.city}</h3>
+                        
+                  
                     <Typography variant="h3">
                       {_.capitalize(year.year)}
                     </Typography>
-                    {year.cities.map((city) => (
-                      <div key={uuidv4()}>
+                        
                         {city.categories.map((category) => (
                           <div key={uuidv4()}>
                             {category.hasOwnProperty("subcategories") ? (
@@ -80,17 +88,17 @@ export class Tables extends Component {
                                     {subcategory.hasOwnProperty(
                                       "subsubcategories"
                                     ) ? (
-                                      <div style={{ margin: "20px 0" }}>
+                                      <div style={{ margin: "20px 0" }}>  
                                         <Typography variant="h5">
-                                          {subcategory.subcategory}
+                                            {subcategory.subcategory}
                                         </Typography>
                                         {subcategory.subsubcategories.map(
                                           (subsubcategory) => (
                                             <div
                                               style={{ margin: "20px 0" }}
-                                              key={uuidv4()}
+                                              key={uuidv4()}  
                                             >
-                                              <Typography variant="h5">
+                                              <Typography variant="h5">  
                                                 {subsubcategory.subsubcategory}
                                               </Typography>
                                               {subsubcategory.nationalities.map(
