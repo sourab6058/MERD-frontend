@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component,useState,useEffect } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import './index.css'
 
@@ -23,8 +23,15 @@ import PrivateRoute from "./Components/Authentication/PrivateRoute";
 import login from "./Components/login";
 import ContactUsNew from "./Components/ContactUsNew";
 import Faq from './Components/Faq.js'
-class App extends Component {
-  render() {
+import getUserDetail from "./utils/getUserDetail";
+
+function App() {
+  const [username, setUsername] = useState();
+  useEffect(() => {
+    const user = getUserDetail();
+    if (user.username) setUsername(user.username);
+  });
+ 
     return (
       <div className="App">
         <AuthProvider>
@@ -40,8 +47,14 @@ class App extends Component {
               <Route path="/new-demographic" exact component={NewDemographic} />
               <Route path="/demographic" exact component={Demographic} />
               <Route path="/map" exact component={MapComponent} />
-              <Route path="/subscribe" exact component={SubscriptionJourney} />
-              <Route path="/subscribe-more" exact component={SubscribeMore} />
+              {
+                username ? "" :<Route path="/subscribe" exact component={SubscriptionJourney} />
+              }
+              {
+                username ? <Route path="/subscribe-more" exact component={SubscribeMore} /> :""
+              }
+              
+              
               <Route path="/cityreport" exact component={CityReports} />
               <Route path="/touristreport" exact component={TouristReports} />
               <Route path="/contactus" exact component={ContactUsNew} />
@@ -57,7 +70,7 @@ class App extends Component {
         </AuthProvider>
       </div>
     );
-  }
+
 }
 
 export default App;

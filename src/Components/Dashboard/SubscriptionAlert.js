@@ -71,6 +71,12 @@ export default function SubscriptionAlert({
                   >
                     <span className="cta">Subscribe</span>
                   </Link>
+                  <a
+                    className="registration-required-btn-subscribe"
+                    href="https://merd.online/login/"
+                  >
+                    <span className="cta">Login</span>
+                  </a>
                   <span className="cta" onClick={() => handleCancel(false)}>
                     Cancel
                   </span>

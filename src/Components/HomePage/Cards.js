@@ -11,7 +11,7 @@ const Cards = ({ productsRef }) => {
 
  
   return (
-    <div className="cards-container" ref={productsRef}>
+    <div id={'product'} className="cards-container" ref={productsRef}>
       <Card
         link={"demographic"}
         linkText="See Demographic Information"

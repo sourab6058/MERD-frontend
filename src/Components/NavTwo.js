@@ -45,9 +45,9 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
           <a id="products" className="menu-item">
             Products
           </a>
-          <Link id="subscribe" className="menu-item" to="/subscribe">
-            Subscribe
-          </Link>
+        {
+         username  ? "" :  <Link id="subscribe" className="menu-item" to="/subscribe">Subscribe</Link>
+        }
           <Link id="faq" className="menu-item" to="/faq" >
             FAQ
           </Link>
@@ -64,14 +64,16 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
       </Link>
       <ul>
         <li>
-          <a onClick={scrollToBand}>About</a>
+          <a onClick={(e) => window.location.replace("/#aboutus")}>About</a>
         </li>
         <li>
-          <Link onClick={scrollToProducts}>Products</Link>
+          <a onClick={() => window.location.replace("/#product")} >Products</a>
         </li>
-        <li>
-          <Link to="/subscribe">Subscribe</Link>
-        </li>
+       
+        {
+         username  ? '' :  <li> <Link id="subscribe" className="menu-item" to="/subscribe">Subscribe</Link></li>
+        }
+        
         <li>
           <Link to="/faq">FAQ</Link>
         </li>

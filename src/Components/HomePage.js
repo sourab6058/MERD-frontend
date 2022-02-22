@@ -55,7 +55,7 @@ class HomePage extends Component {
         />
         <Hero subscribed={this.state.subscribed} />
         <Band bandRef={this.bandRef} />
-        <Cards productsRef={this.productsRef} />
+        <Cards  productsRef={this.productsRef} />
         <Footer />
       </div>
     );

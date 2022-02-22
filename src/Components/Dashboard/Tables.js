@@ -15,11 +15,11 @@ import { YoutubeSearchedForSharp } from "@material-ui/icons";
 export class Tables extends Component {
   render() {
     console.log("SHOWDATA");
-    console.log(this.props.zones,"zonesss");
+    console.log(this.props.zones, "zonesss");
     const data = this.props.data;
-    console.table(data,"main-data**")
+    console.table(data, "main-data**")
     const displayMode = this.props.displayMode;
-    console.log(displayMode,"displayMode**")
+    console.log(displayMode, "displayMode**")
     const purchaseMode =
       this.props.purchaseMode.length === 2
         ? "(Offline & Online)"
@@ -28,8 +28,8 @@ export class Tables extends Component {
       this.props.placeOfPurchase.length === 2
         ? "All Places"
         : this.props.placeOfPurchase[0] === "in"
-        ? "Bought In The Cities"
-        : "Bought Outside The Cities";
+          ? "Bought In The Cities"
+          : "Bought Outside The Cities";
     let year = -1;
     if (data && data.length > 0) {
       console.log("LOOOOOK");
@@ -37,45 +37,31 @@ export class Tables extends Component {
       if (displayMode === "distinct") {
         return (
           <div key={uuidv4}>
-                    {console.log(data,"division string")}
+            {console.log(data, "division string")}
 
             {data.map((division) => (
-              
-              <Carousel
-                key={uuidv4()}
-                autoPlay={false}
-                indicators={false}
-                swipe={false}
-                style={{ textAlign: "center" }}
-                timeout={100}
-                navButtonsAlwaysVisible
-                animation="slide"
-                navButtonsProps={{
-                  style: {
-                    opacity: 0.15,
-                  },
-                }}
-              >
+
+              <>
 
                 {division.map((year) => (
                   <div
                     key={uuidv4()}
                     className="pb-12"
-                    // style={{
-                    //   maxHeight: "90vh",
-                    //   overflowY: "auto",
-                    // }}
+                  // style={{
+                  //   maxHeight: "90vh",
+                  //   overflowY: "auto",
+                  // }}
                   >
                     {" "}
                     {year.cities.map((city) => (
                       <div key={uuidv4()}>
-                         {/* <h3>Market Size for {city.city} </h3> */}
-                        
-                  
-                    {/* <Typography variant="h3">
+                        {/* <h3>Market Size for {city.city} </h3> */}
+
+
+                        {/* <Typography variant="h3">
                       {_.capitalize(year.year)}
                     </Typography> */}
-                        
+
                         {city.categories.map((category) => (
                           <div key={uuidv4()}>
                             {category.hasOwnProperty("subcategories") ? (
@@ -91,15 +77,15 @@ export class Tables extends Component {
                                     {subcategory.hasOwnProperty(
                                       "subsubcategories"
                                     ) ? (
-                                      <div style={{ margin: "20px 0" }}>  
+                                      <div style={{ margin: "20px 0" }}>
                                         <Typography variant="h5">
-                                            {subcategory.subcategory}
+                                          {subcategory.subcategory}
                                         </Typography>
                                         {subcategory.subsubcategories.map(
                                           (subsubcategory) => (
                                             <div
                                               style={{ margin: "20px 0" }}
-                                              key={uuidv4()}  
+                                              key={uuidv4()}
                                             >
                                               {/* <Typography variant="h5">  
                                                 {subsubcategory.subsubcategory}
@@ -227,7 +213,7 @@ export class Tables extends Component {
                     ))}
                   </div>
                 ))}
-              </Carousel>
+              </>
             ))}
           </div>
         );
@@ -236,21 +222,7 @@ export class Tables extends Component {
           <div>
             {data.map((division) => (
               <div key={uuidv4()}>
-                <Carousel
-                  key={uuidv4()}
-                  autoPlay={false}
-                  indicators={false}
-                  swipe={false}
-                  style={{ textAlign: "center" }}
-                  timeout={100}
-                  navButtonsAlwaysVisible
-                  animation="slide"
-                  navButtonsProps={{
-                    style: {
-                      opacity: 0.15,
-                    },
-                  }}
-                >
+                <>
                   {division.map((year) => (
                     <div
                       key={uuidv4()}
@@ -262,79 +234,79 @@ export class Tables extends Component {
                       </Typography>
                       {year.hasOwnProperty("data")
                         ? year.data.map((city) => (
-                            <div style={{ margin: "20px 0" }} key={uuidv4()}>
-                              <ZoneTable
-                                propertyName="category"
-                                data={city.market_data}
-                                year={year.year}
-                                months={this.props.months}
-                                city={city.city}
-                                purchaseMode={purchaseMode}
-                                nationalities={this.props.nationalities}
-                                placeOfPurchase={placeOfPurchase}
-                                zones={this.props.zones}
-                              />
-                            </div>
-                          ))
+                          <div style={{ margin: "20px 0" }} key={uuidv4()}>
+                            <ZoneTable
+                              propertyName="category"
+                              data={city.market_data}
+                              year={year.year}
+                              months={this.props.months}
+                              city={city.city}
+                              purchaseMode={purchaseMode}
+                              nationalities={this.props.nationalities}
+                              placeOfPurchase={placeOfPurchase}
+                              zones={this.props.zones}
+                            />
+                          </div>
+                        ))
                         : year.cities.map((city) => (
-                            <div style={{ margin: "20px 0" }} key={uuidv4()}>
-                              {city.categories.map((category) => (
-                                <div
-                                  style={{ margin: "20px 0" }}
-                                  key={uuidv4()}
-                                >
-                                  <Typography variant="h3">
-                                    {_.capitalize(category.category)}
-                                  </Typography>
-                                  {!category.subcategories[0].hasOwnProperty(
-                                    "subsubcategories"
-                                  ) ? (
-                                    <ZoneTable
-                                      propertyName="subcategory"
-                                      data={category.subcategories}
-                                      year={year.year}
-                                      city={city.city}
-                                      nationalities={this.props.nationalities}
-                                      purchaseMode={purchaseMode}
-                                      placeOfPurchase={placeOfPurchase}
-                                      zones={this.props.zones}
-                                      months={this.props.months}
-                                    />
-                                  ) : (
-                                    category.subcategories.map(
-                                      (subcategory) => (
-                                        <div
-                                          style={{ margin: "20px 0" }}
-                                          key={uuidv4()}
-                                        >
-                                          <Typography variant="h4">
-                                            {subcategory.subcategory}
-                                          </Typography>
-                                          <ZoneTable
-                                            propertyName="subsubcategory"
-                                            data={subcategory.subsubcategories}
-                                            year={year.year}
-                                            city={city.city}
-                                            placeOfPurchase={placeOfPurchase}
-                                            nationalities={
-                                              this.props.nationalities
-                                            }
-                                            purchaseMode={purchaseMode}
-                                            placeOfPurchase={placeOfPurchase}
-                                            months={this.props.months}
-                                            zones={this.props.zones}
-                                          />
-                                        </div>
-                                      )
+                          <div style={{ margin: "20px 0" }} key={uuidv4()}>
+                            {city.categories.map((category) => (
+                              <div
+                                style={{ margin: "20px 0" }}
+                                key={uuidv4()}
+                              >
+                                <Typography variant="h3">
+                                  {_.capitalize(category.category)}
+                                </Typography>
+                                {!category.subcategories[0].hasOwnProperty(
+                                  "subsubcategories"
+                                ) ? (
+                                  <ZoneTable
+                                    propertyName="subcategory"
+                                    data={category.subcategories}
+                                    year={year.year}
+                                    city={city.city}
+                                    nationalities={this.props.nationalities}
+                                    purchaseMode={purchaseMode}
+                                    placeOfPurchase={placeOfPurchase}
+                                    zones={this.props.zones}
+                                    months={this.props.months}
+                                  />
+                                ) : (
+                                  category.subcategories.map(
+                                    (subcategory) => (
+                                      <div
+                                        style={{ margin: "20px 0" }}
+                                        key={uuidv4()}
+                                      >
+                                        <Typography variant="h4">
+                                          {subcategory.subcategory}
+                                        </Typography>
+                                        <ZoneTable
+                                          propertyName="subsubcategory"
+                                          data={subcategory.subsubcategories}
+                                          year={year.year}
+                                          city={city.city}
+                                          placeOfPurchase={placeOfPurchase}
+                                          nationalities={
+                                            this.props.nationalities
+                                          }
+                                          purchaseMode={purchaseMode}
+                                          placeOfPurchase={placeOfPurchase}
+                                          months={this.props.months}
+                                          zones={this.props.zones}
+                                        />
+                                      </div>
                                     )
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          ))}
+                                  )
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        ))}
                     </div>
                   ))}
-                </Carousel>
+                </>
               </div>
             ))}
           </div>

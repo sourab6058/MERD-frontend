@@ -63,7 +63,7 @@ class Band extends Component {
 
   render() {
     return (
-      <div className="band" ref={this.props.bandRef}>
+      <div id={'aboutus'} className="band" ref={this.props.bandRef}>
         <span className="services">
           Our Services
         </span>
