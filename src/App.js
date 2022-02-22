@@ -7,6 +7,7 @@ import Admin from "./Components/Admin";
 import Dashboard from "./Components/Dashboard";
 import Catchments from "./Components/Catchments";
 import Demographic from "./Components/Demographic";
+import NewDemographic from "./Components/NewDemographic";
 import Projects from "./Components/Projects/Projects";
 import MapComponent from "./Components/MapComponent";
 import SubscriptionJourney from "./Components/SubscriptionPages";
@@ -36,6 +37,7 @@ class App extends Component {
               <PrivateRoute path='/map' exact component={MapComponent}> */}
               <Route path="/dashboard" exact component={Dashboard} />
               <Route path="/catchments" exact component={Catchments} />
+              <Route path="/new-demographic" exact component={NewDemographic} />
               <Route path="/demographic" exact component={Demographic} />
               <Route path="/map" exact component={MapComponent} />
               <Route path="/subscribe" exact component={SubscriptionJourney} />
