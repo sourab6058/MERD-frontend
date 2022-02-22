@@ -79,11 +79,11 @@ class ZoneTable extends Component {
             component={Paper}
             style={{ width: "50%", margin: "0 auto", padding: "0.25rem" }}
           >
-            <span className="table-header">
+            {/* <span className="table-header">
               {city}/Zones:{this.getZones(city, zones)}/
               {this.getCategories(propertyName, data)}/{year}/{months}/
               {nationalities}/{purchaseMode}/{placeOfPuchase}
-            </span>
+            </span> */}
             <Table aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>

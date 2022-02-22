@@ -6,8 +6,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-
+import jsPDF from 'jspdf';
+import Button from '@material-ui/core/Button';
+import html2canvas from 'html2canvas';
 import { v4 as uuidv4 } from "uuid";
+import Download from "@material-ui/icons/CloudDownload";
 
 import "../../../css/tables.css";
 
@@ -37,7 +40,25 @@ class DistinctTable extends Component {
   getZonesList = () => {
     return this.props.data.map((row) => row.zone).join();
   };
+  printDocument(city,year) {
+    const input = document.getElementById('nationaltable');
+    html2canvas(input)
+      .then((canvas) => {
+        var imgWidth = 70;
+        var pageHeight = 590;
+        var imgHeight = canvas.height * imgWidth / canvas.width;
+        var heightLeft = imgHeight;
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4')
+        var position = 12;
+        var heightLeft = imgHeight;
+        pdf.text(10, 10, `Market size data for ${city} ${year}`);
 
+        pdf.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
+        pdf.save(`Market_Size_Data_${city}_${year}.pdf`);
+
+      });
+  }
   render() {
     console.log(this.props);
     if (this.props.data.length > 0) {
@@ -60,15 +81,22 @@ class DistinctTable extends Component {
         data.sort((a, b) => (parseInt(a.zone) > parseInt(b.zone) ? 1 : -1));
 
         return (
+         <>
+           <h1 className="text-xl mt-3 mb-4 italic text-sky-600">
+            Market Size For  {city} / Zones:{this.getZonesList()} / {year} / {months} / {category}
+              / {nationalities} / {purchaseMode} / {placeOfPurchase}
+            </h1>
           <TableContainer
             component={Paper}
             style={{ width: "50%", margin: "2rem auto" }}
+           
           >
-            <span className="table-header">
+            {/* <span className="table-header">
               {city}/Zones:{this.getZonesList()}/{category}/{year}/{months}/
               {nationalities}/{purchaseMode}/{placeOfPurchase}
-            </span>
-            <Table aria-label="simple table" size="small">
+            </span> */}
+            {/* <h1  >This is Market Size Data</h1> */}
+            <Table id="nationaltable" aria-label="simple table" size="small">
               <TableHead>
                 <TableRow>
                   <TableCell align="left">Zones</TableCell>
@@ -101,7 +129,14 @@ class DistinctTable extends Component {
                 </TableRow>
               </TableBody>
             </Table>
+         <div style={{marginTop:'2rem',marginBottom:'2rem'}}>
+           
+         <Button onClick={()=> this.printDocument(this.props.city,this.props.year)} endIcon={<Download/>}  variant="contained" color="primary">  
+            Generate Pdf  
+            </Button>  
+            </div>
           </TableContainer>
+         </>
         );
       } else return <h4 style={{ color: "red" }}>Data Not Available Yet</h4>;
     } else

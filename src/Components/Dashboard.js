@@ -1128,10 +1128,13 @@ export class NewDashboard extends Component {
               // overflowY: "auto",
             }}
           >
+
             <Sider
               width={this.state.siderWidth}
               className="site-layout-background"
             >
+             <h2 className="text-lg text-slate-500 pl-3 font-semibold capitalize bg-white">Make selections in the panel <br/>  to view market sizes</h2>
+
               {!this.state.menuLoading ? (
                 <Menu
                   mode="inline"
@@ -1529,7 +1532,8 @@ export class NewDashboard extends Component {
                   Registered(for testing)
                 </Checkbox> */}
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
-                <Button
+                {/* removee */}
+                {/* <Button
                   icon={<DownloadOutlined />}
                   disabled={this.state.tableData.length > 0 ? false : true}
                   onClick={() => renderExcel(this.getCsvData())}
@@ -1542,7 +1546,10 @@ export class NewDashboard extends Component {
                   onClick={() => PdfDownloader(this.getCsvData())}
                 >
                   Download pdf
-                </Button>
+
+                </Button> */}
+                {/* removee */}
+
                 {/* </CSVLink> */}
               </div>
               {!this.state.registeredUser ? (

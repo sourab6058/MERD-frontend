@@ -2,6 +2,7 @@ import jsPDF from 'jspdf'
 import 'jspdf-autotable'
 
 const pdfDownloader = (csvData) =>{
+  
   console.log(csvData,"PDfData")
   const doc = new jsPDF()
   doc.text("MarketData",20,10)
@@ -15,6 +16,16 @@ const pdfDownloader = (csvData) =>{
     columns: [
       { header: 'January', dataKey: 'europe' },
       { header: 'February', dataKey: 'asia' },
+      { header: 'March', dataKey: 'asia' },
+      { header: 'April', dataKey: 'asia' },
+      { header: 'May', dataKey: 'asia' },
+      { header: 'June', dataKey: 'asia' },
+      { header: 'July', dataKey: 'asia' },
+      { header: 'August', dataKey: 'asia' },
+      { header: 'August', dataKey: 'asia' },
+      { header: 'August', dataKey: 'asia' },
+      { header: 'August', dataKey: 'asia' },
+      { header: 'August', dataKey: 'asia' },
     ],
   })
   doc.save('table.pdf')

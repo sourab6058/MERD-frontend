@@ -141,7 +141,7 @@ export class CityReports extends Component {
           <img className="headerImg mb-3 brightness-50" src="https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
           <div className="header-text">
             <h2 className="heading text-5xl">City Market Reports</h2>
-            <p className="heading-text text-xl">Your source for market research</p>
+            {/* <p className="heading-text text-xl">Your source for market research</p> */}
           </div>
         </div>
         <div className="reports-container">

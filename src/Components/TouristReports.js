@@ -137,7 +137,7 @@ export class TouristReports extends Component {
           <img className="headerImg mb-3 brightness-50 " src="https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
           <div className="header-text">
             <h2 className="heading text-5xl">Tourist Reports</h2>
-            <p className="heading-text text-xl font">Your source for market research</p>
+            {/* <p className="heading-text text-xl font">Your source for market research</p> */}
           </div>
         </div>
         <div className="reports-container">

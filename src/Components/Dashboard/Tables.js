@@ -37,7 +37,10 @@ export class Tables extends Component {
       if (displayMode === "distinct") {
         return (
           <div key={uuidv4}>
+                    {console.log(data,"division string")}
+
             {data.map((division) => (
+              
               <Carousel
                 key={uuidv4()}
                 autoPlay={false}
@@ -53,6 +56,7 @@ export class Tables extends Component {
                   },
                 }}
               >
+
                 {division.map((year) => (
                   <div
                     key={uuidv4()}
@@ -63,15 +67,14 @@ export class Tables extends Component {
                     // }}
                   >
                     {" "}
-                   
                     {year.cities.map((city) => (
                       <div key={uuidv4()}>
-                         <h3>Market Size for {city.city}</h3>
+                         {/* <h3>Market Size for {city.city} </h3> */}
                         
                   
-                    <Typography variant="h3">
+                    {/* <Typography variant="h3">
                       {_.capitalize(year.year)}
-                    </Typography>
+                    </Typography> */}
                         
                         {city.categories.map((category) => (
                           <div key={uuidv4()}>
@@ -98,9 +101,9 @@ export class Tables extends Component {
                                               style={{ margin: "20px 0" }}
                                               key={uuidv4()}  
                                             >
-                                              <Typography variant="h5">  
+                                              {/* <Typography variant="h5">  
                                                 {subsubcategory.subsubcategory}
-                                              </Typography>
+                                              </Typography> */}
                                               {subsubcategory.nationalities.map(
                                                 (nationality) => (
                                                   <div
@@ -109,9 +112,9 @@ export class Tables extends Component {
                                                     }}
                                                     key={uuidv4()}
                                                   >
-                                                    <Typography variant="h6">
+                                                    {/* <Typography variant="h6">
                                                       {nationality.nationality}
-                                                    </Typography>
+                                                    </Typography> */}
                                                     <DistinctTable
                                                       data={nationality.data}
                                                       year={year.year}
@@ -145,18 +148,18 @@ export class Tables extends Component {
                                       </div>
                                     ) : (
                                       <div style={{ margin: "20px 0" }}>
-                                        <Typography variant="h5">
+                                        {/* <Typography variant="h5">
                                           {subcategory.subcategory}
-                                        </Typography>
+                                        </Typography> */}
                                         {subcategory.nationalities.map(
                                           (nationality) => (
                                             <div
                                               style={{ margin: "20px 0" }}
                                               key={uuidv4()}
                                             >
-                                              <Typography variant="h6">
+                                              {/* <Typography variant="h6">
                                                 {nationality.nationality}
-                                              </Typography>
+                                              </Typography> */}
                                               <DistinctTable
                                                 data={nationality.data}
                                                 year={year.year}
@@ -189,17 +192,17 @@ export class Tables extends Component {
                               </div>
                             ) : (
                               <div style={{ margin: "20px 0" }}>
-                                <Typography variant="h5">
+                                {/* <Typography variant="h5">
                                   {_.capitalize(category.category)}
-                                </Typography>
+                                </Typography> */}
                                 {category.nationality.map((nationality) => (
                                   <div
                                     key={uuidv4()}
                                     style={{ margin: "20px 0" }}
                                   >
-                                    <Typography variant="h6">
+                                    {/* <Typography variant="h6">
                                       {nationality.nationality}
-                                    </Typography>
+                                    </Typography> */}
                                     <DistinctTable
                                       data={nationality.data}
                                       category={category.category}
