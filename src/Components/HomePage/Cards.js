@@ -8,12 +8,10 @@ const rodsAbstract = require("../../img/rodsAbstract.jpg");
 const angel = require("../../img/angel.jpg");
 
 const Cards = ({ productsRef }) => {
-
- 
   return (
     <div id={'product'} className="cards-container" ref={productsRef}>
       <Card
-        link={"demographic"}
+        link={"new-demographic"}
         linkText="See Demographic Information"
         img={darkLights}
         imgOnRight={true}
