@@ -1118,7 +1118,7 @@ export class NewDashboard extends Component {
               width={this.state.siderWidth}
               className="site-layout-background"
             >
-             <h2 className="text-lg text-slate-500 pl-3 font-semibold capitalize bg-white">Make selections in the panel <br/>  to view market sizes</h2>
+             <h2 className="text-lg text-black text-center pr-4 pl-3 font-semibold capitalize bg-white">Make selections in the panel <br/>  to view market sizes</h2>
 
               {!this.state.menuLoading ? (
                 <Menu
