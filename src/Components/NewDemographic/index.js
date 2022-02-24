@@ -18,17 +18,13 @@ export default class NewDemographic extends Component {
   constructor() {
     super();
     this.state = {
-      years: [],
       cities: [],
-      nationalities: [],
       menuLoading: true,
       idx: 0,
       postObject: {
         cities: [],
-        years: [],
-        nationalities: [],
         types: [],
-        displayModes: null,
+        displayModes: [],
       },
     };
   }
@@ -58,9 +54,7 @@ export default class NewDemographic extends Component {
     //Using raw api data to fill in menu variables
     //months is static for now, can be changed later
     this.setState({
-      years: optionData[0][1],
       cities: optionData[4][1],
-      nationalities: optionData[2][1],
     });
     this.setState({ menuLoading: false }, () => {
       console.log(this.state);
@@ -91,30 +85,19 @@ export default class NewDemographic extends Component {
   render() {
     const pages = [
       <FiltersPage
-        years={this.state.years}
         cities={this.state.cities}
-        nationalities={this.state.nationalities}
         handleCitiesCheck={(cities) =>
           this.setState({ postObject: { ...this.state.postObject, cities } })
-        }
-        handleYearsCheck={(years) =>
-          this.setState({ postObject: { ...this.state.postObject, years } })
-        }
-        handleNationalitiesCheck={(nationalities) =>
-          this.setState({
-            postObject: { ...this.state.postObject, nationalities },
-          })
         }
       />,
       <TableTypesPage handleTypeCheck={this.handleTypeCheck} />,
       <DisplayModePage
         handleDisplayModeCheck={this.handleDisplayModeCheck}
-        natChecked={this.state.postObject.nationality_checked}
+        types={this.state.postObject.types}
       />,
       <FilesPage
         postObject={this.state.postObject}
         citiesOptions={this.state.cities}
-        nationalitiesOptions={this.state.nationalities}
       />,
     ];
     const pageCount = pages.length;

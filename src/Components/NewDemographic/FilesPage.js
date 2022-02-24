@@ -28,16 +28,12 @@ export default class FilesPage extends Component {
         <div className="cards-grid">
           {this.state.tablesData.length > 0 &&
             this.state.tablesData.map((td) => {
+              if (td.table_id === null) return <></>;
               const data = {};
 
               data.city = this.props.citiesOptions.find(
                 (c) => c.id === td.city
               ).city;
-              data.nationality = this.props.nationalitiesOptions.find(
-                (n) => n.id === td.nationality
-              ).nationality;
-
-              data.year = td.year;
 
               switch (td.type) {
                 case "income_checked":

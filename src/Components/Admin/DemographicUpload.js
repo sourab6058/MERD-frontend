@@ -16,8 +16,6 @@ export default class DemographicUpload extends Component {
       options: {},
       postObject: {
         city: null,
-        year: null,
-        nationality: null,
         type: null,
         mode: null,
         file: null,
@@ -56,9 +54,7 @@ export default class DemographicUpload extends Component {
 
     this.setState({
       options: {
-        years: optionData[0][1],
         cities: optionData[4][1],
-        nationalities: optionData[2][1],
       },
     });
   };
@@ -78,8 +74,8 @@ export default class DemographicUpload extends Component {
   };
 
   allSelected = () => {
-    const { city, year, nationality, type, mode, file } = this.state.postObject;
-    return city && year && nationality && type && mode && file;
+    const { city, type, mode, file } = this.state.postObject;
+    return city && type && mode && file;
   };
 
   handleSubmit = () => {
@@ -90,7 +86,9 @@ export default class DemographicUpload extends Component {
     axios
       .post(API_URL, postForm)
       .then((res) => {
-        this.setState({ files: [...this.state.files, res.data] });
+        if (res.data.hasOwnProperty("id")) {
+          this.setState({ files: [...this.state.files, res.data] });
+        }
       })
       .catch((res) => {
         console.log(res);
@@ -138,42 +136,6 @@ export default class DemographicUpload extends Component {
             </div>
             <div>
               <Paper style={{ padding: "1rem" }}>
-                <h3>Years</h3>
-                <Radio.Group
-                  onChange={(e) => this.handleOptionCheck(e, "year")}
-                  key={2}
-                >
-                  <Space direction="vertical">
-                    {Object.keys(this.state.options).length > 0 &&
-                      this.state.options.years.map((year) => (
-                        <Radio key={year} value={year}>
-                          {year}
-                        </Radio>
-                      ))}
-                  </Space>
-                </Radio.Group>
-              </Paper>
-            </div>
-            <div>
-              <Paper style={{ padding: "1rem" }}>
-                <h3>Nationality</h3>
-                <Radio.Group
-                  onChange={(e) => this.handleOptionCheck(e, "nationality")}
-                  key={3}
-                >
-                  <Space direction="vertical">
-                    {Object.keys(this.state.options).length > 0 &&
-                      this.state.options.nationalities.map((nat) => (
-                        <Radio key={nat.id} value={nat.id}>
-                          {nat.nationality}
-                        </Radio>
-                      ))}
-                  </Space>
-                </Radio.Group>
-              </Paper>
-            </div>
-            <div>
-              <Paper style={{ padding: "1rem" }}>
                 <h3>Table Type</h3>
                 <Radio.Group
                   onChange={(e) => this.handleOptionCheck(e, "type")}
@@ -182,9 +144,6 @@ export default class DemographicUpload extends Component {
                   <Space direction="vertical">
                     <Radio key={1} value={"income_checked"}>
                       Income Levels
-                    </Radio>
-                    <Radio key={2} value={"nationality_checked"}>
-                      Nationality Distribution
                     </Radio>
                     <Radio key={3} value={"population_checked"}>
                       Population

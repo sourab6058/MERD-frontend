@@ -15,9 +15,6 @@ export default function TableTypesPage({ handleTypeCheck }) {
           <div className="checkboxes-container">
             <Space direction="vertical">
               <Checkbox value="income_checked">Income Levels</Checkbox>
-              <Checkbox value="nationality_checked">
-                Nationality Distribution
-              </Checkbox>
               <Checkbox value="population_checked">Population</Checkbox>
               <Checkbox value="capita_checked">
                 Retail Spend Per Capita

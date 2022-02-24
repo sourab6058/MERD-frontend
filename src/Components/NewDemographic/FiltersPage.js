@@ -4,19 +4,10 @@ import { Checkbox } from "antd";
 
 import "../../css/Demographic.css";
 
-export default function FiltersPage({
-  years,
-  cities,
-  nationalities,
-  handleCitiesCheck,
-  handleYearsCheck,
-  handleNationalitiesCheck,
-}) {
+export default function FiltersPage({ cities, handleCitiesCheck }) {
   return (
     <div className="page">
-      <div className="main-heading">
-        Please select Cities, Years and Nationalities
-      </div>
+      <div className="main-heading">Please select Cities</div>
       <div className="filter-papers">
         <Paper className="city-paper paper">
           <span className="city-header filter-header">Cities</span>
@@ -28,38 +19,6 @@ export default function FiltersPage({
               {cities.map((city) => (
                 <Checkbox value={city.id} key={city.id}>
                   <span>{city.city}</span>
-                </Checkbox>
-              ))}
-            </Checkbox.Group>
-          )}
-        </Paper>
-        <Paper className="year-paper paper">
-          <span className="year-header filter-header">Years</span>
-          {years.length > 0 && (
-            <Checkbox.Group
-              onChange={handleYearsCheck}
-              className="check-box-group"
-            >
-              {years.map((year) => (
-                <Checkbox key={year} value={year}>
-                  <span>{year}</span>
-                </Checkbox>
-              ))}
-            </Checkbox.Group>
-          )}
-        </Paper>
-        <Paper className="nationality-paper paper">
-          <span className="nationality-header filter-header">
-            Nationalities
-          </span>
-          {nationalities.length > 0 && (
-            <Checkbox.Group
-              onChange={handleNationalitiesCheck}
-              className="check-box-group"
-            >
-              {nationalities.map((nat) => (
-                <Checkbox value={nat.id} key={nat.id}>
-                  <span>{nat.nationality}</span>
                 </Checkbox>
               ))}
             </Checkbox.Group>
