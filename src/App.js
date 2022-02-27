@@ -24,6 +24,7 @@ import login from "./Components/login";
 import ContactUsNew from "./Components/ContactUsNew";
 import Faq from './Components/Faq.js'
 import getUserDetail from "./utils/getUserDetail";
+import TermsAndCondition from './Components/TermsAndConditions.js'
 
 function App() {
   const [username, setUsername] = useState();
@@ -32,6 +33,8 @@ function App() {
     if (user.username) setUsername(user.username);
   });
  
+
+
     return (
       <div className="App">
         <AuthProvider>
@@ -39,6 +42,7 @@ function App() {
             <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/Faq" exact component={Faq} />
+              <Route path="/TermsAndCondition" exact component={TermsAndCondition} />
               <Route path="/projects" exact component={Projects} />
               {/* <PrivateRoute path='/dashboard' exact component={Dashboard} />
               <PrivateRoute path='/map' exact component={MapComponent}> */}

@@ -30,6 +30,7 @@ import SubMonths from "./Dashboard/Menu/SubMonths";
 import PurchaseMode from "./Dashboard/Menu/PurchaseMode";
 
 import { Modal } from "@material-ui/core";
+import ButtonMui from '@material-ui/core/Button';
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -47,6 +48,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Download from "@material-ui/icons/CloudDownload";
 
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
@@ -607,9 +609,9 @@ export class NewDashboard extends Component {
     const purchasePlace = this.state.postObject.placeOfPurchase;
     if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase";
     else if (purchasePlace.length === 2)
-      placeStr = "Inside the city and outside the city.";
-    else if (purchasePlace[0] == "in") placeStr = "Inside the Cities";
-    else if (purchasePlace[0] == "out") placeStr = "Outside the Cities";
+      placeStr = "In City And OutSide City";
+    else if (purchasePlace[0] == "in") placeStr = "In City";
+    else if (purchasePlace[0] == "out") placeStr = "OutSide City";
 
     let modeStr = "";
 
@@ -627,17 +629,17 @@ export class NewDashboard extends Component {
     let finalStr = "";
     let placeStr = "";
     const purchasePlace = this.state.postObject.placeOfPurchase;
-    if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase.";
+    if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase";
     else if (purchasePlace.length === 2)
       placeStr = "Inside the city and outside the city.";
-    else if (purchasePlace[0] == "in") placeStr = "Inside the Cities.";
-    else if (purchasePlace[0] == "out") placeStr = "Outside the Cities.";
+    else if (purchasePlace[0] == "in") placeStr = "Inside the Cities";
+    else if (purchasePlace[0] == "out") placeStr = "Outside the Cities";
 
     let modeStr = "";
 
     const mode = this.state.postObject.purchaseMode;
 
-    if (mode.length == 0) modeStr = "Select Mode Of Purchase.";
+    if (mode.length == 0) modeStr = "Select Mode Of Purchase";
     else if (mode.length === 2) modeStr = "Online and Offline Both.";
     else if (mode[0] == "online") modeStr = "Only Online Mode.";
     else if (mode[0] == "offline") modeStr = "Only Offline Mode.";
@@ -1194,7 +1196,7 @@ export class NewDashboard extends Component {
                         <Button
                           style={{ all: "unset" }}
                           onClick={() => this.checkData()}
-                         
+
                         >
                           <span className="view-market-size-btn-text " >
                             View Market Size
@@ -1303,10 +1305,10 @@ export class NewDashboard extends Component {
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
                               ? "Months:- The whole year"
-                              : "Months:- " + checkMonth
+                              : "Months :- " + checkMonth
                             : "Select Months") +
                           (this.state.postObject.years.length > 0
-                            ? ", Years:- " + checkYear
+                            ? ", Years :-  " + checkYear
                             : ", Select Years")
                         }
                       />
@@ -1518,14 +1520,19 @@ export class NewDashboard extends Component {
                 </Checkbox> */}
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
                 {/* removee */}
+                {
+                  this.state.displayMode == 'distinct' ?
+                    ""
+                    : <ButtonMui
+                      variant="contained" endIcon={<Download />} color="primary"
+                      disabled={this.state.tableData.length > 0 ? false : true}
+                      onClick={() => renderExcel(this.getCsvData())}
+                    >
+                      Export Excel
+                    </ButtonMui>
+                }
+
                 {/* <Button
-                  icon={<DownloadOutlined />}
-                  disabled={this.state.tableData.length > 0 ? false : true}
-                  onClick={() => renderExcel(this.getCsvData())}
-                >
-                  Download CSV
-                </Button>
-                <Button
                   icon={<DownloadOutlined />}
                   disabled={this.state.tableData.length > 0 ? false : true}
                   onClick={() => PdfDownloader(this.getCsvData())}

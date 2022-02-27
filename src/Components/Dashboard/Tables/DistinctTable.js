@@ -13,6 +13,13 @@ import html2canvas from 'html2canvas';
 import { v4 as uuidv4 } from "uuid";
 import Download from "@material-ui/icons/CloudDownload";
 
+
+// excel
+import * as XLSX from 'xlsx/xlsx.mjs';
+
+/* load 'fs' for readFile and writeFile support */
+
+// excel 
 import "../../../css/tables.css";
 
 const monthNames = {
@@ -76,7 +83,12 @@ class DistinctTable extends Component {
   toUSDString(num) {
     // takes a number, returns a string ofnumber with commas as thousands separators
     num = roundToNearestThousand(num);
-    return `$${this.numberWithCommas(num)}`;
+    if (num == 0) {
+      return "NA"
+    } else {
+      return `$${this.numberWithCommas(num)}`;
+    }
+
   }
 
   getZones(city, citiesAndZones) {
@@ -93,30 +105,88 @@ class DistinctTable extends Component {
       : months.map((month) => monthNames[month]).join();
   }
   // pdf download
-  printDocument(city,year) {
+  printDocument(city, year, nationality, allNationality, allNationalityNames) {
     // console.log(city,"cityPDF")
-    const input = document.getElementById('pdfdiv');
-    html2canvas(input)
-      .then((canvas) => {
-        var imgWidth = 270;
-        var pageHeight = 390;
-        var imgHeight = canvas.height * imgWidth / canvas.width;
-        var heightLeft = imgHeight;
-        const imgData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('l', 'mm', 'a4')
-        var position = 12;
-        var heightLeft = imgHeight;
-        // pdf.text("Market Size Data",40, 250, 'center')
-        pdf.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
-        pdf.text(10, 10, `Market size data for ${city} ${year}`);
+    console.log(allNationality, "allNationality")
+    if (allNationality == true) {
+      const canvases = [...document.querySelectorAll('.alltables')]
 
-        // imgData,format,x,y,
-        pdf.save(`Market_Size_Data_${city}_${year}.pdf`);
+      const doc = new jsPDF('l', 'mm', 'a4');
+      canvases.forEach((a, i) => {
+        html2canvas(a)
+          .then(canvas => {
+            var imgWidth = 270;
+            var pageHeight = 490;
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var heightLeft = imgHeight;
+            const imgData = canvas.toDataURL('image/png');
+            var position = 12;
+            var heightLeft = imgHeight;
+            doc.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
+            doc.text(2, 5, `source:MERD`);
+            if (canvases.length > (i + 1)) {
+              doc.addPage()
+            }
+          })
+          .then(() => {
+            if ((i + 1) === canvases.length) {
+              doc.save('Market_size_for_all_Nationalities.pdf')
+            }
+          })
+      })
 
-      });
+
+
+
+
+    } else {                                                 //if all nationality not selected 
+      const input = document.getElementById(nationality);
+      html2canvas(input)
+        .then((canvas) => {
+          var imgWidth = 270;
+          var pageHeight = 490;
+          var imgHeight = canvas.height * imgWidth / canvas.width;
+          var heightLeft = imgHeight;
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF('l', 'mm', 'a4')
+          var position = 12;
+          var heightLeft = imgHeight;
+          // pdf.text("Market Size Data",40, 250, 'center')
+          pdf.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
+          pdf.text(2, 5, `source:MERD`);
+
+          // imgData,format,x,y,
+          pdf.save(`Market_Size_Data_${city}_${year}.pdf`);
+
+        });
+    }
+  }
+  exportExcel(fileExtension, fileName, nationality, allNationality,allNationalityNames) {
+      console.log(allNationality ,"checking..")
+    if (allNationality == true) {
+      const canvasesExcel = [...document.querySelectorAll('.alltables')]
+      const NationalitySelected = []
+      allNationalityNames.map((d,i)=>{
+        return NationalitySelected.push(d.nationality)
+      })
+      console.log(NationalitySelected,"NationalitySelected")
+      var workbook = XLSX.utils.book_new();                    
+      
+      canvasesExcel.forEach((a, i) => {
+        var wb2 = XLSX.utils.table_to_sheet(a)
+        XLSX.utils.book_append_sheet(workbook, wb2,`${NationalitySelected[i]}` );
+       })
+       XLSX.writeFile(workbook,'multisheet_file.xlsx');
+
+    } else {
+      const htmlTable = document.getElementById(nationality)
+      var wb = XLSX.utils.table_to_book(htmlTable, { sheet: "sheet1" })
+      return XLSX.writeFile(wb, fileName + "." + fileExtension || ('mySheetName.' + (fileExtension || 'xlsx')));
+    }
   }
   render() {
     const purchaseMode = this.props.purchaseMode;
+    console.log(this.props.data, "for excel***")
     if (this.props.data.length > 0) {
       let empty = true;
       this.props.data.forEach((obj) => {
@@ -133,6 +203,8 @@ class DistinctTable extends Component {
           nationality,
           purchaseMode,
           placeOfPurchase,
+          allNationality,
+          allNationalityNames
         } = this.props;
         data.sort((a, b) => (parseInt(a.zone) > parseInt(b.zone) ? 1 : -1));
         data.forEach((data) => {
@@ -143,15 +215,39 @@ class DistinctTable extends Component {
         this.calculateMonthTotals(data, months);
 
         return (
-          <>
-            <h1 className="text-xl mt-3 mb-4 italic text-sky-600">
-            Market Size For  {city} / Zones:{this.getZones(city, zones)} / {year} / {monthsSelected} / {category}
-              / {nationality} / {purchaseMode} / {placeOfPurchase}
-            </h1>
+          <div className="container-tabless">
+            <div className="btnForExport" >
+              <Button
+                onClick={() =>
+                  this.printDocument(this.props.city, this.props.year, this.props.nationality, this.props.allNationality, this.props.allNationalityNames)}
+                variant="contained"
+                endIcon={<Download />}
+                color="primary">
+                Generate PDF
+              </Button>
+
+
+              <Button
+                variant="contained"
+                id="tablexl"
+                onClick={() => this.exportExcel('xlsx', this.props.year, this.props.nationality, this.props.allNationality,this.props.allNationalityNames)} endIcon={<Download />} color="primary">
+                Export Excel
+              </Button>
+
+            </div>
             <TableContainer component={Paper} style={{ padding: "0.5rem" }}>
 
-              <Table id="pdfdiv" aria-label="simple table" size="small" >
+              <Table id={nationality} className="alltables" aria-label="simple table" size="small" >
+
                 <TableHead>
+
+
+                  <TableRow>
+                    <TableCell align="left" colSpan={14}>
+                      Market Size For  {city} / Zones:{this.getZones(city, zones)} / {year} / {monthsSelected} / {category}
+                      / {nationality} / {purchaseMode} / {placeOfPurchase}
+                    </TableCell>
+                  </TableRow>
                   <TableRow>
                     <TableCell>Zone</TableCell>
                     {months.map((month) => (
@@ -189,7 +285,7 @@ class DistinctTable extends Component {
                         )
                         : months.map((_) => (
                           <TableCell align="right" key={uuidv4()}>
-                            {"empty"}
+                            {"NA"}
                           </TableCell>
                         ))}
                       <TableCell align="right">
@@ -210,13 +306,10 @@ class DistinctTable extends Component {
                   </TableRow>
                 </TableBody>
               </Table>
-              <div style={{ marginTop: '2rem', color: '#fff !important' }}>
-                <Button onClick={()=>this.printDocument(this.props.city,this.props.year)} variant="contained" endIcon={<Download/>} color="primary">
-                  Generate PDF
-                </Button>
-              </div>
+
+
             </TableContainer>
-          </>
+          </div>
         );
       } else
         return (

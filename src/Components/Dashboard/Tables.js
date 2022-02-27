@@ -12,6 +12,10 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { v4 as uuidv4 } from "uuid";
 import { YoutubeSearchedForSharp } from "@material-ui/icons";
 
+// download
+
+
+
 export class Tables extends Component {
   render() {
     console.log("SHOWDATA");
@@ -26,10 +30,10 @@ export class Tables extends Component {
         : this.props.purchaseMode[0];
     const placeOfPurchase =
       this.props.placeOfPurchase.length === 2
-        ? "All Places"
+        ? "In City and Outside City"
         : this.props.placeOfPurchase[0] === "in"
-          ? "Bought In The Cities"
-          : "Bought Outside The Cities";
+        ? "In City"
+        : "Outside City";
     let year = -1;
     if (data && data.length > 0) {
       console.log("LOOOOOK");
@@ -40,8 +44,22 @@ export class Tables extends Component {
             {console.log(data, "division string")}
 
             {data.map((division) => (
-
-              <>
+              
+              <Carousel
+                key={uuidv4()}
+                autoPlay={false}
+                indicators={false}
+                swipe={false}
+                style={{ textAlign: "center" }}
+                timeout={100}
+                navButtonsAlwaysVisible
+                animation="slide"
+                navButtonsProps={{
+                  style: {
+                    opacity: 0.9,
+                  },
+                }}
+              >
 
                 {division.map((year) => (
                   <div
@@ -103,6 +121,7 @@ export class Tables extends Component {
                                                     </Typography> */}
                                                     <DistinctTable
                                                       data={nationality.data}
+
                                                       year={year.year}
                                                       city={city.city}
                                                       category={
@@ -137,6 +156,7 @@ export class Tables extends Component {
                                         {/* <Typography variant="h5">
                                           {subcategory.subcategory}
                                         </Typography> */}
+                                        hello
                                         {subcategory.nationalities.map(
                                           (nationality) => (
                                             <div
@@ -181,6 +201,8 @@ export class Tables extends Component {
                                 {/* <Typography variant="h5">
                                   {_.capitalize(category.category)}
                                 </Typography> */}
+                                {console.log(category.nationality,"category.nationality")}
+                                 
                                 {category.nationality.map((nationality) => (
                                   <div
                                     key={uuidv4()}
@@ -189,8 +211,11 @@ export class Tables extends Component {
                                     {/* <Typography variant="h6">
                                       {nationality.nationality}
                                     </Typography> */}
+
                                     <DistinctTable
                                       data={nationality.data}
+                                      allNationality={true}
+                                      allNationalityNames={category.nationality}
                                       category={category.category}
                                       year={year.year}
                                       city={city.city}
@@ -213,7 +238,7 @@ export class Tables extends Component {
                     ))}
                   </div>
                 ))}
-              </>
+              </Carousel>
             ))}
           </div>
         );
@@ -316,7 +341,23 @@ export class Tables extends Component {
         return (
           <div style={{ textAlign: "center" }}>
             {data.map((division) => (
+              
               <div key={uuidv4()}>
+                 <Carousel
+                  key={uuidv4()}
+                  autoPlay={false}
+                  indicators={false}
+                  swipe={false}
+                  style={{ textAlign: "center" }}
+                  timeout={100}
+                  navButtonsAlwaysVisible
+                  animation="slide"
+                  navButtonsProps={{
+                    style: {
+                      opacity: 0.9,
+                    },
+                  }}
+                >
                 {division.map((year) => (
                   <div key={uuidv4()}>
                     {year.cities.map((city) =>
@@ -387,6 +428,7 @@ export class Tables extends Component {
                     )}
                   </div>
                 ))}
+                </Carousel>
               </div>
             ))}
           </div>

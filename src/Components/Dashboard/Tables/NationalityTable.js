@@ -38,7 +38,7 @@ class DistinctTable extends Component {
   }
 
   getZonesList = () => {
-    return this.props.data.map((row) => row.zone).join();
+    return this.props.data.length == 23 ? "All Zones": this.props.data.map((row) => row.zone).join();
   };
   printDocument(city,year) {
     const input = document.getElementById('nationaltable');
@@ -53,6 +53,7 @@ class DistinctTable extends Component {
         var position = 12;
         var heightLeft = imgHeight;
         pdf.text(10, 10, `Market size data for ${city} ${year}`);
+        pdf.text(5, 5, `Source: Middle East Retail Data (MERD)`);
 
         pdf.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
         pdf.save(`Market_Size_Data_${city}_${year}.pdf`);
@@ -82,7 +83,7 @@ class DistinctTable extends Component {
 
         return (
          <>
-           <h1 className="text-xl mt-3 mb-4 italic text-sky-600">
+           <h1 className="text-xl mt-3 mb-4 italic text-sky-600 capitalize">
             Market Size For  {city} / Zones:{this.getZonesList()} / {year} / {months} / {category}
               / {nationalities} / {purchaseMode} / {placeOfPurchase}
             </h1>

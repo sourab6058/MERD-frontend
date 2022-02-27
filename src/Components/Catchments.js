@@ -242,10 +242,10 @@ export class Catchments extends Component {
             />
           )}
           <div
-            className="catchments bg-gray-50"
+            className="catchments bg-gray-50 "
             style={{ left: `${this.state.scrollX}vw` }}
           >
-            <div className="intro slide text-black text-3xl">
+            <div className="intro slide bg-white rounded-lg text-black text-center text-3xl">
               We understand you like to conduct a catchments analysis. Please
               choose the city and the mall
               <button type="button" onClick={this.handleNext} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
