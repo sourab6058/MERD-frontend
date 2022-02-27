@@ -1,25 +1,95 @@
-import React from "react";
+import React, { Component } from "react";
 import { Checkbox, Space } from "antd";
 import { Paper } from "@material-ui/core";
 
-export default function DisplayModePage({
-  handleDisplayModeCheck,
-  natChecked,
-}) {
-  return (
-    <div>
-      <div className="page-title">How do you want to view the data?</div>
-      <Paper>
-        <div className="checkboxes-container">
-          <Checkbox.Group onChange={handleDisplayModeCheck}>
+export default class DisplayModePage extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  handleModeCheck = (e) => {
+    const modes = this.props.modes;
+
+    if (e.target.checked) {
+      modes.push(e.target.value);
+    } else {
+      const idx = modes.findIndex((m) => m === e.target.value);
+      if (idx !== -1) modes.splice(idx, 1);
+    }
+
+    console.log(modes);
+
+    this.props.handleDisplayModeCheck(modes);
+  };
+
+  render() {
+    const askZone = true;
+    const askNat = true;
+    const askBoth = !this.props.types.every((type) =>
+      ["age_checked", "labourers_checked"].includes(type)
+    );
+    return (
+      <div>
+        <div className="page-title">How do you want to view the data?</div>
+        <Paper>
+          <div className="checkboxes-container">
             <Space direction="vertical">
-              <Checkbox value="zone">By Zone</Checkbox>
-              {!natChecked && <Checkbox value="nat">By Nationality</Checkbox>}
-              <Checkbox value="zone-and-nat">By Zone and nationality</Checkbox>
+              {this.props.modes.includes("zone") ? (
+                <Checkbox
+                  value="zone"
+                  checked={true}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Zone
+                </Checkbox>
+              ) : (
+                <Checkbox
+                  value="zone"
+                  checked={false}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Zone
+                </Checkbox>
+              )}
+              {this.props.modes.includes("nat") ? (
+                <Checkbox
+                  value="nat"
+                  checked={true}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Nationality
+                </Checkbox>
+              ) : (
+                <Checkbox
+                  value="nat"
+                  checked={false}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Nationality
+                </Checkbox>
+              )}
+              {askBoth &&
+                (this.props.modes.includes("zone-and-nat") ? (
+                  <Checkbox
+                    value="zone-and-nat"
+                    checked={true}
+                    onClick={(e) => this.handleModeCheck(e)}
+                  >
+                    By Nationality By Zone
+                  </Checkbox>
+                ) : (
+                  <Checkbox
+                    value="zone-and-nat"
+                    checked={false}
+                    onClick={(e) => this.handleModeCheck(e)}
+                  >
+                    By Nationality By Zones
+                  </Checkbox>
+                ))}
             </Space>
-          </Checkbox.Group>
-        </div>
-      </Paper>
-    </div>
-  );
+          </div>
+        </Paper>
+      </div>
+    );
+  }
 }

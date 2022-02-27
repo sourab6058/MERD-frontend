@@ -5,7 +5,7 @@ import axios from "axios";
 const API_URL = "http://data.merd.online:8000/demographic/";
 
 export default function TableCard({ data }) {
-  const { city, year, nationality, type, mode, table_id } = data;
+  const { city, type, mode, table_id } = data;
 
   function downloadBlob(blob, name) {
     // Convert your blob into a Blob URL (a special url that points to an object in the browser's memory)
@@ -71,8 +71,6 @@ export default function TableCard({ data }) {
         }
       >
         <h4>City:{city}</h4>
-        <h4>Year:{year}</h4>
-        <h4>Nationality:{nationality}</h4>
         <h4>Mode:{mode}</h4>
         <h4>Type:{type}</h4>
       </Card>

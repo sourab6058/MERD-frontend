@@ -8,6 +8,8 @@ import FilesPage from "./FilesPage";
 import Nav from "../NavTwo";
 import Footer from "../Footer";
 
+import { Modal } from "antd";
+
 import { sortZones } from "../../utils/sort";
 
 import "../../css/Demographic.css";
@@ -18,18 +20,15 @@ export default class NewDemographic extends Component {
   constructor() {
     super();
     this.state = {
-      years: [],
       cities: [],
-      nationalities: [],
       menuLoading: true,
       idx: 0,
       postObject: {
         cities: [],
-        years: [],
-        nationalities: [],
         types: [],
-        displayModes: null,
+        displayModes: [],
       },
+      alertOpen: false,
     };
   }
   componentDidMount = () => {
@@ -58,9 +57,7 @@ export default class NewDemographic extends Component {
     //Using raw api data to fill in menu variables
     //months is static for now, can be changed later
     this.setState({
-      years: optionData[0][1],
       cities: optionData[4][1],
-      nationalities: optionData[2][1],
     });
     this.setState({ menuLoading: false }, () => {
       console.log(this.state);
@@ -68,6 +65,22 @@ export default class NewDemographic extends Component {
   }
 
   handleNext = (max) => {
+    if (this.state.postObject.cities.length === 0 && this.state.idx === 0) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+    if (this.state.postObject.types.length === 0 && this.state.idx === 1) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+    if (
+      this.state.postObject.displayModes.length === 0 &&
+      this.state.idx === 2
+    ) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+
     if (this.state.idx < max - 1) {
       this.setState({ idx: this.state.idx + 1 });
     }
@@ -88,33 +101,35 @@ export default class NewDemographic extends Component {
     this.setState({ postObject: { ...this.state.postObject, displayModes } });
   };
 
+  warning = () => {
+    Modal.warning({
+      title: "SOMETHING IS MISSING...",
+      content: "Please Select Atleast One Field Before Proceeding",
+      onOk: () => this.setState({ alertOpen: false }),
+    });
+  };
+
   render() {
     const pages = [
       <FiltersPage
-        years={this.state.years}
         cities={this.state.cities}
-        nationalities={this.state.nationalities}
         handleCitiesCheck={(cities) =>
           this.setState({ postObject: { ...this.state.postObject, cities } })
         }
-        handleYearsCheck={(years) =>
-          this.setState({ postObject: { ...this.state.postObject, years } })
-        }
-        handleNationalitiesCheck={(nationalities) =>
-          this.setState({
-            postObject: { ...this.state.postObject, nationalities },
-          })
-        }
+        citiesChecked={this.state.postObject.cities}
       />,
-      <TableTypesPage handleTypeCheck={this.handleTypeCheck} />,
+      <TableTypesPage
+        handleTypeCheck={this.handleTypeCheck}
+        types={this.state.postObject.types}
+      />,
       <DisplayModePage
         handleDisplayModeCheck={this.handleDisplayModeCheck}
-        natChecked={this.state.postObject.nationality_checked}
+        modes={this.state.postObject.displayModes}
+        types={this.state.postObject.types}
       />,
       <FilesPage
         postObject={this.state.postObject}
         citiesOptions={this.state.cities}
-        nationalitiesOptions={this.state.nationalities}
       />,
     ];
     const pageCount = pages.length;
@@ -137,6 +152,7 @@ export default class NewDemographic extends Component {
             </div>
           )}
         </div>
+        {this.state.alertOpen && this.warning()}
         <Footer />
       </div>
     );
