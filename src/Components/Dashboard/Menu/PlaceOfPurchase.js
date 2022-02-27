@@ -36,7 +36,7 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
           </Menu.Item>
           <Menu.Item key="out2">
             <Checkbox onChange={(e) => addItem("placeOfPurchase", "out", e)}>
-            Outside City.
+            Outside City
             </Checkbox>
           </Menu.Item>
         </div>

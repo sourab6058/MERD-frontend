@@ -1,4 +1,4 @@
-//Required to map to Nam of the months for monthNamesRow variable
+//Required to map to Name of the months for monthNamesRow variable
 const monthNames = {
   1: "January",
   2: "February",
@@ -58,7 +58,7 @@ const distinctcsv = (csvData, months) => {
               csv.push([nationality.nationality, ...emptySpaces]);
 
               //Pushing table headers
-              csv.push(["Zones", ...monthNamesRow, "Total"]);
+              csv.push(["Zones", ...monthNames, "Total"]);
               nationality.data.forEach((row) => {
                 let market_sizes = [];
                 months.forEach((month, index) => {

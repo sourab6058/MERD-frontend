@@ -38,3 +38,22 @@
   text-align: center !important;
  
 }
+
+/* displaymode distinct */
+.btnForExport{
+ 
+}
+.container-tabless  .btnForExport:first-of-type  {
+  margin-bottom: 2rem; 
+  justify-content: flex-end; 
+  color: #fff !important; 
+  display: flex; 
+  gap: 2rem;
+}
+.btnForExport {
+  display:none;
+}
+.btnForExport:not(:first-child){
+  display: none !important;
+
+}

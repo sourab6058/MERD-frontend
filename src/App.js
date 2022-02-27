@@ -22,6 +22,7 @@ import PrivateRoute from "./Components/Authentication/PrivateRoute";
 import login from "./Components/login";
 import ContactUsNew from "./Components/ContactUsNew";
 import Faq from './Components/Faq.js'
+import TermsAndCondition from './Components/TermsAndConditions.js'
 class App extends Component {
   render() {
     return (
@@ -31,6 +32,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/Faq" exact component={Faq} />
+              <Route path="/TermsAndCondition" exact component={TermsAndCondition} />
               <Route path="/projects" exact component={Projects} />
               {/* <PrivateRoute path='/dashboard' exact component={Dashboard} />
               <PrivateRoute path='/map' exact component={MapComponent}> */}
