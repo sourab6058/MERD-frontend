@@ -8,6 +8,8 @@ import FilesPage from "./FilesPage";
 import Nav from "../NavTwo";
 import Footer from "../Footer";
 
+import { Modal } from "antd";
+
 import { sortZones } from "../../utils/sort";
 
 import "../../css/Demographic.css";
@@ -26,6 +28,7 @@ export default class NewDemographic extends Component {
         types: [],
         displayModes: [],
       },
+      alertOpen: false,
     };
   }
   componentDidMount = () => {
@@ -62,6 +65,22 @@ export default class NewDemographic extends Component {
   }
 
   handleNext = (max) => {
+    if (this.state.postObject.cities.length === 0 && this.state.idx === 0) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+    if (this.state.postObject.types.length === 0 && this.state.idx === 1) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+    if (
+      this.state.postObject.displayModes.length === 0 &&
+      this.state.idx === 2
+    ) {
+      this.setState({ alertOpen: true });
+      return false;
+    }
+
     if (this.state.idx < max - 1) {
       this.setState({ idx: this.state.idx + 1 });
     }
@@ -82,6 +101,14 @@ export default class NewDemographic extends Component {
     this.setState({ postObject: { ...this.state.postObject, displayModes } });
   };
 
+  warning = () => {
+    Modal.warning({
+      title: "SOMETHING IS MISSING...",
+      content: "Please Select Atleast One Field Before Proceeding",
+      onOk: () => this.setState({ alertOpen: false }),
+    });
+  };
+
   render() {
     const pages = [
       <FiltersPage
@@ -89,10 +116,15 @@ export default class NewDemographic extends Component {
         handleCitiesCheck={(cities) =>
           this.setState({ postObject: { ...this.state.postObject, cities } })
         }
+        citiesChecked={this.state.postObject.cities}
       />,
-      <TableTypesPage handleTypeCheck={this.handleTypeCheck} />,
+      <TableTypesPage
+        handleTypeCheck={this.handleTypeCheck}
+        types={this.state.postObject.types}
+      />,
       <DisplayModePage
         handleDisplayModeCheck={this.handleDisplayModeCheck}
+        modes={this.state.postObject.displayModes}
         types={this.state.postObject.types}
       />,
       <FilesPage
@@ -120,6 +152,7 @@ export default class NewDemographic extends Component {
             </div>
           )}
         </div>
+        {this.state.alertOpen && this.warning()}
         <Footer />
       </div>
     );
