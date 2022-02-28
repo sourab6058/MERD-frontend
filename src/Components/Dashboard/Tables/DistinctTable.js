@@ -123,7 +123,10 @@ class DistinctTable extends Component {
             var position = 12;
             var heightLeft = imgHeight;
             doc.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
-            doc.text(2, 5, `source:MERD`);
+            doc.setFont("arial", "bold");
+            doc.setFontSize(10);
+            doc.setTextColor(20, 67, 128);
+            doc.text(95, 5, `Source: Middle East Retail Data (MERD)`);
             if (canvases.length > (i + 1)) {
               doc.addPage()
             }
@@ -153,7 +156,11 @@ class DistinctTable extends Component {
           var heightLeft = imgHeight;
           // pdf.text("Market Size Data",40, 250, 'center')
           pdf.addImage(imgData, 'JPEG', 12, position, imgWidth, imgHeight);
-          pdf.text(2, 5, `source:MERD`);
+          pdf.setFont("arial", "bold");
+          pdf.setFontSize(10);
+          pdf.setTextColor(20, 67, 128);
+          pdf.text(80, 5, `Source: Middle East Retail Data (MERD)`);
+          
 
           // imgData,format,x,y,
           pdf.save(`Market_Size_Data_${city}_${year}.pdf`);

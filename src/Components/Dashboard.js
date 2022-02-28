@@ -1305,10 +1305,10 @@ export class NewDashboard extends Component {
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
                               ? "Months:- The whole year"
-                              : "Months :- " + checkMonth
+                              : "Months :- " + checkMonth.join(', ')
                             : "Select Months") +
                           (this.state.postObject.years.length > 0
-                            ? ", Years :-  " + checkYear
+                            ? ", Years :-  " + checkYear.join(', ')
                             : ", Select Years")
                         }
                       />
@@ -1523,13 +1523,15 @@ export class NewDashboard extends Component {
                 {
                   this.state.displayMode == 'distinct' ?
                     ""
-                    : <ButtonMui
+                    : <div style={{marginTop:'3rem'}}>
+                      <ButtonMui
                       variant="contained" endIcon={<Download />} color="primary"
                       disabled={this.state.tableData.length > 0 ? false : true}
                       onClick={() => renderExcel(this.getCsvData())}
                     >
                       Export Excel
                     </ButtonMui>
+                    </div>
                 }
 
                 {/* <Button

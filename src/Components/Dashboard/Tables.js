@@ -251,12 +251,12 @@ export class Tables extends Component {
                   {division.map((year) => (
                     <div
                       key={uuidv4()}
-                      style={{ maxHeight: "70vh", overflowY: "auto" }}
+                      // style={{ maxHeight: "70vh", overflowY: "auto" }}
                     >
-                      <h3>Market Size for</h3>
+                      {/* <h3>Market Size for</h3>
                       <Typography variant="h3">
                         {_.capitalize(year.year)}
-                      </Typography>
+                      </Typography> */}
                       {year.hasOwnProperty("data")
                         ? year.data.map((city) => (
                           <div style={{ margin: "20px 0" }} key={uuidv4()}>
@@ -264,6 +264,7 @@ export class Tables extends Component {
                               propertyName="category"
                               data={city.market_data}
                               year={year.year}
+                              // category={category.category}
                               months={this.props.months}
                               city={city.city}
                               purchaseMode={purchaseMode}
@@ -291,9 +292,11 @@ export class Tables extends Component {
                                     data={category.subcategories}
                                     year={year.year}
                                     city={city.city}
+                                    category={category.category}
+                              placeOfPurchase={placeOfPurchase}
                                     nationalities={this.props.nationalities}
                                     purchaseMode={purchaseMode}
-                                    placeOfPurchase={placeOfPurchase}
+                                   
                                     zones={this.props.zones}
                                     months={this.props.months}
                                   />
@@ -311,6 +314,8 @@ export class Tables extends Component {
                                           propertyName="subsubcategory"
                                           data={subcategory.subsubcategories}
                                           year={year.year}
+                                          category={category.category}
+                                       
                                           city={city.city}
                                           placeOfPurchase={placeOfPurchase}
                                           nationalities={
@@ -340,6 +345,7 @@ export class Tables extends Component {
         console.log(data);
         return (
           <div style={{ textAlign: "center" }}>
+            {/* hel?lllllllllllo */}
             {data.map((division) => (
               
               <div key={uuidv4()}>
