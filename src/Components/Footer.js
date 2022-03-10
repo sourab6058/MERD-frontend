@@ -47,7 +47,7 @@ const Footer = () => {
             <li>
               <div className="footer-link-div">
                 <Link to="/" className="footer-link-title">Products/Services</Link>
-                <Link to="/demographic" className="footer-link">Demographic Information</Link>
+                <Link to="/new-demographic" className="footer-link">Demographic Information</Link>
                 <Link to="/dashboard" className="footer-link">Detailed Market Size</Link>
                 <Link to="/catchments" className="footer-link">Catchment Analysis</Link>
                 <Link to="/cityreport" className="footer-link">City Reports</Link>
@@ -95,6 +95,7 @@ const Footer = () => {
                 <span className="footer-link-title">Policies</span>
                 <Link className="footer-link">Privacy</Link>
                 <Link  className="footer-link">Cookie</Link>
+                <Link to="/Disclaimer"  className="footer-link">Disclaimer</Link>
                 <Link to="/TermsAndCondition" className="footer-link">Terms Of Use</Link>
               </div>
             </li>
@@ -107,11 +108,11 @@ const Footer = () => {
                 <LinkedIn />
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link className="sm-container">
                 <Twitter />
               </Link>
-            </li>
+            </li> */}
           </div>
         </ul>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 import First from "./First";
@@ -30,6 +30,13 @@ const SubscriptionJourney = () => {
     />,
   ];
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }, [])
+  
   function handleNext() {
     if (index < Pages.length - 1) setIndex(index + 1);
   }

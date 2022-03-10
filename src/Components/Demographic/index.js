@@ -23,6 +23,10 @@ export default class Demographic extends Component {
       modes: [],
       selectedCity: null,
     };
+      window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
 
   componentDidMount = () => {

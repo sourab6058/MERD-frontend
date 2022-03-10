@@ -55,24 +55,26 @@ export default function TableCard({ data }) {
     <div className="table-card">
       <Card
         size="small"
+        className="rounded-lg border-sky-500 "
         title={"Excel file"}
-        style={{ margin: "1rem", minWidth: "300px", minHeight: "250px" }}
+        style={{ margin: "1rem", minWidth: "300px", minHeight: "200px" }}
         extra={
           table_id ? (
             <Button
+            className="rounded-lg px-4 text-white bg-blue-500 text-center flex items-center"
               style={{ margin: "0" }}
               onClick={() => handleDownload(table_id, "MERD-Excel")}
             >
-              Download
+              Download  <i class="fa-solid ml-2 text-black fa-download"></i>
             </Button>
           ) : (
             "Not available!"
           )
         }
       >
-        <h4>City:{city}</h4>
-        <h4>Mode:{mode}</h4>
-        <h4>Type:{type}</h4>
+        <h4>City: {city}</h4>
+        <h4>Mode: {mode}</h4>
+        <h4>Type: {type}</h4>
       </Card>
     </div>
   );

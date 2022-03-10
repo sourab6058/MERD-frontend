@@ -23,9 +23,11 @@ import PrivateRoute from "./Components/Authentication/PrivateRoute";
 import login from "./Components/login";
 import ContactUsNew from "./Components/ContactUsNew";
 import Faq from './Components/Faq.js'
+import ScheduleDemo from './Components/ScheduleDemo.js'
+import Disclaimer from './Components/Disclaimer.js'
 import getUserDetail from "./utils/getUserDetail";
 import TermsAndCondition from './Components/TermsAndConditions.js'
-
+import { BackTop } from 'antd';
 function App() {
   const [username, setUsername] = useState();
   useEffect(() => {
@@ -33,15 +35,29 @@ function App() {
     if (user.username) setUsername(user.username);
   });
  
-
+  const style = {
+    height: 40,
+    width: 40,
+    lineHeight: '40px',
+    borderRadius: 4,
+    backgroundColor: '#1088e9',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 14,
+  };
 
     return (
       <div className="App">
+        <BackTop >
+        <div style={style}><i class="fa-solid fa-arrow-up"></i></div>
+          </BackTop>
         <AuthProvider>
           <BrowserRouter>
             <Switch>
               <Route path="/" exact component={HomePage} />
               <Route path="/Faq" exact component={Faq} />
+              <Route path="/Disclaimer" exact component={Disclaimer} />
+              <Route path="/ScheduleDemo" exact component={ScheduleDemo} />
               <Route path="/TermsAndCondition" exact component={TermsAndCondition} />
               <Route path="/projects" exact component={Projects} />
               {/* <PrivateRoute path='/dashboard' exact component={Dashboard} />

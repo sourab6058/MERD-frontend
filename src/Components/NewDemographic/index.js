@@ -30,6 +30,10 @@ export default class NewDemographic extends Component {
       },
       alertOpen: false,
     };
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }
   componentDidMount = () => {
     let optionData;
@@ -118,15 +122,17 @@ export default class NewDemographic extends Component {
         }
         citiesChecked={this.state.postObject.cities}
       />,
-      <TableTypesPage
-        handleTypeCheck={this.handleTypeCheck}
-        types={this.state.postObject.types}
-      />,
-      <DisplayModePage
-        handleDisplayModeCheck={this.handleDisplayModeCheck}
-        modes={this.state.postObject.displayModes}
-        types={this.state.postObject.types}
-      />,
+      <div className="flex w-full justify-around">
+        <TableTypesPage
+          handleTypeCheck={this.handleTypeCheck}
+          types={this.state.postObject.types}
+        />
+        <DisplayModePage
+          handleDisplayModeCheck={this.handleDisplayModeCheck}
+          modes={this.state.postObject.displayModes}
+          types={this.state.postObject.types}
+        />
+      </div>,
       <FilesPage
         postObject={this.state.postObject}
         citiesOptions={this.state.cities}
@@ -137,20 +143,27 @@ export default class NewDemographic extends Component {
       <div>
         <Nav />
         <div className="container">
-          {this.state.idx > 0 && (
-            <div className="previous-btn" onClick={this.handlePrev}>
-              Prev
+         <div className="flex justify-between items-center w-full pl-10 pr-10">
+       <div>
+       {this.state.idx > 0 && (
+            <div className="previous-btn rounded-lg flex items-center" onClick={this.handlePrev}>
+             <svg class="mr-2 -mr-1 w-5 h-5 rotate-180" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  Prev
             </div>
           )}
-          {pages[this.state.idx]}
+       </div>
+          <div>
           {this.state.idx < pageCount - 1 && (
             <div
-              className="continue-btn"
+              className="continue-btn rounded-lg flex items-center "
               onClick={() => this.handleNext(pageCount)}
             >
-              next
+              Next <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </div>
           )}
+          </div>
+         </div>
+          {pages[this.state.idx]}
+         
         </div>
         {this.state.alertOpen && this.warning()}
         <Footer />

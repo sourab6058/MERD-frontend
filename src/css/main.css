@@ -260,14 +260,15 @@ p {
   position: absolute;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
   bottom: 30vh;
+  padding-left:4.2rem;
   min-height: auto;
   width: 100%;
-  padding: 1rem;
+  /* padding: 1rem; */
   color: white;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   /* border: 1px solid white; */
 }
 /* .heroText h1 {
@@ -1325,7 +1326,7 @@ p {
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-  background-color: #fff;
+  background-color: #fafafa;
 }
 .formatSelectionModal {
   background-color: #3d56b2;

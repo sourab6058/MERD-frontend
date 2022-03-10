@@ -25,7 +25,7 @@ export default class FilesPage extends Component {
     return (
       <>
         <h1 style={{ margin: "1rem" }}>Download Required Files Below</h1>
-        <div className="cards-grid">
+        <div className="cards-grid mt-5">
           {this.state.tablesData.length > 0 &&
             this.state.tablesData.map((td) => {
               if (td.table_id === null) return <></>;

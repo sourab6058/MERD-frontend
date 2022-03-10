@@ -15,7 +15,7 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
         <Checkbox onChange={handleBothCheck}>Both</Checkbox>
       </Menu.Item>
       {disableCheck ? (
-        <div>
+        <div style={{background:'#fafafa'}}>
           <Menu.Item key="in1">
             <Checkbox disabled={true} checked={true}>
               In City.
@@ -28,7 +28,7 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
           </Menu.Item>
         </div>
       ) : (
-        <div>
+        <div style={{background:'#fafafa'}}>
           <Menu.Item key="in2">
             <Checkbox onChange={(e) => addItem("placeOfPurchase", "in", e)}>
             In City

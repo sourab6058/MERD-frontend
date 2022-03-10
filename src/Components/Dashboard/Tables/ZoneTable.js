@@ -35,7 +35,7 @@ class ZoneTable extends Component {
   toUSDString(num) {
     // takes a number, returns a string ofnumber with commas as thousands separators
     num = roundToNearestThousand(num);
-    return `$${this.numberWithCommas(num)}`;
+    return `${this.numberWithCommas(num)}`;
   }
   calcTotal(data) {
     let total = 0;
@@ -112,7 +112,7 @@ class ZoneTable extends Component {
           </Button>
         </div>
         <h1 className="text-xl mt-3 mb-4 italic text-sky-600 capitalize">
-              Market Size For  {city} / Zones:{zones} / {year} / {months} / {category}
+        Market Size (In USD) For  {city} / Zones:{zones} / {year} / {months} / {category}
               {nationalities} / {purchaseMode} / {placeOfPurchase}
             </h1>
           <TableContainer

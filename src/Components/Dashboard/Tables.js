@@ -346,7 +346,7 @@ export class Tables extends Component {
         return (
           <div style={{ textAlign: "center" }}>
             {/* hel?lllllllllllo */}
-            {data.map((division) => (
+            {data.length && data.map((division) => (
               
               <div key={uuidv4()}>
                  <Carousel
@@ -364,7 +364,7 @@ export class Tables extends Component {
                     },
                   }}
                 >
-                {division.map((year) => (
+                { division.map((year) => (
                   <div key={uuidv4()}>
                     {year.cities.map((city) =>
                       city.categories.map((category) => (

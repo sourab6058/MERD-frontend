@@ -36,6 +36,12 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
     </Menu>
   );
   return (
+   <>
+   <div className="flex bg-white w-full justify-end pr-10 fixed top-0 z-[110]">
+     <Link to="/contactus">
+     <p className="text-sm font-medium ml-auto"><i class="fas fa-envelope"></i>&nbsp;data@merd.online</p>
+     </Link>
+   </div>
     <nav className="nav-container">
       <div className="bgm" >
         <BurgerMenu>
@@ -99,5 +105,6 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
         </Dropdown>
       )}
     </nav>
+    </>
   );
 }

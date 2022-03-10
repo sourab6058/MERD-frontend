@@ -16,7 +16,7 @@ import Download from "@material-ui/icons/CloudDownload";
 
 // excel
 import * as XLSX from 'xlsx/xlsx.mjs';
-
+import SHEET from 'sheetjs-style-v2';
 /* load 'fs' for readFile and writeFile support */
 
 // excel 
@@ -86,7 +86,7 @@ class DistinctTable extends Component {
     if (num == 0) {
       return "NA"
     } else {
-      return `$${this.numberWithCommas(num)}`;
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
 
   }
@@ -177,13 +177,180 @@ class DistinctTable extends Component {
         return NationalitySelected.push(d.nationality)
       })
       console.log(NationalitySelected,"NationalitySelected")
-      var workbook = XLSX.utils.book_new();                    
-      
+      var workbook = SHEET.utils.book_new();                    
+     
       canvasesExcel.forEach((a, i) => {
-        var wb2 = XLSX.utils.table_to_sheet(a)
-        XLSX.utils.book_append_sheet(workbook, wb2,`${NationalitySelected[i]}` );
+        var wb2 = SHEET.utils.table_to_sheet(a)
+        wb2["A1"].s = {
+         
+          font: {
+        
+            sz: 8,
+            bold: true,
+            color: {
+              rgb: "144380"
+            }
+          },
+        };
+        wb2["A2"].s = { // set the style for target cell
+          font: {
+        
+            sz: 14,
+            bold: true,
+            color: {
+              rgb: '#144380'
+            }
+          },
+        };
+        wb2["A4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+
+        wb2["B4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["C4"].s = { 
+          alignment:{
+            wrapText:true,
+          },
+           
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["D4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["E4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["F4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["G4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["H4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["I4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["J4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["K4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["L4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["M4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+        wb2["N4"].s = { // set the style for target cell
+          font: {
+           
+            sz: 10,
+            bold: true,
+            color: {
+              rgb: '#000'
+            }
+          },
+        };
+     SHEET.utils.book_append_sheet(workbook, wb2,`${NationalitySelected[i]}` );
+        
        })
-       XLSX.writeFile(workbook,'multisheet_file.xlsx');
+       SHEET.writeFile(workbook,'Market Size.xlsx');
 
     } else {
       const htmlTable = document.getElementById(nationality)
@@ -248,13 +415,23 @@ class DistinctTable extends Component {
 
                 <TableHead>
 
-
+                <TableRow>
+                    <TableCell style={{display:'none'}} align="left" colSpan={14}>
+                    Source: Middle East Retail Data (MERD)
+                    </TableCell>
+                  </TableRow>
                   <TableRow>
                     <TableCell align="left" colSpan={14}>
-                      Market Size For  {city} / Zones:{this.getZones(city, zones)} / {year} / {monthsSelected} / {category}
+                      Market Size (In USD) For  {city} / Zones:{this.getZones(city, zones)} / {year} / {monthsSelected} / {category}
                       / {nationality} / {purchaseMode} / {placeOfPurchase}
                     </TableCell>
                   </TableRow>
+                  <TableRow>
+                    <TableCell style={{display:'none'}} align="left" colSpan={14}>
+                     &nbsp;
+                    </TableCell>
+                  </TableRow>
+                  
                   <TableRow>
                     <TableCell>Zone</TableCell>
                     {months.map((month) => (

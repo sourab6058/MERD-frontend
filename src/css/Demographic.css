@@ -59,10 +59,10 @@ body {
 }
 
 .previous-btn {
-  position: absolute;
+  /* position: absolute; */
   font-size: 2rem;
-  left: 50px;
-  top: 50px;
+  /* left: 50px;
+  top: 50px; */
   border: 1px solid black;
   padding-inline: 1rem;
   margin: 1rem;

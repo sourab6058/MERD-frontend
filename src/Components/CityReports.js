@@ -178,7 +178,7 @@ export class CityReports extends Component {
                       <div className="flex gap-4 pb-4 mt-4">
                         <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center">
                           <a onClick={() => this.handleBuyOnce(file)}>
-                            Buy Once
+                            Buy USD 120
                           </a>
                         </Button>
                         <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center" key={idx} disabled>

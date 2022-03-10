@@ -22,11 +22,11 @@ export default function TableTypesPage({ handleTypeCheck, types }) {
 
   return (
     <div>
-      <span className="page-title" align="center">
+      <span className="page-title mb-8" align="center">
         What would you like to view?
       </span>
       <Paper>
-        <div className="checkboxes-container">
+        <div className="checkboxes-container rounded-lg shadow-lg p-4">
           <Space direction="vertical">
             {types.includes("income_checked") ? (
               <Checkbox

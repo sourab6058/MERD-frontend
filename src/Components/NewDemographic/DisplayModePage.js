@@ -32,7 +32,7 @@ export default class DisplayModePage extends Component {
       <div>
         <div className="page-title">How do you want to view the data?</div>
         <Paper>
-          <div className="checkboxes-container">
+          <div className="checkboxes-container rounded-lg shadow-lg p-4">
             <Space direction="vertical">
               {this.props.modes.includes("zone") ? (
                 <Checkbox

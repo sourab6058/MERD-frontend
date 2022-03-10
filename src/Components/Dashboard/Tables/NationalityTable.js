@@ -27,7 +27,7 @@ class DistinctTable extends Component {
   toUSDString(num) {
     // takes a number, returns a string ofnumber with commas as thousands separators
     num = roundToNearestThousand(num);
-    return `$${this.numberWithCommas(num)}`;
+    return `${this.numberWithCommas(num)}`;
   }
   calcTotal(data) {
     let total = 0;
@@ -110,7 +110,7 @@ class DistinctTable extends Component {
               </Button>
             </div>
             <h1 className="text-xl mt-3 mb-4 italic text-sky-600 capitalize">
-              Market Size For  {city} / Zones:{this.getZonesList()} / {year} / {this.getMonths()} / {category}
+            Market Size (In USD) For  {city} / Zones:{this.getZonesList()} / {year} / {this.getMonths()} / {category}
               / {nationalities} / {purchaseMode} / {placeOfPurchase}
             </h1>
             <TableContainer
@@ -151,7 +151,7 @@ class DistinctTable extends Component {
                       Total
                     </TableCell>
                     <TableCell align="right">
-                      {`$${this.numberWithCommas(this.calcTotal(data))}`}
+                      {`${this.numberWithCommas(this.calcTotal(data))}`}
                     </TableCell>
                   </TableRow>
                 </TableBody>

@@ -65,6 +65,7 @@ const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
 // const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
+  _isMounted = false;
   constructor(props) {
     super(props);
     this.dataToBeEmailed = null;
@@ -148,6 +149,7 @@ export class NewDashboard extends Component {
 
   //GET request
   componentDidMount() {
+    this._isMounted = true;
     document.addEventListener("mousedown", this.handleClickOutside);
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
     this.createData(optionData);
@@ -163,7 +165,9 @@ export class NewDashboard extends Component {
     //     console.log(err);
     //   });
   }
-
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
   postData = (displayMode) => {
     this.checkSubscription();
     this.setState({ subscriber: true });
@@ -647,7 +651,26 @@ export class NewDashboard extends Component {
 
     return modeStr;
   };
-
+// RESET SELECTIONS
+resetSelections = () => {
+  console.log(this.state.postObject,"selectedCities")
+  
+  this.setState({
+    postObject: {
+      cities: [],
+      zones: [],
+      years: [],
+      months: [],
+      categories: [],
+      subCategories: [],
+      subSubCategories: [],
+      nationalities: [],
+      purchaseMode: [],
+      placeOfPurchase: [],
+    }
+  });
+  
+}
   categoryDisplayer = (cat, sub, subsub) => {
     let catArray = [];
     let subObject = {};
@@ -1204,6 +1227,19 @@ export class NewDashboard extends Component {
                         </Button>
                       </span>
                     </Item>
+                    {/* <Item>
+                      <span className="view-market-size-btn">
+                        <Button
+                          style={{ all: "unset" }}
+                          onClick={() => this.resetSelections()}
+
+                        >
+                          <span className="view-market-size-btn-text " >
+                            RESET <i class="fa-solid fa-power-off"></i>
+                          </span>
+                        </Button>
+                      </span>
+                    </Item> */}
                   </div>
                 </Menu>
               ) : (
