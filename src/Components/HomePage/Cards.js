@@ -13,6 +13,7 @@ const Cards = ({ productsRef }) => {
       <Card
         link={"new-demographic"}
         linkText="See Demographic Information"
+        seeMore="dashboard"
         img={darkLights}
         imgOnRight={true}
         headingClass="cardHeading"
@@ -24,6 +25,7 @@ const Cards = ({ productsRef }) => {
         linkText="See Market Sizes"
         link={"dashboard"}
         img={rodsAbstract}
+        seeMore="catchments"
         imgOnRight={false}
         headingClass="cardHeading"
         heading="DETAILED MARKET SIZE"
@@ -33,6 +35,7 @@ const Cards = ({ productsRef }) => {
         linkText="See Mall Catchments"
         link={"catchments"}
         img={rising}
+        seeMore="cityreport"
         imgOnRight={true}
         headingClass="cardHeading"
         heading="CATCHMENTS ANALYSIS / RETAIL INTELLIGENCE"
@@ -42,6 +45,8 @@ const Cards = ({ productsRef }) => {
         link={"cityreport"}
         linkText="See City Reports"
         img={blue}
+        seeMore="touristreport"
+
         imgOnRight={false}
         headingClass="cardHeading"
         heading="CITY REPORTS"
@@ -52,6 +57,7 @@ const Cards = ({ productsRef }) => {
         link={"touristreport"}
         linkText="See Tourist Reports"
         img={angel}
+        seeMore="none"
         imgOnRight={true}
         headingClass="cardHeading"
         heading="TOURIST RELATED INFORMATION"

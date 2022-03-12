@@ -20,7 +20,7 @@ function ScheduleDemo() {
   return (
     <>
       <NavTwo />
-      <h1 className="text-3xl mb-5 text-center mt-3">ScheduleDemo</h1>
+      <h1 className="text-3xl mb-5 text-center mt-3">Schedule Demo</h1>
       <div className="flex justify-center items-center mb-14">
         <form className="w-full max-w-lg"  onSubmit={handleSubmit(onSubmit)}>
           {/* first row */}
@@ -99,7 +99,8 @@ function ScheduleDemo() {
                 })}
                 style={errors.contact ? { border: '1px solid rgba(255, 51, 38, 0.4)', marginBottom: '0rem' } : {}}
 
-                className="appearance-none block w-full focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Jane" />
+                className="appearance-none block w-full focus:ring-blue-500 focus:border-blue-500 bg-gray-200 text-gray-700 border  rounded py-3 px-4 mb-3 leading-tight focus:ring-blue-500 focus:border-blue-500 focus:outline-none focus:bg-white" id="grid-first-name" type="text" 
+                 />
               {errors.contact && errors.contact.type === "required" && (
                 <p className="mt-2 text-red-500 text-xs italic">This Field is Required</p>
               )}
