@@ -13,7 +13,7 @@ import renderExcel from "../utils/renderExcel";
 import getUserDetail from "../utils/getUserDetail";
 import { sortZones } from "../utils/sort";
 import { CSVLink } from "react-csv";
-import PdfDownloader from './pdfDownloader'
+import PdfDownloader from "./pdfDownloader";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
@@ -30,7 +30,7 @@ import SubMonths from "./Dashboard/Menu/SubMonths";
 import PurchaseMode from "./Dashboard/Menu/PurchaseMode";
 
 import { Modal } from "@material-ui/core";
-import ButtonMui from '@material-ui/core/Button';
+import ButtonMui from "@material-ui/core/Button";
 
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
@@ -42,7 +42,7 @@ import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import CategoryIcon from "@material-ui/icons/Category";
 import NationalityIcon from "@material-ui/icons/Public";
-import PlaceIcon from '@material-ui/icons/Place';
+import PlaceIcon from "@material-ui/icons/Place";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -62,6 +62,7 @@ const { Content, Sider, Header } = Layout;
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
 const API_URL = "http://3.108.159.143:8000/api/filter";
 const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
+const MAP_URL = "http://data.merd.online:8000/catchments_info/malls/";
 // const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {
@@ -116,6 +117,7 @@ export class NewDashboard extends Component {
       subscriptionAlertOpen: false,
       oneTimeSubPopUpOpen: false,
       cancelPopUpOpen: false,
+      mallName: null,
     };
     this.ModalHandlerClose = this.ModalHandlerClose.bind(this);
     this.setWrapperRef = this.setWrapperRef.bind(this);
@@ -152,7 +154,33 @@ export class NewDashboard extends Component {
     this._isMounted = true;
     document.addEventListener("mousedown", this.handleClickOutside);
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
-    this.createData(optionData);
+    const createdData = this.createData(optionData);
+    const url = new URL(window.location.href);
+    const object = JSON.parse(url.searchParams.get("data"));
+    console.log(object);
+    console.log(createdData);
+
+    const cities = createdData.cities;
+    const city = cities.find((c) => c.city === object.selectedCity);
+    const zones = [];
+
+    city.zone.forEach((zoneOption) => {
+      object.selectedZones.forEach((zone) => {
+        if (zoneOption.zone === zone) {
+          zones.push(zoneOption.id);
+        }
+      });
+    });
+
+    const temp = this.state.postObject;
+    temp.cities = [city.id];
+    temp.zones = zones;
+
+    this.setState({ mallName: object.selectedMall });
+
+    this.setState({ postObject: temp });
+    console.log(temp);
+
     // axios
     //   .get(API_URL)
     //   .then((res) => {
@@ -369,9 +397,8 @@ export class NewDashboard extends Component {
     if (csvData) {
       this.setState({ csvData });
     }
-    console.log(csvData, "csvDaata")
+    console.log(csvData, "csvDaata");
     return csvData;
-
   };
 
   //Used to create state variables that are used to display the menus
@@ -387,6 +414,12 @@ export class NewDashboard extends Component {
       nationality: optionData[2][1],
     });
     this.setState({ menuLoading: false });
+    return {
+      years: optionData[0][1],
+      category: optionData[3][1],
+      cities: optionData[4][1],
+      nationality: optionData[2][1],
+    };
   }
 
   //Adding a single zone
@@ -416,8 +449,10 @@ export class NewDashboard extends Component {
         tempData[whereToBePushed].indexOf(itemToBePushed),
         1
       );
-      this.setState({ postObject: tempData });
     }
+    this.setState({ postObject: tempData }, () =>
+      console.log(this.state.postObject)
+    );
   };
 
   //Called for Months, Years, Nationalities, SubSubCategories
@@ -434,6 +469,7 @@ export class NewDashboard extends Component {
       );
       this.setState({ postObject: tempData });
     }
+    console.log(this.state.postObject);
   };
 
   selectAllPurchaseMode = (e) => {
@@ -612,8 +648,7 @@ export class NewDashboard extends Component {
     let placeStr = "";
     const purchasePlace = this.state.postObject.placeOfPurchase;
     if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase";
-    else if (purchasePlace.length === 2)
-      placeStr = "In City And OutSide City";
+    else if (purchasePlace.length === 2) placeStr = "In City And OutSide City";
     else if (purchasePlace[0] == "in") placeStr = "In City";
     else if (purchasePlace[0] == "out") placeStr = "OutSide City";
 
@@ -626,13 +661,11 @@ export class NewDashboard extends Component {
     else if (mode[0] == "online") modeStr = "Only Online Mode";
     else if (mode[0] == "offline") modeStr = "Only Offline Mode";
 
-    // finalStr = modeStr + placeStr;
     return placeStr;
   };
   getPurchaseMode = () => {
-    let finalStr = "";
-    let placeStr = "";
     const purchasePlace = this.state.postObject.placeOfPurchase;
+    let placeStr;
     if (purchasePlace.length == 0) placeStr = "Select Place Of Purchase";
     else if (purchasePlace.length === 2)
       placeStr = "Inside the city and outside the city.";
@@ -648,29 +681,27 @@ export class NewDashboard extends Component {
     else if (mode[0] == "online") modeStr = "Only Online Mode.";
     else if (mode[0] == "offline") modeStr = "Only Offline Mode.";
 
-
     return modeStr;
   };
-// RESET SELECTIONS
-resetSelections = () => {
-  console.log(this.state.postObject,"selectedCities")
-  
-  this.setState({
-    postObject: {
-      cities: [],
-      zones: [],
-      years: [],
-      months: [],
-      categories: [],
-      subCategories: [],
-      subSubCategories: [],
-      nationalities: [],
-      purchaseMode: [],
-      placeOfPurchase: [],
-    }
-  });
-  
-}
+  // RESET SELECTIONS
+  resetSelections = () => {
+    console.log(this.state.postObject, "selectedCities");
+
+    this.setState({
+      postObject: {
+        cities: [],
+        zones: [],
+        years: [],
+        months: [],
+        categories: [],
+        subCategories: [],
+        subSubCategories: [],
+        nationalities: [],
+        purchaseMode: [],
+        placeOfPurchase: [],
+      },
+    });
+  };
   categoryDisplayer = (cat, sub, subsub) => {
     let catArray = [];
     let subObject = {};
@@ -793,7 +824,7 @@ resetSelections = () => {
     }
   };
 
-  getDataToEmail = (postData) => { };
+  getDataToEmail = (postData) => {};
 
   checkUserRights = () => {
     const userDetails = getUserDetail();
@@ -1133,17 +1164,20 @@ resetSelections = () => {
             </Header>
           </Layout>
           <Layout
-            style={{
-              // height: "1000vh",
-              // overflowY: "auto",
-            }}
+            style={
+              {
+                // height: "1000vh",
+                // overflowY: "auto",
+              }
+            }
           >
-
             <Sider
               width={this.state.siderWidth}
               className="site-layout-background"
             >
-             <h2 className="text-lg text-black text-center pr-4 pl-3 font-semibold capitalize bg-white">Make selections in the panel <br/>  to view market sizes</h2>
+              <h2 className="text-lg text-black text-center pr-4 pl-3 font-semibold capitalize bg-white">
+                Make selections in the panel <br /> to view market sizes
+              </h2>
 
               {!this.state.menuLoading ? (
                 <Menu
@@ -1158,16 +1192,18 @@ resetSelections = () => {
                   }}
                   theme={"light"}
                 >
-                  <SubMenu key="City" title="City">
-                    {this.state.cities.map((city) => (
-                      <SubCity
-                        key={city.city}
-                        city={city}
-                        addzone={this.addZone}
-                        selectallzones={this.selectAllZones}
-                      ></SubCity>
-                    ))}
-                  </SubMenu>
+                  {!this.state.mallName && (
+                    <SubMenu key="City" title="City">
+                      {this.state.cities.map((city) => (
+                        <SubCity
+                          key={city.city}
+                          city={city}
+                          addzone={this.addZone}
+                          selectallzones={this.selectAllZones}
+                        ></SubCity>
+                      ))}
+                    </SubMenu>
+                  )}
                   <SubMenu key="Years" title="Years">
                     {this.state.years.map((year) => (
                       <Menu.Item key={year}>
@@ -1213,15 +1249,17 @@ resetSelections = () => {
                       selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
                     />
                   </SubMenu>
-                  <div className="view-market-size-div" style={{ textAlign: "center" }}>
+                  <div
+                    className="view-market-size-div"
+                    style={{ textAlign: "center" }}
+                  >
                     <Item>
                       <span className="view-market-size-btn">
                         <Button
                           style={{ all: "unset" }}
                           onClick={() => this.checkData()}
-
                         >
-                          <span className="view-market-size-btn-text " >
+                          <span className="view-market-size-btn-text ">
                             View Market Size
                           </span>
                         </Button>
@@ -1305,7 +1343,8 @@ resetSelections = () => {
                   id="panel1a-header"
                 >
                   <Typography className="selection-made-text">
-                    You Are Viewing Market Size For:
+                    You Are Viewing Market Size For{" "}
+                    {this.state.mallName && `Mall ${this.state.mallName}`}:
                   </Typography>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -1341,10 +1380,10 @@ resetSelections = () => {
                           (this.state.postObject.months.length > 0
                             ? checkMonth.length === 12 //if all the months are selected
                               ? "Months:- The whole year"
-                              : "Months :- " + checkMonth.join(', ')
+                              : "Months :- " + checkMonth.join(", ")
                             : "Select Months") +
                           (this.state.postObject.years.length > 0
-                            ? ", Years :-  " + checkYear.join(', ')
+                            ? ", Years :-  " + checkYear.join(", ")
                             : ", Select Years")
                         }
                       />
@@ -1361,13 +1400,13 @@ resetSelections = () => {
                         primary="Categories"
                         secondary={
                           checkCategory.length > 0 ||
-                            checkSubCategory.length > 0 ||
-                            checkSubSubCategory.length > 0
+                          checkSubCategory.length > 0 ||
+                          checkSubSubCategory.length > 0
                             ? this.categoryDisplayer(
-                              checkCategory,
-                              checkSubCategory,
-                              checkSubSubCategory
-                            )
+                                checkCategory,
+                                checkSubCategory,
+                                checkSubSubCategory
+                              )
                             : "Select Categories"
                         }
                       />
@@ -1425,7 +1464,9 @@ resetSelections = () => {
                 (this.state.subscriber ? (
                   <Alert
                     // title={<span style={{ color: "#fff" }}>Caution!</span>}
-                    contentText={"You Need To Select All Filters Before Viewing Market Size"}
+                    contentText={
+                      "You Need To Select All Filters Before Viewing Market Size"
+                    }
                     btnText={"OK"}
                     ModalHandlerClose={this.ModalHandlerClose}
                   />
@@ -1556,31 +1597,25 @@ resetSelections = () => {
                 </Checkbox> */}
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
                 {/* removee */}
-                {
-                  this.state.displayMode == 'distinct' ?
-                    ""
-                    : <div style={{marginTop:'3rem'}}>
-                      <ButtonMui
-                      variant="contained" endIcon={<Download />} color="primary"
+                {this.state.displayMode == "distinct" ? (
+                  ""
+                ) : (
+                  <div style={{ marginTop: "3rem" }}>
+                    <ButtonMui
+                      variant="contained"
+                      endIcon={<Download />}
+                      color="primary"
                       disabled={this.state.tableData.length > 0 ? false : true}
                       onClick={() => renderExcel(this.getCsvData())}
                     >
                       Export Excel
                     </ButtonMui>
-                    </div>
-                }
+                  </div>
+                )}
 
-                {/* <Button
-                  icon={<DownloadOutlined />}
-                  disabled={this.state.tableData.length > 0 ? false : true}
-                  onClick={() => PdfDownloader(this.getCsvData())}
-                >
-                  Download pdf
-
-                </Button> */}
-                {/* removee */}
-
-                {/* </CSVLink> */}
+                <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
+                  Download Map
+                </a>
               </div>
               {!this.state.registeredUser ? (
                 <h1 style={{ fontSize: "1.5rem" }}>
@@ -1616,7 +1651,6 @@ resetSelections = () => {
           </Layout>
         </div>
         {/* TODO:to ask them if its */}
-
         <iframe name="hidden-frame" style={{ visibility: "hidden" }}></iframe>
         <Footer />
       </div>

@@ -1,0 +1,23 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+}
+.body-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin-top: -1rem;
+  background-color: white;
+}
+
+.filters {
+  margin: 2rem;
+  max-width: 20vw;
+}
