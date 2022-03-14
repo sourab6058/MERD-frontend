@@ -1,26 +1,25 @@
-import React, { Component } from "react";
+import React,{useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 
 import "../../css/HomePage/Hero.css";
 import getUserDetail from "../../utils/getUserDetail";
-class Hero extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: false,
-    };
-  }
+import heroImg from"../../img/duotone.png"
+function Hero () {
+  const [username, setUsername] = useState()
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     username: false,
+  //   };
+  // }
+  useEffect(() => {
+    const user = getUserDetail();
+    if (user.username) setUsername(user.username);
+  });
   
-  componentDidMount = () => {
-    const user = localStorage.getItem("user-details");
-    const userDetails = getUserDetail(user);
+ 
 
-    if (userDetails.username) {
-      this.setState({ username: userDetails.username });
-    }
-  };
-  render() {
-    let heroImg = require("../../img/duotone.png");
+
     return (
       <div className="hero">
         <img src={heroImg} className="heroImg" alt="" />
@@ -34,14 +33,14 @@ class Hero extends Component {
           </h3>
           <div className="home-page-btns">
             <>
-              {this.state.username ? (
+              {username ? (
                 ""
               ) : (
               <>
                 <Link className="font-bold text-lg  text-white bg-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg text-sm px-7 py-3 text-center mr-7 mb-2  dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" to="/subscribe">
                   Subscribe
                 </Link>
-                  <Link to='/ScheduleDemo' className="home-page-readmore font-bold text-lg text-white rounded-lg text-sm px-7 py-3 text-center mr-2 mb-2   button" href="/">
+                  <Link to='/ScheduleDemo' className="home-page-readmore font-bold text-lg text-white rounded-lg text-sm px-7 py-3 text-center mr-2 mb-2   button">
                   Schedule a Demo
                   </Link>
               </>
@@ -52,7 +51,7 @@ class Hero extends Component {
         </div>
       </div>
     );
-  }
+  
 }
 
 export default Hero;

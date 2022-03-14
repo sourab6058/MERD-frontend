@@ -374,6 +374,8 @@ export class NewDashboard extends Component {
 
   };
 
+ 
+
   //Used to create state variables that are used to display the menus
   createData(receivedData) {
     let optionData = receivedData;
@@ -652,8 +654,8 @@ export class NewDashboard extends Component {
     return modeStr;
   };
 // RESET SELECTIONS
-resetSelections = () => {
-  console.log(this.state.postObject,"selectedCities")
+resetSelections = (e) => {
+  // e.preventDefault();
   
   this.setState({
     postObject: {
@@ -669,7 +671,7 @@ resetSelections = () => {
       placeOfPurchase: [],
     }
   });
-  
+  window.open(`${window.location.href}`, "_self")
 }
   categoryDisplayer = (cat, sub, subsub) => {
     let catArray = [];
@@ -1158,14 +1160,19 @@ resetSelections = () => {
                   }}
                   theme={"light"}
                 >
-                  <SubMenu key="City" title="City">
+                  <SubMenu key="City" title="Country">
+                    {console.log(this.state.cities,"this.state.cities")}
                     {this.state.cities.map((city) => (
+                      
                       <SubCity
                         key={city.city}
                         city={city}
+                        country={city.country}
                         addzone={this.addZone}
                         selectallzones={this.selectAllZones}
-                      ></SubCity>
+                      >
+                        {console.log(city,"cityfilererr")}
+                      </SubCity>
                     ))}
                   </SubMenu>
                   <SubMenu key="Years" title="Years">
@@ -1227,7 +1234,7 @@ resetSelections = () => {
                         </Button>
                       </span>
                     </Item>
-                    {/* <Item>
+                    <Item>
                       <span className="view-market-size-btn">
                         <Button
                           style={{ all: "unset" }}
@@ -1239,7 +1246,7 @@ resetSelections = () => {
                           </span>
                         </Button>
                       </span>
-                    </Item> */}
+                    </Item>
                   </div>
                 </Menu>
               ) : (
