@@ -5,7 +5,7 @@ import { Radio, Space, Button, Checkbox } from "antd";
 
 import "../../css/MapUpload.css";
 
-const MAPS_URL = "http://localhost:8000/catchments_info/malls/";
+const MAPS_URL = "http://data.merd.online:8000/catchments_info/malls/";
 
 export default class MapUpload extends Component {
   constructor(props) {
@@ -127,6 +127,7 @@ export default class MapUpload extends Component {
                 type="file"
                 name="map-input"
                 id="mapInput"
+                accept="application/pdf"
                 onChange={this.handleMapSelection}
               />
               <Button
