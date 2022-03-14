@@ -157,6 +157,7 @@ export class NewDashboard extends Component {
     const createdData = this.createData(optionData);
     const url = new URL(window.location.href);
     const object = JSON.parse(url.searchParams.get("data"));
+    if (!object) return false;
     console.log(object);
     console.log(createdData);
 
