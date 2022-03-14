@@ -2,6 +2,7 @@ import React from "react";
 import ReportUpload from "./ReportUpload";
 import FileUpload from "./FileUpload";
 import DemographicUpload from "./DemographicUpload";
+import MapUpload from "./MapUpload";
 
 export default function index() {
   return (
@@ -11,6 +12,7 @@ export default function index() {
       <ReportUpload title="City Reports" url="city_reports/" />
       <ReportUpload title="Tourist Reports" url="tourist_reports/" />
       <DemographicUpload />
+      <MapUpload />
     </div>
   );
 }
