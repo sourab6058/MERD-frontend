@@ -245,12 +245,12 @@ export class Catchments extends Component {
             style={{ left: `${this.state.scrollX}vw` }}
           >
             <div className="intro slide bg-white rounded-lg text-black text-center text-3xl">
-              We understand you like to conduct a catchments analysis. Please
+              We understand you like to conduct a catchments analysis. <br/> Please
               choose the city and the mall
               <button
                 type="button"
                 onClick={this.handleNext}
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Proceed
                 <svg
@@ -268,11 +268,11 @@ export class Catchments extends Component {
               </button>
             </div>
 
-            <div className="slide slide2  text-black">
+            <div className="slide slide2  text-black text-3xl">
               Select a city from the dropdown below
               {this.state.citiesOptions.length ? (
                 <Dropdown overlay={citiesMenu} placement="bottomCenter" arrow>
-                  <span className="drp-dwn-btn custom-btn">
+                  <span className="drp-dwn-btn p-2 custom-btn rounded-lg border border-slate-500">
                     {this.state.selectedCity || "City"}
                     <ExpandMore style={{ fontSize: "2rem" }} />
                   </span>
@@ -281,18 +281,43 @@ export class Catchments extends Component {
                 "\nLoading Cities..."
               )}
               {this.state.mallOptions.length ? (
-                <span className="custom-btn" onClick={this.handleNext}>
-                  Proceed
+                <span  className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={this.handleNext}>
+                  Proceed  <svg
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
                 </span>
               ) : (
-                <span className="custom-btn disabled">Proceed</span>
+                <span  className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disable">
+                  Proceed
+                  <svg
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                  </span>
               )}
             </div>
             <div className="slide slide3 text-black text-3xl">
               Select a mall from the dropdown below
               {this.state.mallOptions.length ? (
                 <Dropdown overlay={mallsMenu} placement="bottomCenter" arrow>
-                  <span className="drp-dwn-btn custom-btn">
+                  <span className="drp-dwn-btn custom-btn rounded-lg borde">
                     {this.state.selectedMall || "Mall"}
                     <ExpandMore style={{ fontSize: "2rem" }} />
                   </span>
@@ -301,17 +326,43 @@ export class Catchments extends Component {
                 "\nLoading Malls..."
               )}
               {this.state.zones.length ? (
-                <span className="custom-btn" onClick={this.handleNext}>
+                <span  className="text-white mt-3 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onClick={this.handleNext}>
                   Proceed
+                  <svg
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
                 </span>
               ) : (
-                <span className="custom-btn disabled">Proceed</span>
+                <span  className="text-white mt-3 bg-blue-700 cursor-pointer hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disable">
+                  Proceed
+                  <svg
+                  class="ml-2 -mr-1 w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+                  </span>
               )}
             </div>
             <div className="slide slide4">
               <img src={mapImg} className="catchments-map"></img>
-              <div className="zones-menu">
-                Zones fall under the malls catchments
+              <div className="zones-menu text-black">
+                Zones fall under the malls catchments <br/>
                 {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
                 {this.state.selectedZones.length ? (
                   <form method="GET" action="/dashboard">
@@ -327,7 +378,7 @@ export class Catchments extends Component {
                     <input
                       type="submit"
                       value="See Market Size"
-                      className="custom-btn"
+                      className="text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     />
                   </form>
                 ) : (
