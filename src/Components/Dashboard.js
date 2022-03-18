@@ -69,6 +69,7 @@ export class NewDashboard extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
+    console.log("contructor from dashboard component")
     this.dataToBeEmailed = null;
 
     //optionData is the raw data received from the backend
@@ -402,7 +403,7 @@ export class NewDashboard extends Component {
     return csvData;
   };
 
- 
+
 
   //Used to create state variables that are used to display the menus
   createData(receivedData) {
@@ -686,26 +687,26 @@ export class NewDashboard extends Component {
 
     return modeStr;
   };
-// RESET SELECTIONS
-resetSelections = (e) => {
-  // e.preventDefault();
-  
-  this.setState({
-    postObject: {
-      cities: [],
-      zones: [],
-      years: [],
-      months: [],
-      categories: [],
-      subCategories: [],
-      subSubCategories: [],
-      nationalities: [],
-      purchaseMode: [],
-      placeOfPurchase: [],
-    }
-  });
-  window.open(`${window.location.href}`, "_self")
-}
+  // RESET SELECTIONS
+  resetSelections = (e) => {
+    // e.preventDefault();
+
+    this.setState({
+      postObject: {
+        cities: [],
+        zones: [],
+        years: [],
+        months: [],
+        categories: [],
+        subCategories: [],
+        subSubCategories: [],
+        nationalities: [],
+        purchaseMode: [],
+        placeOfPurchase: [],
+      }
+    });
+    window.open(`${window.location.href}`, "_self")
+  }
   categoryDisplayer = (cat, sub, subsub) => {
     let catArray = [];
     let subObject = {};
@@ -828,7 +829,7 @@ resetSelections = (e) => {
     }
   };
 
-  getDataToEmail = (postData) => {};
+  getDataToEmail = (postData) => { };
 
   checkUserRights = () => {
     const userDetails = getUserDetail();
@@ -1197,11 +1198,12 @@ resetSelections = (e) => {
                   theme={"light"}
                 >
                   {!this.state.mallName && (
-                    <SubMenu key="City" title="City">
+                    <SubMenu key="City" title="Countries">
                       {this.state.cities.map((city) => (
                         <SubCity
                           key={city.city}
                           city={city}
+                          country={city.country}
                           addzone={this.addZone}
                           selectallzones={this.selectAllZones}
                         ></SubCity>
@@ -1404,13 +1406,13 @@ resetSelections = (e) => {
                         primary="Categories"
                         secondary={
                           checkCategory.length > 0 ||
-                          checkSubCategory.length > 0 ||
-                          checkSubSubCategory.length > 0
+                            checkSubCategory.length > 0 ||
+                            checkSubSubCategory.length > 0
                             ? this.categoryDisplayer(
-                                checkCategory,
-                                checkSubCategory,
-                                checkSubSubCategory
-                              )
+                              checkCategory,
+                              checkSubCategory,
+                              checkSubSubCategory
+                            )
                             : "Select Categories"
                         }
                       />
@@ -1616,13 +1618,15 @@ resetSelections = (e) => {
                     </ButtonMui>
                   </div>
                 )}
- <ButtonMui  variant="contained"
-                      endIcon={<Download />}
-                      color="primary">
-                <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
-                  Download Map
-                </a>
+                   {this.state.mallName && (
+                <ButtonMui variant="contained"
+                  endIcon={<Download />}
+                  color="primary">
+                  <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
+                    Download Map
+                  </a>
                 </ButtonMui>
+                   )}
               </div>
               {!this.state.registeredUser ? (
                 <h1 style={{ fontSize: "1.5rem" }}>

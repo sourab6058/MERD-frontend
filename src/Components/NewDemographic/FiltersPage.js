@@ -33,7 +33,7 @@ export default class FiltersPage extends Component {
         <div className="filter-papers">
           <Paper className="city-paper paper">
             {this.props.cities.length > 0 && (
-              <Space direction="vertical">
+              <Space direction="horizontal">
                 <span className="city-header filter-header">Cities</span>
                 {this.props.cities.map((city) =>
                   this.props.citiesChecked.includes(city.id) ? (
@@ -52,6 +52,7 @@ export default class FiltersPage extends Component {
                       onClick={(e) => this.handleCitySelect(e, city.id)}
                       checked={false}
                     >
+                      
                       <span>{city.city}</span>
                     </Checkbox>
                   )

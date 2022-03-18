@@ -28,7 +28,7 @@ function Hero () {
           <span className="text-4xl font-bold underline text-white mb-4">WELCOME TO</span>
           <h1 className="text-4xl text-white font-bold  mb-4">Middle East Retail Data</h1>
           <h3 className="text-xl text-white">
-            Real Time And Detailed Consumer And Sales Data Available At The
+            Real Time And Detailed Consumer And <br/> Sales Data Available At The
             Click Of A Mouse
           </h3>
           <div className="home-page-btns">

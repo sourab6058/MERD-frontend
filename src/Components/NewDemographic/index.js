@@ -48,6 +48,7 @@ export default class NewDemographic extends Component {
           optionData = sortZones(optionData);
           localStorage.setItem("option-data", JSON.stringify(optionData));
           this.createData(optionData);
+          console.log(res.data.filters,"res.data.filters")
         })
         .catch((err) => {
           console.log(err);

@@ -180,7 +180,7 @@ class DistinctTable extends Component {
       var workbook = SHEET.utils.book_new();                    
      
       canvasesExcel.forEach((a, i) => {
-        var wb2 = SHEET.utils.table_to_sheet(a)
+        var wb2 = SHEET.utils.table_to_sheet(a,{raw: false})
         wb2["A1"].s = {
          
           font: {
@@ -355,7 +355,7 @@ class DistinctTable extends Component {
     } else {
       const htmlTable = document.getElementById(nationality)
       var wb = XLSX.utils.table_to_book(htmlTable, { sheet: "sheet1" })
-      return XLSX.writeFile(wb, fileName + "." + fileExtension || ('mySheetName.' + (fileExtension || 'xlsx')));
+      return XLSX.writeFile(wb, fileName + "." + fileExtension || ('MarketSize.' + (fileExtension || 'xlsx')));
     }
   }
   render() {
@@ -436,11 +436,11 @@ class DistinctTable extends Component {
                     <TableCell>Zone</TableCell>
                     {months.map((month) => (
                       <TableCell key={uuidv4()} align="right">
-                        {monthNames[month]}
+                        {monthNames[month]} <span>&nbsp;&nbsp;</span>
                       </TableCell>
                     ))}
                     <TableCell align="right">
-                      Total <br />
+                      Total &nbsp;&nbsp;
                       {/* {purchaseMode} */}
                     </TableCell>
                   </TableRow>

@@ -63,7 +63,7 @@ class Band extends Component {
 
   render() {
     return (
-      <div id={'aboutus'} className="band" ref={this.props.bandRef}>
+      <div id={'aboutus'} className="band w-full" ref={this.props.bandRef}>
         <span className="services">
           Our Services
         </span>
@@ -82,6 +82,11 @@ class Band extends Component {
         <span onClick={this.downloadBrochure} className="serviceslink">
           Download Our Brochure
         </span>
+        <div onClick={(e) => window.location.replace("/#product")} style={{ margin: '15px auto' }} className="serviceslink  flex  justify-center">
+          <div className=" ">
+            See Our Products &nbsp;<i class="fa-solid fa-arrow-down self-center"></i>
+          </div>
+        </div>
       </div>
     );
   }
