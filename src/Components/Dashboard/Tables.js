@@ -375,6 +375,10 @@ export class Tables extends Component {
                               year={year.year}
                               months={this.props.months}
                               city={city.city}
+                             
+                              monthsSelected={
+                                this.props.months
+                              }
                               purchaseMode={purchaseMode}
                               placeOfPurchase={placeOfPurchase}
                               category={category.category}
@@ -392,6 +396,10 @@ export class Tables extends Component {
                                     data={subcategory.data}
                                     year={year.year}
                                     city={city.city}
+                                   
+                                    monthsSelected={
+                                      this.props.months
+                                    }
                                     category={subcategory.subcategory}
                                     purchaseMode={purchaseMode}
                                     nationalities={this.props.nationalities}

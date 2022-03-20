@@ -1603,7 +1603,7 @@ export class NewDashboard extends Component {
                 </Checkbox> */}
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
                 {/* removee */}
-                {this.state.displayMode == "distinct" ? (
+                {this.state.displayMode == "distinct" || this.state.displayMode == "nationality" ? (
                   ""
                 ) : (
                   <div style={{ marginTop: "3rem" }}>

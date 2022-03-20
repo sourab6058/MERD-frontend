@@ -11,7 +11,9 @@ import Button from '@material-ui/core/Button';
 import html2canvas from 'html2canvas';
 import { v4 as uuidv4 } from "uuid";
 import Download from "@material-ui/icons/CloudDownload";
-
+// excel
+import * as XLSX from 'xlsx/xlsx.mjs';
+import SHEET from 'sheetjs-style-v2';
 import "../../../css/tables.css";
 
 function roundToNearestThousand(num) {
@@ -41,7 +43,7 @@ class DistinctTable extends Component {
     return this.props.data.length == 23 ? "All Zones" : this.props.data.map((row) => row.zone).join();
   };
   getMonths = () =>{
-    return this.props.months.length ==12 ? this.props.months :this.props.months.join(', ')
+    return this.props.months.length ==12 ? "All Months" :this.props.months
   }
   printDocument(city, year) {
     // const input = document.getElementById('nationaltable');
@@ -80,6 +82,69 @@ class DistinctTable extends Component {
     })
    
   }
+
+  exportExcel(fileExtension, fileName, nationality, allNationality,allNationalityNames,zones) {
+    const htmlTable = document.getElementById('nationaltable')
+    var workbook = SHEET.utils.book_new();
+    var wb = SHEET.utils.table_to_sheet(htmlTable, { raw: false })
+
+    wb["A1"].s = {
+
+      font: {
+
+        sz: 8,
+        bold: true,
+        color: {
+          rgb: "144380"
+        }
+      },
+    };
+    wb["A2"].s = { // set the style for target cell
+      font: {
+
+        sz: 14,
+        bold: true,
+        color: {
+          rgb: '#144380'
+        }
+      },
+    };
+    wb["A4"].s = { // set the style for target cell
+      font: {
+
+        sz: 10,
+        bold: true,
+        color: {
+          rgb: '#000'
+        }
+      },
+    };
+    wb["A28"].s = { // set the style for target cell
+      font: {
+
+        sz: 10,
+        bold: true,
+        color: {
+          rgb: '#000'
+        }
+      },
+    };
+
+    // wb["B4"].s = { // set the style for target cell
+    //   font: {
+
+    //     sz: 10,
+    //     bold: true,
+    //     color: {
+    //       rgb: '#000'
+    //     }
+    //   },
+    // };
+    SHEET.utils.book_append_sheet(workbook, wb, "sheet1");
+
+    return SHEET.writeFile(workbook, 'Market_Size_Data.xlsx');
+  
+}
   render() {
     console.log(this.props);
     if (this.props.data.length > 0) {
@@ -94,6 +159,9 @@ class DistinctTable extends Component {
           category,
           placeOfPurchase,
           purchaseMode,
+          monthsSelected,
+          nationality,
+          zones,
           year,
           months,
           nationalities,
@@ -103,16 +171,23 @@ class DistinctTable extends Component {
 
         return (
           <>
-            <div style={{display:'flex',justifyContent: "flex-end",marginTop: '2rem', marginBottom: '2rem' }}>
+            <div style={{display:'flex',justifyContent: "flex-end",marginTop: '2rem', marginBottom: '2rem',gap:"3rem" }}>
 
               <Button onClick={() => this.printDocument(this.props.city, this.props.year)} endIcon={<Download />} variant="contained" color="primary">
                 Generate Pdf
               </Button>
+              <Button
+                variant="contained"
+                id="tablexl"
+                onClick={() => this.exportExcel('xlsx', this.props.year, this.props.nationality, this.props.allNationality,this.props.allNationalityNames,this.props.zones)} endIcon={<Download />} color="primary">
+                Export Excel
+              </Button>
+
             </div>
-            <h1 className="text-xl mt-3 mb-4 italic text-sky-600 capitalize">
+            {/* <h1 className="text-xl mt-3 mb-4 italic text-sky-600 capitalize">
             Market Size (In USD) For  {city} / Zones:{this.getZonesList()} / {year} / {this.getMonths()} / {category}
               / {nationalities} / {purchaseMode} / {placeOfPurchase}
-            </h1>
+            </h1> */}
             <TableContainer
               component={Paper}
               style={{ width: "50%", margin: "2rem auto" }}
@@ -125,9 +200,25 @@ class DistinctTable extends Component {
               {/* <h1  >This is Market Size Data</h1> */}
               <Table id="nationaltable" className="nationaltables" aria-label="simple table" size="small">
                 <TableHead>
+                <TableRow>
+                    <TableCell style={{display:'none'}} align="left" colSpan={18}>
+                    Source: Middle East Retail Data (MERD)
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell align="left" colSpan={18}>
+                      Market Size (In USD) For  {city} / Zones:{zones} / {year} / {monthsSelected} / {category}
+                       {nationality} / {purchaseMode} / {placeOfPurchase}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell style={{display:'none'}} align="left" colSpan={14}>
+                     &nbsp;
+                    </TableCell>
+                  </TableRow>
                   <TableRow>
                     <TableCell align="left">Zones</TableCell>
-                    <TableCell align="right">Market Size</TableCell>
+                    <TableCell align="right" colSpan={3}>Market Size</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -136,10 +227,10 @@ class DistinctTable extends Component {
                       key={uuidv4()}
                       style={{ backgroundColor: idx % 2 ? "white" : "lightgrey" }}
                     >
-                      <TableCell component="th" scope="row">
+                      <TableCell component="th" scope="row" >
                         {`Zone ${row.zone}`}
                       </TableCell>
-                      <TableCell align="right">
+                      <TableCell align="right" colSpan={3}>
                         {row.total_market_size === 0
                           ? "Not Available"
                           : this.toUSDString(row.total_market_size)}
@@ -150,7 +241,7 @@ class DistinctTable extends Component {
                     <TableCell component="th" scope="row">
                       Total
                     </TableCell>
-                    <TableCell align="right">
+                    <TableCell align="right" colSpan={3}>
                       {`${this.numberWithCommas(this.calcTotal(data))}`}
                     </TableCell>
                   </TableRow>

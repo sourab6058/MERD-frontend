@@ -21,6 +21,10 @@ export default class NewDemographic extends Component {
     super();
     this.state = {
       cities: [],
+      countryAndCities:{
+        country : "",
+        city:[]
+      },
       menuLoading: true,
       idx: 0,
       postObject: {
@@ -48,7 +52,6 @@ export default class NewDemographic extends Component {
           optionData = sortZones(optionData);
           localStorage.setItem("option-data", JSON.stringify(optionData));
           this.createData(optionData);
-          console.log(res.data.filters,"res.data.filters")
         })
         .catch((err) => {
           console.log(err);
@@ -114,6 +117,9 @@ export default class NewDemographic extends Component {
     });
   };
 
+  //  CountryCityMapper = () =>{
+  // }
+
   render() {
     const pages = [
       <FiltersPage
@@ -123,6 +129,7 @@ export default class NewDemographic extends Component {
         }
         citiesChecked={this.state.postObject.cities}
       />,
+      
       <div className="flex w-full justify-around">
         <TableTypesPage
           handleTypeCheck={this.handleTypeCheck}
