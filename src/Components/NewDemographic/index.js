@@ -8,7 +8,7 @@ import FilesPage from "./FilesPage";
 import Nav from "../NavTwo";
 import Footer from "../Footer";
 
-import { Modal } from "antd";
+import { Modal, Button } from "antd";
 
 import { sortZones } from "../../utils/sort";
 
@@ -21,11 +21,11 @@ export default class NewDemographic extends Component {
     super();
     this.state = {
       cities: [],
-      countryAndCities:{
-        country : "",
-        city:[]
+      countryAndCities: {
+        country: "",
+        city: [],
       },
-      menuLoading: true,
+      firstTimePopUp: false,
       idx: 0,
       postObject: {
         cities: [],
@@ -45,6 +45,7 @@ export default class NewDemographic extends Component {
       optionData = JSON.parse(localStorage.getItem("option-data"));
       this.createData(optionData);
     } else {
+      this.setState({ firstTimePopUp: true });
       axios
         .get(API_URL)
         .then((res) => {
@@ -129,7 +130,7 @@ export default class NewDemographic extends Component {
         }
         citiesChecked={this.state.postObject.cities}
       />,
-      
+
       <div className="flex w-full justify-around">
         <TableTypesPage
           handleTypeCheck={this.handleTypeCheck}
@@ -150,29 +151,75 @@ export default class NewDemographic extends Component {
     return (
       <div>
         <Nav />
-        <div className="container">
-         <div className="flex justify-between items-center w-full pl-10 pr-10">
-       <div>
-       {this.state.idx > 0 && (
-            <div className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center" onClick={this.handlePrev}>
-             <svg class="mr-2 -mr-1 w-5 h-5 rotate-180" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  Prev
-            </div>
-          )}
-       </div>
-          <div>
-          {this.state.idx < pageCount - 1 && (
-            <div
-              className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  rounded-lg flex items-center "
-              onClick={() => this.handleNext(pageCount)}
-              style={{margin:'1rem'}}
+        <Modal
+          visible={this.state.firstTimePopUp}
+          title="Please wait while the filters load"
+          onOk={() => this.setState({ firstTimePopUp: false })}
+          onCancel={() => this.setState({ firstTimePopUp: false })}
+          footer={[
+            <Button
+              key="submit"
+              type="primary"
+              onClick={() => this.setState({ firstTimePopUp: false })}
             >
-              Next <svg class="ml-2 -mr-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </div>
-          )}
+              Okay
+            </Button>,
+          ]}
+        >
+          <div>
+            Filters takes from 2-5 minutes to load for the first time. Please
+            wait. This only happens once.
           </div>
-         </div>
+        </Modal>
+        <div className="container">
+          <div className="flex justify-between items-center w-full pl-10 pr-10">
+            <div>
+              {this.state.idx > 0 && (
+                <div
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center"
+                  onClick={this.handlePrev}
+                >
+                  <svg
+                    class="mr-2 -mr-1 w-5 h-5 rotate-180"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>{" "}
+                  Prev
+                </div>
+              )}
+            </div>
+            <div>
+              {this.state.idx < pageCount - 1 && (
+                <div
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800  rounded-lg flex items-center "
+                  onClick={() => this.handleNext(pageCount)}
+                  style={{ margin: "1rem" }}
+                >
+                  Next{" "}
+                  <svg
+                    class="ml-2 -mr-1 w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </div>
+              )}
+            </div>
+          </div>
           {pages[this.state.idx]}
-         
         </div>
         {this.state.alertOpen && this.warning()}
         <Footer />
