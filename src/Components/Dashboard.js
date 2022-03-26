@@ -69,7 +69,7 @@ export class NewDashboard extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-    console.log("contructor from dashboard component")
+    console.log("contructor from dashboard component");
     this.dataToBeEmailed = null;
 
     //optionData is the raw data received from the backend
@@ -249,6 +249,7 @@ export class NewDashboard extends Component {
       .then((res) => {
         let tableData = res.data.results;
         this.setState({ tableData });
+        console.log("tableData", tableData);
       })
       .catch((err) => {
         console.log(err);
@@ -402,8 +403,6 @@ export class NewDashboard extends Component {
     console.log(csvData, "csvDaata");
     return csvData;
   };
-
-
 
   //Used to create state variables that are used to display the menus
   createData(receivedData) {
@@ -703,10 +702,10 @@ export class NewDashboard extends Component {
         nationalities: [],
         purchaseMode: [],
         placeOfPurchase: [],
-      }
+      },
     });
-    window.open(`${window.location.href}`, "_self")
-  }
+    window.open(`${window.location.href}`, "_self");
+  };
   categoryDisplayer = (cat, sub, subsub) => {
     let catArray = [];
     let subObject = {};
@@ -829,7 +828,7 @@ export class NewDashboard extends Component {
     }
   };
 
-  getDataToEmail = (postData) => { };
+  getDataToEmail = (postData) => {};
 
   checkUserRights = () => {
     const userDetails = getUserDetail();
@@ -1276,9 +1275,8 @@ export class NewDashboard extends Component {
                         <Button
                           style={{ all: "unset" }}
                           onClick={() => this.resetSelections()}
-
                         >
-                          <span className="view-market-size-btn-text " >
+                          <span className="view-market-size-btn-text ">
                             RESET <i class="fa-solid fa-power-off"></i>
                           </span>
                         </Button>
@@ -1406,13 +1404,13 @@ export class NewDashboard extends Component {
                         primary="Categories"
                         secondary={
                           checkCategory.length > 0 ||
-                            checkSubCategory.length > 0 ||
-                            checkSubSubCategory.length > 0
+                          checkSubCategory.length > 0 ||
+                          checkSubSubCategory.length > 0
                             ? this.categoryDisplayer(
-                              checkCategory,
-                              checkSubCategory,
-                              checkSubSubCategory
-                            )
+                                checkCategory,
+                                checkSubCategory,
+                                checkSubSubCategory
+                              )
                             : "Select Categories"
                         }
                       />
@@ -1529,7 +1527,10 @@ export class NewDashboard extends Component {
                         className="formatSelectionOptions"
                         value="distinct"
                         onClick={() =>
-                          this.setState({ displayMode: "distinct" })
+                          this.setState({
+                            displayMode: "distinct",
+                            loading: false,
+                          })
                         }
                         type="primary"
                         size="large"
@@ -1543,7 +1544,10 @@ export class NewDashboard extends Component {
                         className="formatSelectionOptions"
                         value="nationality"
                         onClick={() =>
-                          this.setState({ displayMode: "nationality" })
+                          this.setState({
+                            displayMode: "nationality",
+                            loading: false,
+                          })
                         }
                         type="primary"
                         size="large"
@@ -1556,7 +1560,12 @@ export class NewDashboard extends Component {
                       <Radio
                         className="formatSelectionOptions"
                         value="zones"
-                        onClick={() => this.setState({ displayMode: "zones" })}
+                        onClick={() =>
+                          this.setState({
+                            displayMode: "zones",
+                            loading: false,
+                          })
+                        }
                         type="primary"
                         size="large"
                       >
@@ -1603,7 +1612,8 @@ export class NewDashboard extends Component {
                 </Checkbox> */}
                 {/* <CSVLink onClick={this.getCsvData} data={this.state.csvData}> */}
                 {/* removee */}
-                {this.state.displayMode == "distinct" || this.state.displayMode == "nationality" ? (
+                {this.state.displayMode == "distinct" ||
+                this.state.displayMode == "nationality" ? (
                   ""
                 ) : (
                   <div style={{ marginTop: "3rem" }}>
@@ -1618,15 +1628,17 @@ export class NewDashboard extends Component {
                     </ButtonMui>
                   </div>
                 )}
-                   {this.state.mallName && (
-                <ButtonMui variant="contained"
-                  endIcon={<Download />}
-                  color="primary">
-                  <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
-                    Download Map
-                  </a>
-                </ButtonMui>
-                   )}
+                {this.state.mallName && (
+                  <ButtonMui
+                    variant="contained"
+                    endIcon={<Download />}
+                    color="primary"
+                  >
+                    <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
+                      Download Map
+                    </a>
+                  </ButtonMui>
+                )}
               </div>
               {!this.state.registeredUser ? (
                 <h1 style={{ fontSize: "1.5rem" }}>
