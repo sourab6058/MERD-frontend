@@ -39,7 +39,7 @@ export class SubCity extends Component {
     //Conditional rendering according to checkAll state
     return this.props.country.country === "UAE" ? (
       <SubMenu
-        key={this.props.city.city}
+        key={this.props.city.city + "1"}
         className="UAECityCountry hidden"
         title={this.props.country.country}
         {...filteredProps}
@@ -48,14 +48,7 @@ export class SubCity extends Component {
           .filter((ct) => ct.country.country === "UAE")
           .map((d, i) => {
             return (
-              <SubMenu
-                key={
-                  this.props.city.id +
-                  Math.floor(Math.random() * this.props.city.id)
-                }
-                title={d.city}
-                {...filteredProps}
-              >
+              <SubMenu key={this.props.city.id + i} title={d.city}>
                 <Menu.Item>
                   <Checkbox
                     onChange={(e) => this.checkedAll("cities", d.id, e)}
@@ -95,11 +88,7 @@ export class SubCity extends Component {
         title={this.props.country.country}
         {...filteredProps}
       >
-        <SubMenu
-          key={this.props.city.city}
-          title={this.props.city.city}
-          {...filteredProps}
-        >
+        <SubMenu key={this.props.city.city + "1"} title={this.props.city.city}>
           {/* {console.log(this.props.city.city,"his.props.city.city")} */}
           <Menu.Item>
             <Checkbox

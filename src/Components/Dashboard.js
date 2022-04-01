@@ -1197,7 +1197,7 @@ export class NewDashboard extends Component {
                   theme={"light"}
                 >
                   {!this.state.mallName && (
-                    <SubMenu key="City" title="Countries">
+                    <SubMenu key="City" title="City">
                       {this.state.cities.map((city) => (
                         <SubCity
                           key={city.city}
