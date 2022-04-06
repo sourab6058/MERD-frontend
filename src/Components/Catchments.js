@@ -79,7 +79,11 @@ export class Catchments extends Component {
     for (let city of citiesData) {
       for (let mall of malls.data) {
         if (city[1].id === mall.city) {
-          _cities.push({ id: mall.city, name: city[1].city });
+          _cities.push({
+            id: mall.city,
+            name: city[1].city,
+            country: city[1].country.country,
+          });
         }
       }
     }
@@ -89,6 +93,7 @@ export class Catchments extends Component {
         self.findIndex((t) => t.id === city.id && t.name === city.name)
     );
     this.setState({ citiesOptions: _cities });
+    console.log(_cities);
     this.setState({ malls: malls.data });
   };
 
@@ -113,6 +118,7 @@ export class Catchments extends Component {
 
   handleCitySelection = (e) => {
     this.setState({ selectedCity: e.target.value });
+    console.log(e.target.value);
     const user = getUserDetail();
 
     if (user.username) {
@@ -178,25 +184,65 @@ export class Catchments extends Component {
     this.setState({ selectedZones: tempZones });
   };
 
-  render() {
-    const citiesMenu = (
-      <Menu key={1}>
-        <Radio.Group
-          onChange={this.handleCitySelection}
-          value={this.state.selectedCity}
-        >
-          <Space direction="vertical" className="h-52 overflow-y-scroll">
-            {this.state.citiesOptions.map((city) => (
-              <Menu.Item key={city.id}>
-                <Radio key={city.id} value={city.name}>
-                  {city.name}
+  citiesMenu = (citiesOptions, selectedCity) => {
+    const countries = [];
+    for (let city of citiesOptions) {
+      const idx = countries.findIndex(
+        (country) => country.country === city.country
+      );
+      if (idx === -1) {
+        countries.push({
+          country: city.country,
+          cities: [{ id: city.id, city: city.name }],
+        });
+      } else {
+        countries[idx].cities.push({ id: city.id, city: city.name });
+      }
+    }
+
+    console.log(countries);
+    console.log(selectedCity);
+
+    return (
+      <Menu mode="inline">
+        {countries.map((country) => (
+          <Menu.SubMenu
+            key={country.country}
+            title={
+              country.country +
+              (country.cities.findIndex(
+                (city) => city.city === selectedCity
+              ) !== -1
+                ? ", selected city:" + selectedCity
+                : "")
+            }
+            style={
+              country.cities.findIndex((city) => city.city === selectedCity) !==
+              -1
+                ? {
+                    border: "1px solid lightblue",
+                  }
+                : { border: "none" }
+            }
+          >
+            {country.cities.map((city) => (
+              <Menu.Item>
+                <Radio
+                  value={city.city}
+                  checked={selectedCity === city.city}
+                  onClick={this.handleCitySelection}
+                >
+                  {city.city}
                 </Radio>
               </Menu.Item>
             ))}
-          </Space>
-        </Radio.Group>
+          </Menu.SubMenu>
+        ))}
       </Menu>
     );
+  };
+
+  render() {
     const mallsMenu = (
       <Menu key={2}>
         <Radio.Group
@@ -271,7 +317,7 @@ export class Catchments extends Component {
             <ArrowBack
               className="arrow-back"
               onClick={this.handlePrev}
-              style={{ fontSize: "3.5rem", color: "white" }}
+              style={{ fontSize: "3.5rem", color: "lightblue", top: "2rem" }}
             />
           )}
           <div
@@ -304,16 +350,12 @@ export class Catchments extends Component {
 
             <div className="slide slide2  text-black text-3xl">
               Select a city from the dropdown below
-              {this.state.citiesOptions.length ? (
-                <Dropdown overlay={citiesMenu} placement="bottomCenter" arrow>
-                  <span className="drp-dwn-btn p-2 custom-btn rounded-lg border border-slate-500">
-                    {this.state.selectedCity || "City"}
-                    <ExpandMore style={{ fontSize: "2rem" }} />
-                  </span>
-                </Dropdown>
-              ) : (
-                "\nLoading Cities..."
-              )}
+              {this.state.citiesOptions.length
+                ? this.citiesMenu(
+                    this.state.citiesOptions,
+                    this.state.selectedCity
+                  )
+                : "\nLoading Cities..."}
               {this.state.mallOptions.length ? (
                 <span
                   className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
