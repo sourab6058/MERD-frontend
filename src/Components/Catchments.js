@@ -204,26 +204,14 @@ export class Catchments extends Component {
     console.log(selectedCity);
 
     return (
-      <Menu mode="inline">
+      <Menu mode="horizontal" style={{display:"flex", alignItems:"center",justifyContent:"space-around",width:"100%"}}>
         {countries.map((country) => (
           <Menu.SubMenu
             key={country.country}
             title={
-              country.country +
-              (country.cities.findIndex(
-                (city) => city.city === selectedCity
-              ) !== -1
-                ? ", selected city:" + selectedCity
-                : "")
+              <h4 align="center">{country.country}<ExpandMore/></h4>
             }
-            style={
-              country.cities.findIndex((city) => city.city === selectedCity) !==
-              -1
-                ? {
-                    border: "1px solid lightblue",
-                  }
-                : { border: "none" }
-            }
+            style={{width:"10rem",border:"1px solid var(--lightBlue)", borderRadius:"1rem"}}
           >
             {country.cities.map((city) => (
               <Menu.Item>
@@ -330,7 +318,7 @@ export class Catchments extends Component {
               <button
                 type="button"
                 onClick={this.handleNext}
-                className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                className="text-white mt-5 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 Proceed
                 <svg
@@ -349,16 +337,17 @@ export class Catchments extends Component {
             </div>
 
             <div className="slide slide2  text-black text-3xl">
-              Select a city from the dropdown below
+              <span style={{padding:"1rem", margin:"1rem",borderBottom:"1px solid var(--lightBlue)"}}>Select a city from the dropdowns below<ExpandMore/></span>
               {this.state.citiesOptions.length
                 ? this.citiesMenu(
                     this.state.citiesOptions,
                     this.state.selectedCity
                   )
                 : "\nLoading Cities..."}
+                <span style={{border:"2px solid var(--lightBlue)", padding:"0.5rem 1rem", margin:"1rem", fontSize:"1.5rem"}}>City Selected: {this.state.selectedCity}</span>
               {this.state.mallOptions.length ? (
                 <span
-                  className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  className="text-white mt-5 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   onClick={this.handleNext}
                 >
                   Proceed{" "}
@@ -376,7 +365,7 @@ export class Catchments extends Component {
                   </svg>
                 </span>
               ) : (
-                <span className="text-white mt-3 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disable">
+                <span className="text-white mt-5 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disable">
                   Proceed
                   <svg
                     class="ml-2 -mr-1 w-5 h-5"
