@@ -166,12 +166,13 @@ export class Catchments extends Component {
         }
       }
     }
-    this.setState({ zones });
+    this.setState({ zones, selectedZones:zones });
   };
 
-  addZone = (zone, e) => {
+  addZone = (e) => {
+    const zone = e.target.value;
     let tempZones = [...this.state.selectedZones];
-    if (e.target.checked) {
+    if (!tempZones.includes(zone)) {
       tempZones.push(zone);
       tempZones = [...new Set(tempZones)];
     } else {
@@ -199,9 +200,6 @@ export class Catchments extends Component {
         countries[idx].cities.push({ id: city.id, city: city.name });
       }
     }
-
-    console.log(countries);
-    console.log(selectedCity);
 
     return (
       <Menu mode="horizontal" style={{display:"flex", alignItems:"center",justifyContent:"space-around",width:"100%"}}>
@@ -254,7 +252,7 @@ export class Catchments extends Component {
         <Menu.ItemGroup>
           {this.state.zones.map((zone, idx) => (
             <Menu.Item key={idx}>
-              <Checkbox key={idx} onChange={(e) => this.addZone(zone, e)}>
+              <Checkbox key={idx} value={zone} checked={this.state.selectedZones.includes(zone)} onClick={(e) => this.addZone(e)}>
                 Zone {zone}
               </Checkbox>
             </Menu.Item>
@@ -344,7 +342,7 @@ export class Catchments extends Component {
                     this.state.selectedCity
                   )
                 : "\nLoading Cities..."}
-                <span style={{border:"2px solid var(--lightBlue)", padding:"0.5rem 1rem", margin:"1rem", fontSize:"1.5rem"}}>City Selected: {this.state.selectedCity}</span>
+                <span style={{border:"2px solid var(--lightBlue)", padding:"0.5rem 1rem", margin:"1rem", fontSize:"1.5rem"}}>{this.state.selectedCity?`City Selected: ${this.state.selectedCity}`:"No City Selected"}</span>
               {this.state.mallOptions.length ? (
                 <span
                   className="text-white mt-5 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -432,12 +430,13 @@ export class Catchments extends Component {
               )}
             </div>
             <div className="slide slide4">
-              <img src={mapImg} className="catchments-map"></img>
               <div className="zones-menu text-black">
-                Zones fall under the malls catchments <br />
-                {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
-                {this.state.selectedZones.length ? (
-                  <form method="GET" action="/dashboard">
+                Zones under the mall {this.state.selectedMall} <br />
+                
+              
+                  <form method="GET" action="/dashboard" style={{width:"15rem"}}>
+                    {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
+                    {this.state.selectedZones.length ? (<>
                     <input
                       type="hidden"
                       name="data"
@@ -450,14 +449,15 @@ export class Catchments extends Component {
                     <input
                       type="submit"
                       value="See Market Size"
-                      className="text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      className="disabled text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     />
-                  </form>
-                ) : (
+                    </>) : (
                   <span style={{ color: "pink", fontSize: "1rem" }}>
                     Please select atleast one zone.
                   </span>
                 )}
+                  </form>
+                
               </div>
             </div>
           </div>

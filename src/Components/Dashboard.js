@@ -1178,6 +1178,7 @@ export class NewDashboard extends Component {
             <Sider
               width={this.state.siderWidth}
               className="site-layout-background"
+              style={{ border: "1px solid lightblue" }}
             >
               <h2 className="text-lg text-black text-center pr-4 pl-3 font-semibold capitalize bg-white">
                 Make selections in the panel <br /> to view market sizes
@@ -1330,6 +1331,35 @@ export class NewDashboard extends Component {
                 margin: 0,
               }}
             >
+              {this.state.mallName && (
+                <>
+                  <h3>You are viewing Market Size for the mall:</h3>
+                  <br />
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <h1 style={{ color: "var(--darkBlue)" }}>
+                      {this.state.mallName}{" "}
+                    </h1>
+                    <ButtonMui
+                      variant="contained"
+                      endIcon={<Download />}
+                      color="primary"
+                    >
+                      <a
+                        href={`${MAP_URL}?mall_map=${this.state.mallName}`}
+                        style={{ color: "white" }}
+                      >
+                        Download Map
+                      </a>
+                    </ButtonMui>
+                  </div>
+                </>
+              )}
               <Accordion
                 onChange={() =>
                   this.state.loading &&
@@ -1346,10 +1376,11 @@ export class NewDashboard extends Component {
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
-                  <Typography className="selection-made-text">
-                    You Are Viewing Market Size For{" "}
-                    {this.state.mallName && `Mall ${this.state.mallName}`}:
-                  </Typography>
+                  {!this.state.mallName && (
+                    <Typography className="selection-made-text">
+                      You Are Viewing Market Size For :
+                    </Typography>
+                  )}
                 </AccordionSummary>
                 <AccordionDetails>
                   <List>
@@ -1627,17 +1658,6 @@ export class NewDashboard extends Component {
                       Export Excel
                     </ButtonMui>
                   </div>
-                )}
-                {this.state.mallName && (
-                  <ButtonMui
-                    variant="contained"
-                    endIcon={<Download />}
-                    color="primary"
-                  >
-                    <a href={`${MAP_URL}?mall_map=${this.state.mallName}`}>
-                      Download Map
-                    </a>
-                  </ButtonMui>
                 )}
               </div>
               {!this.state.registeredUser ? (
