@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 
-import Nav from "./Nav";
 import NavTwo from "./NavTwo";
 import Band from "./HomePage/Band";
-import AboutUs from "./HomePage/AboutUs";
 import Cards from "./HomePage/Cards";
 import Footer from "./Footer";
-import HeroMap from "./HomePage/HeroMap";
 import Hero from "./HomePage/Hero";
+import HowToVideo from "./HomePage/HowToVideo";
 import CookieDialog from "./CookieDialog";
 
 const SESSION_API = "https://merd.online/user-details/?sid=";
@@ -54,6 +52,7 @@ class HomePage extends Component {
           scrollToProducts={this.scrollToProducts}
         />
         <Hero subscribed={this.state.subscribed} />
+        <HowToVideo/>
         <Band bandRef={this.bandRef} />
         <Cards  productsRef={this.productsRef} />
         <Footer />
