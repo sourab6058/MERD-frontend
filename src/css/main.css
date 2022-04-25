@@ -182,18 +182,8 @@ p {
 
 /* HERO */
 
-.hero {
-  padding: 0;
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .heroImg {
-  display: block;
+  display: absolute;
   top: 5;
   width: 100%;
   height: 100vh;
@@ -255,45 +245,6 @@ p {
   left: 30vw;
   opacity: 15%;
 }
-
-.heroText {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: left;
-  justify-content: left;
-  bottom: 30vh;
-  padding-left:4.2rem;
-  min-height: auto;
-  width: 100%;
-  /* padding: 1rem; */
-  color: white;
-  /* padding: 0.5rem; */
-  /* border: 1px solid white; */
-}
-/* .heroText h1 {
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  margin: 0;
-  font-size: 32px;
-
-}
-.heroText span {
-  color: white;
-  font-size: 40px;
-  font-family:sans-serif;
-}
-.hertoText span {
-  font-size: 42px !important;
-} */
-/* .heroText h3 {
-  color: white;
-  margin-bottom: 0.5rem;
-  font-weight: lighter;
-  font-size: 24px;
-
-} */
 .project_oneText {
   color: white;
   position: absolute;

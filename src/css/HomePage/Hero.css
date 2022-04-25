@@ -2,34 +2,39 @@
   --darkBlue: #144380;
   --lightBlue: #0f74c3;
 }
+.hero{
+  background:url("../../img/duotone.png");
+  background-repeat: no-repeat;
+  background-size: cover; 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  border:1px solid red;
+  min-height: 100vh;
+
+}
 .heroText .home-page-btns {
   display: flex;
   flex-direction: row;
-  margin-block: 1.5rem;
 }
 .home-page-subscribe {
   background-color: #0080ff;
   color: white;
 }
+.hero-vid-text{
+  position:relative;
+  display:flex;
+  flex-direction: row;
+  border:1px solid red;
+
+}
+.tutorial-vid{
+  margin-left:18rem;
+}
 .heroText {
   font-family: sans-serif !important;
-}
-
-.heroText .home-page-btns .button {
-  /* font-size: 1.25rem; */
-  /* margin: 1.5rem; */
-  /* margin-inline: 1rem; */
-  /* padding: 0.5rem; */
-  /* border: 1px solid; */
-  /* border-radius: 0.5rem; */
-  /* min-width: 8rem; */
-  /* text-align: center; */
-  /* font-weight: 600; */
-  /* color: white; */
-}
-
-.home-page-subscribe:hover {
-  color: white;
+  margin-left:5rem;
 }
 
 .home-page-readmore {
