@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Checkbox } from "antd";
 
-export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
+export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase, purchasePlaceSelected }) {
   const [disableCheck, setDisableCheck] = useState(false);
 
   function handleBothCheck(e) {
@@ -30,12 +30,12 @@ export default function PlaceOfPurchase({ addItem, selectAllPlaceOfPurchase }) {
       ) : (
         <div style={{background:'#fafafa'}}>
           <Menu.Item key="in2">
-            <Checkbox onChange={(e) => addItem("placeOfPurchase", "in", e)}>
+            <Checkbox onChange={(e) => addItem("placeOfPurchase", "in", e)} checked={purchasePlaceSelected.includes("in")}>
             In City
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="out2">
-            <Checkbox onChange={(e) => addItem("placeOfPurchase", "out", e)}>
+            <Checkbox onChange={(e) => addItem("placeOfPurchase", "out", e)} checked={purchasePlaceSelected.includes("out")}>
             Outside City
             </Checkbox>
           </Menu.Item>

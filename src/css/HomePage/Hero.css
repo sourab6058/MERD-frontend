@@ -30,7 +30,17 @@
 
 }
 .tutorial-vid{
-  margin-left:18rem;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left:8rem;
+}
+.one-min{
+  font-size: 1.25rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid white;
 }
 .heroText {
   font-family: sans-serif !important;

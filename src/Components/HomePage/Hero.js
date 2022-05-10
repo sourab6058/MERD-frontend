@@ -52,16 +52,20 @@ function Hero() {
           </>
         </div>
       </div>
-      <iframe
-        src="https://www.youtube.com/embed/E7wJTI-1dvQ"
-        frameborder="0"
-        allow="autoplay; encrypted-media"
-        allowfullscreen
-        className="tutorial-vid"
-        title="video"
-        height="200"
-        width="400"
-      />
+      <div className="tutorial-vid">
+        <span className="text-white one-min">
+          1 Minute Description of Middle East Retail Data
+        </span>
+        <iframe
+          src="https://www.youtube.com/embed/E7wJTI-1dvQ"
+          frameborder="0"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+          title="video"
+          height="200"
+          width="400"
+        />
+      </div>
     </div>
   );
 }

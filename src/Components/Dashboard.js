@@ -156,32 +156,45 @@ export class NewDashboard extends Component {
     document.addEventListener("mousedown", this.handleClickOutside);
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
     const createdData = this.createData(optionData);
+
+    //selections made before logging in
+    let selectionsMade = localStorage.getItem("selectionsMade");
+    selectionsMade = JSON.parse(selectionsMade);
+    console.log(selectionsMade);
+    if (selectionsMade) {
+      this.setState({ postObject: selectionsMade });
+      localStorage.removeItem("selectionsMade");
+      console.log("chala");
+    }
+
+    //the url will have city data when redirected from catchments page
     const url = new URL(window.location.href);
     const object = JSON.parse(url.searchParams.get("data"));
-    if (!object) return false;
-    console.log(object);
-    console.log(createdData);
+    if (object) {
+      console.log(object);
+      console.log(createdData);
 
-    const cities = createdData.cities;
-    const city = cities.find((c) => c.city === object.selectedCity);
-    const zones = [];
+      const cities = createdData.cities;
+      const city = cities.find((c) => c.city === object.selectedCity);
+      const zones = [];
 
-    city.zone.forEach((zoneOption) => {
-      object.selectedZones.forEach((zone) => {
-        if (zoneOption.zone === zone) {
-          zones.push(zoneOption.id);
-        }
+      city.zone.forEach((zoneOption) => {
+        object.selectedZones.forEach((zone) => {
+          if (zoneOption.zone === zone) {
+            zones.push(zoneOption.id);
+          }
+        });
       });
-    });
 
-    const temp = this.state.postObject;
-    temp.cities = [city.id];
-    temp.zones = zones;
+      const temp = this.state.postObject;
+      temp.cities = [city.id];
+      temp.zones = zones;
 
-    this.setState({ mallName: object.selectedMall });
+      this.setState({ mallName: object.selectedMall });
 
-    this.setState({ postObject: temp });
-    console.log(temp);
+      this.setState({ postObject: temp });
+      console.log(temp);
+    }
 
     // axios
     //   .get(API_URL)
@@ -580,9 +593,13 @@ export class NewDashboard extends Component {
       tempData[whereToBePushed].push(itemToBePushed);
       this.setState({ postObject: tempData });
     } else {
-      tempData[whereToBePushed].splice(1);
+      tempData[whereToBePushed].splice(
+        tempData[whereToBePushed].indexOf(itemToBePushed),
+        1
+      );
       this.setState({ postObject: tempData });
     }
+    console.log(tempData);
   };
 
   selectAllSubSubCategories = (whereToBePushed, itemToBePushed, e) => {
@@ -617,6 +634,7 @@ export class NewDashboard extends Component {
         1
       );
       this.setState({ postObject: tempData });
+      console.log(tempData);
     }
   };
 
@@ -1010,6 +1028,7 @@ export class NewDashboard extends Component {
     let checkSubCategory = [];
     let checkSubSubCategory = [];
     let checkNationality = [];
+    console.log(this.state.postObject);
     if (this.state.postObject.cities.length > 0) {
       const cities = this.state.cities;
       const subcities = this.state.postObject.cities;
@@ -1203,6 +1222,7 @@ export class NewDashboard extends Component {
                         <SubCity
                           key={city.city}
                           city={city}
+                          zonesSelected={this.state.postObject.zones}
                           country={city.country}
                           addzone={this.addZone}
                           selectallzones={this.selectAllZones}
@@ -1215,23 +1235,34 @@ export class NewDashboard extends Component {
                       <Menu.Item key={year}>
                         <Checkbox
                           onClick={(e) => this.addItem("years", year, e)}
+                          checked={this.state.postObject.years.includes(year)}
                         >
                           {year}
                         </Checkbox>
                       </Menu.Item>
                     ))}
                   </SubMenu>
-                  <SubMonths addmonths={this.addMonths} />
+                  <SubMonths
+                    addmonths={this.addMonths}
+                    monthsSelected={this.state.postObject.months}
+                  />
                   <SubMenu key="Category" title="Category">
                     {this.state.category.map((main) => (
                       <SubCategory
                         key={main.id}
+                        checked={this.state.postObject.categories.includes(
+                          main.id
+                        )}
                         main={main}
                         additem={this.addItem}
                         selectallsubsubcategories={
                           this.selectAllSubSubCategories
                         }
                         selectallsubcategories={this.selectAllSubCategories}
+                        subCatgSelected={this.state.postObject.subCategories}
+                        subsubcategoriesSelected={
+                          this.state.postObject.subSubCategories
+                        }
                       />
                     ))}
                   </SubMenu>
@@ -1242,17 +1273,22 @@ export class NewDashboard extends Component {
                     nationality={this.state.nationality}
                     additem={this.addItem}
                     selectAllNationalities={this.selectAllNationalities}
+                    natSelected={this.state.postObject.nationalities}
                   />
                   <SubMenu key="purchase mode" title="Purchase Mode">
                     <PurchaseMode
                       addItem={this.addItem}
                       selectAllPurchaseMode={this.selectAllPurchaseMode}
+                      modeSelected={this.state.postObject.purchaseMode}
                     />
                   </SubMenu>
                   <SubMenu key="place of purchase" title="Place Of Purchase">
                     <PlaceOfPurchase
                       addItem={this.addItem}
                       selectAllPlaceOfPurchase={this.selectAllPlaceOfPurchase}
+                      purchasePlaceSelected={
+                        this.state.postObject.placeOfPurchase
+                      }
                     />
                   </SubMenu>
                   <div
@@ -1511,6 +1547,7 @@ export class NewDashboard extends Component {
                     handleSubscriptionAlert={this.handleSubscriptionAlert}
                     showOneTimeSubPopUp={this.showOneTimeSubPopUp}
                     handleCancelPopUp={this.handleCancelPopUp}
+                    postObject={this.state.postObject}
                   />
                 ))}
               {this.state.subscriptionAlertOpen && (
@@ -1519,6 +1556,7 @@ export class NewDashboard extends Component {
                   handleSubscriptionAlert={this.handleSubscriptionAlert}
                   showOneTimeSubPopUp={this.showOneTimeSubPopUp}
                   handleCancelPopUp={this.handleCancelPopUp}
+                  postObject={this.state.postObject}
                 />
               )}
               {this.state.oneTimeSubPopUpOpen && (

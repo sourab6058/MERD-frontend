@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Menu, Checkbox } from 'antd'
 
-const SubNationality = ({ nationality, additem, selectAllNationalities, ...rest }) => {
+const SubNationality = ({ nationality, additem, selectAllNationalities,natSelected, ...rest }) => {
     const [allSelected, setAllSelected] = useState(false)
 
     const checkedAll = e => {
@@ -17,6 +17,7 @@ const SubNationality = ({ nationality, additem, selectAllNationalities, ...rest 
                 !allSelected ? <Menu.Item key={nation.nationality}>
                     <Checkbox
                         onClick={(e) => additem('nationalities', nation.id, e)}
+                        checked={natSelected.includes(nation.id)}
                     >
                         {nation.nationality}
                     </Checkbox>

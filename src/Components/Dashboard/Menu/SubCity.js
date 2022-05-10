@@ -71,7 +71,8 @@ export class SubCity extends Component {
                     <Menu.Item key={zone.id}>
                       <Checkbox
                         disabled={this.state.checkedAll}
-                        onChange={(e) =>
+                        checked={this.props.zonesSelected.includes(zone.id)}
+                        onClick={(e) =>
                           this.props.addzone("zones", zone.id, e)
                         }
                       >{`Zone ${zone.zone}`}</Checkbox>

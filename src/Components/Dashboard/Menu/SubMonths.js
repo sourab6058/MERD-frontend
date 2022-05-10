@@ -1,6 +1,6 @@
 import React from 'react'
 import { Menu, Checkbox } from 'antd'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SubSubMonths from './SubSubMonths';
 const months = [
     {
@@ -34,7 +34,15 @@ const months = [
 ]
 let selectedMonths = [];
 
-const SubMonths = ({ addmonths, ...rest }) => {
+const SubMonths = ({ addmonths,monthsSelected ,...rest }) => {
+
+    useEffect(()=>{
+        if(monthsSelected.length===12){
+            setAllQuartersSelected(true);
+        }
+
+    }, [monthsSelected])
+
     const [allSelected, setAllSelected] = useState({
         First: false,
         Second: false,
@@ -107,9 +115,9 @@ const SubMonths = ({ addmonths, ...rest }) => {
 
     return (
         <Menu.SubMenu key="Months" title="Months" {...rest}>
-            <Menu.Item><Checkbox onChange={selectAllQuarters}>Select All</Checkbox></Menu.Item>
+            <Menu.Item><Checkbox onClick={selectAllQuarters} checked={allQuartersSelected}>Select All</Checkbox></Menu.Item>
             {months.map(quarter => !allQuartersSelected &&
-                <SubSubMonths key={quarter.quarter} quarter={quarter} selectquarter={selectQuarter} selectmonth={selectMonth} allselected={allSelected} />
+                <SubSubMonths key={quarter.quarter} monthsSelected={monthsSelected} quarter={quarter} selectquarter={selectQuarter} selectmonth={selectMonth} allselected={allSelected} />
                 // <Menu.SubMenu key={quarter.quarter} title={`${quarter.quarter} Quarter`}>
                 //     <Menu.Item><Checkbox onChange={e => selectQuarter(quarter.quarter, e)}>Select All</Checkbox></Menu.Item>
                 //     {quarter.months.map(month =>

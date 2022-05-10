@@ -39,6 +39,9 @@ class HomePage extends Component {
       document.cookie = `user-details=${userDetails}`;
       this.setState({ subscribed: true });
       window.history.pushState("homepage", "homepage", "#");
+      if (localStorage.getItem("selectionsMade")) {
+        window.location = "http://localhost:3000/dashboard";
+      }
     } else {
       console.log("No Params");
     }
@@ -52,7 +55,7 @@ class HomePage extends Component {
         />
         <Hero subscribed={this.state.subscribed} />
         <Band bandRef={this.bandRef} />
-        <Cards  productsRef={this.productsRef} />
+        <Cards productsRef={this.productsRef} />
         <Footer />
       </div>
     );

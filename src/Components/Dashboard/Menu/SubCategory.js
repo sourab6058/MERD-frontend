@@ -32,9 +32,9 @@ export class SubCategory extends Component {
 
         return (   
             <SubMenu {...filteredProps} key={this.props.main.name} title={_.capitalize(this.props.main.name)}>
-                <Menu.Item><Checkbox onChange={(e) => this.checkedAll('categories', this.props.main.id, e)} >{`Select all ${this.props.main.name}`}</Checkbox></Menu.Item>
+                <Menu.Item><Checkbox onClick={(e) => this.checkedAll('categories', this.props.main.id, e)} checked={this.props.checked}>{`Select all ${this.props.main.name}`}</Checkbox></Menu.Item>
                 {this.props.main.sub_category.map(sub =>
-                    <SubSubCategory key={sub.name} sub={sub} additem={this.props.additem} selectallsubsubcategories={this.props.selectallsubsubcategories} shouldreload={this.state.childReload.toString()} />
+                    <SubSubCategory checked={this.props.subCatgSelected.includes(sub.id)} subsubCatgSelected={this.props.subsubcategoriesSelected} key={sub.name} sub={sub} additem={this.props.additem} selectallsubsubcategories={this.props.selectallsubsubcategories} shouldreload={this.state.childReload.toString()} />
                 )}
             </SubMenu>
         )

@@ -11,6 +11,7 @@ export default function SubscriptionAlert({
   handleSubscriptionAlert,
   showOneTimeSubPopUp,
   handleCancelPopUp,
+  postObject,
 }) {
   function handleOneTimeSubscribe() {
     handleSubscriptionAlert();
@@ -19,6 +20,13 @@ export default function SubscriptionAlert({
   function handleCancel(state) {
     handleSubscriptionAlert();
     handleCancelPopUp(state);
+  }
+  //href="https://merd.online/login/"
+  function handleLogin() {
+    //selections made are stored in cookie, user do not have to make selecttions after logging in
+    localStorage.setItem("selectionsMade", JSON.stringify(postObject));
+    //in end the window is redirected to login page (php)
+    window.location.href = "https://merd.online/login/";
   }
   return (
     <>
@@ -73,7 +81,7 @@ export default function SubscriptionAlert({
                   </Link>
                   <a
                     className="registration-required-btn-subscribe"
-                    href="https://merd.online/login/"
+                    onClick={handleLogin}
                   >
                     <span className="cta">Login</span>
                   </a>

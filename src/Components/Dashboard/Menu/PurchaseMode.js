@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Menu, Checkbox } from "antd";
 
-export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
+export default function PurchaseMode({ addItem, selectAllPurchaseMode, modeSelected }) {
   const [disableCheck, setDisableCheck] = useState(false);
 
   function handleBothCheck(e) {
@@ -28,12 +28,12 @@ export default function PurchaseMode({ addItem, selectAllPurchaseMode }) {
       ) : (
         <div>
           <Menu.Item key="offline2">
-            <Checkbox onChange={(e) => addItem("purchaseMode", "offline", e)}>
+            <Checkbox onClick={(e) => addItem("purchaseMode", "offline", e)} checked={modeSelected.includes("offline")}>
                Offline (Buy From Physical Location) 
             </Checkbox>
           </Menu.Item>
           <Menu.Item key="online2">
-            <Checkbox onChange={(e) => addItem("purchaseMode", "online", e)}>
+            <Checkbox onClick={(e) => addItem("purchaseMode", "online", e)} checked={modeSelected.includes("online")}>
               Online
             </Checkbox>
           </Menu.Item>
