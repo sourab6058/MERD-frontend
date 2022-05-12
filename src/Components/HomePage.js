@@ -40,7 +40,7 @@ class HomePage extends Component {
       this.setState({ subscribed: true });
       window.history.pushState("homepage", "homepage", "#");
       if (localStorage.getItem("selectionsMade")) {
-        window.location = "http://localhost:3000/dashboard";
+        window.location = "https://data.merd.online/dashboard";
       }
     } else {
       console.log("No Params");

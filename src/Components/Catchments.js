@@ -12,10 +12,8 @@ import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
 import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
 import CancelPopUp from "./Dashboard/CancelPopUp";
 
-const mapImg = require("../img/maps.jpg");
-
-const MALLS_URL = "http://3.108.159.143:8000/catchments_info/";
-const API_URL = "http://3.108.159.143:8000/api/filter";
+const MALLS_URL = "https://data.merd.online/catchments_info/";
+const API_URL = "https://data.merd.online/api/filter";
 // const MALLS_URL = "http://localhost:8000/catchments_info/";
 // const API_URL = "http://localhost:8000/api/filter";
 
@@ -166,7 +164,7 @@ export class Catchments extends Component {
         }
       }
     }
-    this.setState({ zones, selectedZones:zones });
+    this.setState({ zones, selectedZones: zones });
   };
 
   addZone = (e) => {
@@ -202,14 +200,29 @@ export class Catchments extends Component {
     }
 
     return (
-      <Menu mode="horizontal" style={{display:"flex", alignItems:"center",justifyContent:"space-around",width:"100%"}}>
+      <Menu
+        mode="horizontal"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-around",
+          width: "100%",
+        }}
+      >
         {countries.map((country) => (
           <Menu.SubMenu
             key={country.country}
             title={
-              <h4 align="center">{country.country}<ExpandMore/></h4>
+              <h4 align="center">
+                {country.country}
+                <ExpandMore />
+              </h4>
             }
-            style={{width:"10rem",border:"1px solid var(--lightBlue)", borderRadius:"1rem"}}
+            style={{
+              width: "10rem",
+              border: "1px solid var(--lightBlue)",
+              borderRadius: "1rem",
+            }}
           >
             {country.cities.map((city) => (
               <Menu.Item>
@@ -252,7 +265,12 @@ export class Catchments extends Component {
         <Menu.ItemGroup>
           {this.state.zones.map((zone, idx) => (
             <Menu.Item key={idx}>
-              <Checkbox key={idx} value={zone} checked={this.state.selectedZones.includes(zone)} onClick={(e) => this.addZone(e)}>
+              <Checkbox
+                key={idx}
+                value={zone}
+                checked={this.state.selectedZones.includes(zone)}
+                onClick={(e) => this.addZone(e)}
+              >
                 Zone {zone}
               </Checkbox>
             </Menu.Item>
@@ -335,14 +353,34 @@ export class Catchments extends Component {
             </div>
 
             <div className="slide slide2  text-black text-3xl">
-              <span style={{padding:"1rem", margin:"1rem",borderBottom:"1px solid var(--lightBlue)"}}>Select a city from the dropdowns below<ExpandMore/></span>
+              <span
+                style={{
+                  padding: "1rem",
+                  margin: "1rem",
+                  borderBottom: "1px solid var(--lightBlue)",
+                }}
+              >
+                Select a city from the dropdowns below
+                <ExpandMore />
+              </span>
               {this.state.citiesOptions.length
                 ? this.citiesMenu(
                     this.state.citiesOptions,
                     this.state.selectedCity
                   )
                 : "\nLoading Cities..."}
-                <span style={{border:"2px solid var(--lightBlue)", padding:"0.5rem 1rem", margin:"1rem", fontSize:"1.5rem"}}>{this.state.selectedCity?`City Selected: ${this.state.selectedCity}`:"No City Selected"}</span>
+              <span
+                style={{
+                  border: "2px solid var(--lightBlue)",
+                  padding: "0.5rem 1rem",
+                  margin: "1rem",
+                  fontSize: "1.5rem",
+                }}
+              >
+                {this.state.selectedCity
+                  ? `City Selected: ${this.state.selectedCity}`
+                  : "No City Selected"}
+              </span>
               {this.state.mallOptions.length ? (
                 <span
                   className="text-white mt-5 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -431,33 +469,44 @@ export class Catchments extends Component {
             </div>
             <div className="slide slide4">
               <div className="zones-menu text-black">
-                Zones under the mall {this.state.selectedMall} <br />
-                
-              
-                  <form method="GET" action="/dashboard" style={{width:"15rem"}}>
-                    {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
-                    {this.state.selectedZones.length ? (<>
-                    <input
-                      type="hidden"
-                      name="data"
-                      value={JSON.stringify({
-                        selectedCity: this.state.selectedCity,
-                        selectedZones: this.state.selectedZones,
-                        selectedMall: this.state.selectedMall,
-                      })}
-                    />
-                    <input
-                      type="submit"
-                      value="See Market Size"
-                      className="disabled text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    />
-                    </>) : (
-                  <span style={{ color: "pink", fontSize: "1rem" }}>
-                    Please select atleast one zone.
-                  </span>
-                )}
-                  </form>
-                
+                {this.state.selectedMall} CATCHMENTS AREAS
+                <br />
+                <form
+                  method="GET"
+                  action="/dashboard"
+                  style={{ width: "15rem" }}
+                >
+                  {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
+                  {this.state.selectedZones.length ? (
+                    <>
+                      <input
+                        type="hidden"
+                        name="data"
+                        value={JSON.stringify({
+                          selectedCity: this.state.selectedCity,
+                          selectedZones: this.state.selectedZones,
+                          selectedMall: this.state.selectedMall,
+                        })}
+                      />
+                      <input
+                        type="submit"
+                        value="See Market Size"
+                        className="disabled text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      />
+                      <br />
+                      <p>
+                        NOTE:We have carefully delineated the catchments areas
+                        based on drive time and competitive environment.
+                        However, if you want to be conservative and deselect any
+                        zone, then you can do that
+                      </p>
+                    </>
+                  ) : (
+                    <span style={{ color: "pink", fontSize: "1rem" }}>
+                      Please select atleast one zone.
+                    </span>
+                  )}
+                </form>
               </div>
             </div>
           </div>
