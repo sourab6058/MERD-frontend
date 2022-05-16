@@ -60,9 +60,9 @@ const { Content, Sider, Header } = Layout;
 
 // pdf downloader
 // const API_URL = "http://ec2-3-219-204-162.compute-1.amazonaws.com/api/filter";
-const API_URL = "http://3.108.159.143:8000/api/filter";
+const API_URL = "https://data.merd.online:8000/api/filter";
 const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
-const MAP_URL = "http://data.merd.online:8000/catchments_info/malls/";
+const MAP_URL = "https://data.merd.online:8000/catchments_info/malls/";
 // const API_URL = "http://localhost:8000/api/filter";
 
 export class NewDashboard extends Component {

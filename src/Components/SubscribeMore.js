@@ -8,7 +8,7 @@ import axios from "axios";
 import "../css/SubscribeMore.css";
 import getUserDetail from "../utils/getUserDetail";
 
-const API_URL = "http://3.108.159.143:8000/";
+const API_URL = "https://data.merd.online:8000/";
 const REGISTERATION_URL = "https://merd.online/subscription-confirmation/";
 
 export default class SubscribeMore extends Component {

@@ -14,7 +14,7 @@ import { sortZones } from "../utils/sort";
 import "../css/CatchmentsDashboard.css";
 
 const { SubMenu, Item } = Menu;
-const API_URL = "http://3.108.159.143:8000/api/filter";
+const API_URL = "https://3.108.159.143:8000/api/filter";
 
 export default class CatchmentsDashboard extends Component {
   constructor(props) {

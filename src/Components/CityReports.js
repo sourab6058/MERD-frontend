@@ -10,7 +10,7 @@ import "../css/Reports.css";
 import getUserDetail from "../utils/getUserDetail";
 import postForm from "../utils/postForm";
 
-const API_URL = "http://3.108.159.143:8000/city_reports/";
+const API_URL = "https://data.merd.online:8000/city_reports/";
 const BUY_ONCE_URL = "https://merd.online/subscription-confirmation/";
 // const API_URL = "http://localhost:8000/city_reports/";
 // const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'

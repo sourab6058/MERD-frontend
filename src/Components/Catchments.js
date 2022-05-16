@@ -12,8 +12,8 @@ import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
 import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
 import CancelPopUp from "./Dashboard/CancelPopUp";
 
-const MALLS_URL = "https://data.merd.online/catchments_info/";
-const API_URL = "https://data.merd.online/api/filter";
+const MALLS_URL = "https://data.merd.online:8000/catchments_info/";
+const API_URL = "https://data.merd.online:8000/api/filter";
 // const MALLS_URL = "http://localhost:8000/catchments_info/";
 // const API_URL = "http://localhost:8000/api/filter";
 
