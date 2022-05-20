@@ -12,7 +12,7 @@ export class SubCategory extends Component {
         super(props)
         this.state = {
             checkedAll: false,
-            childReload: true,
+            childReload: !this.props.checked,
         }
     }
 

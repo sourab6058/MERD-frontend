@@ -163,8 +163,12 @@ export class NewDashboard extends Component {
     console.log(selectionsMade);
     if (selectionsMade) {
       this.setState({ postObject: selectionsMade });
+      this.setState({
+        alertOpen: false,
+        alertOpenInvalid: false,
+      });
+      this.checkData();
       localStorage.removeItem("selectionsMade");
-      console.log("chala");
     }
 
     //the url will have city data when redirected from catchments page
@@ -328,6 +332,10 @@ export class NewDashboard extends Component {
   };
 
   checkData = () => {
+    if (localStorage.getItem("selectionsMade")) {
+      this.setState({ isModalOpen: true, alertOpenInvalid: false });
+      return true;
+    }
     let isEmpty = false;
     let isCatEmpty = false;
     this.setState({ subscriber: true });
