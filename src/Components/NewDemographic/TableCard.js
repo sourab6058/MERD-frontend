@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card } from "antd";
 import axios from "axios";
 
-const API_URL = "http://data.merd.online:8000/demographic/";
+const API_URL = "https://data.merd.online:8000/demographic/";
 
 export default function TableCard({ data }) {
   const { city, type, mode, table_id } = data;

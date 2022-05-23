@@ -14,7 +14,7 @@ import { sortZones } from "../../utils/sort";
 
 import "../../css/Demographic.css";
 
-const API_URL = "http://data.merd.online:8000/api/filter";
+const API_URL = "https://data.merd.online:8000/api/filter";
 
 export default class NewDemographic extends Component {
   constructor() {
@@ -40,10 +40,12 @@ export default class NewDemographic extends Component {
     });
   }
   componentDidMount = () => {
+    console.log("newdemo")
     let optionData;
     if (localStorage.getItem("option-data")) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
       this.createData(optionData);
+      console.log(optionData);
     } else {
       this.setState({ firstTimePopUp: true });
       axios
@@ -55,7 +57,7 @@ export default class NewDemographic extends Component {
           this.createData(optionData);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
   };

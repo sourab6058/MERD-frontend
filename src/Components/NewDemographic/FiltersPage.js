@@ -36,25 +36,14 @@ export default class FiltersPage extends Component {
               <Space direction="vertical">
                 <span className="city-header filter-header">Cities</span>
                 {this.props.cities.map((city) =>
-                  this.props.citiesChecked.includes(city.id) ? (
                     <Checkbox
                       value={city.id}
                       key={city.id}
-                      checked={true}
+                      checked={this.props.citiesChecked.includes(city.id)}
                       onClick={(e) => this.handleCitySelect(e, city.id)}
                     >
                       <span>{city.city}</span>
                     </Checkbox>
-                  ) : (
-                    <Checkbox
-                      value={city.id}
-                      key={city.id}
-                      onClick={(e) => this.handleCitySelect(e, city.id)}
-                      checked={false}
-                    >
-                      <span>{city.city}</span>
-                    </Checkbox>
-                  )
                 )}
               </Space>
             )}

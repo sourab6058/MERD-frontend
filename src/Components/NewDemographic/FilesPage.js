@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import TableCard from "./TableCard";
 
-const API_URL = "http://data.merd.online:8000/demographic/";
+const API_URL = "https://data.merd.online:8000/demographic/";
 
 export default class FilesPage extends Component {
   constructor(props) {

@@ -30,14 +30,19 @@ export default class Demographic extends Component {
   }
 
   componentDidMount = () => {
-    axios
+    if(localStorage.getItem("demoOptions")){
+      const citiesOptions = JSON.parse(localStorage.getItem("demoOptions"))
+      this.setState({citiesOptions});
+    }
+    else{axios
       .get(CITY_URL)
       .then((res) => {
         this.setState({ citiesOptions: res.data }, console.log(res.data));
+        localStorage.setItem("demoOptions", JSON.stringify(res.data));
       })
       .catch((err) => {
         console.error(err);
-      });
+      });}
   };
 
   setCity = (city) => {
