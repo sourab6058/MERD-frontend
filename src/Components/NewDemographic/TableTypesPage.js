@@ -22,9 +22,9 @@ export default function TableTypesPage({ handleTypeCheck, types }) {
 
   return (
     <div>
-      <p className="page-title mb-0" align="center">
+      <div className="page-title mb-0" align="center">
         What would you like to view?
-      </p>
+      </div>
       <Paper>
         <div className="checkboxes-container rounded-lg shadow-lg p-4">
           <Space direction="vertical">

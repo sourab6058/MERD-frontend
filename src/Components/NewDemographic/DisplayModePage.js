@@ -29,7 +29,7 @@ export default class DisplayModePage extends Component {
       ["age_checked", "labourers_checked"].includes(type)
     );
     return (
-      <div>
+      <div className="page">
         <div className="page-title">How do you want to view the data?</div>
         <Paper>
           <div className="checkboxes-container rounded-lg shadow-lg p-4">

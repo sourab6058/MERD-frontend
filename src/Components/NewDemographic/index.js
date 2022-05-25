@@ -40,12 +40,13 @@ export default class NewDemographic extends Component {
     });
   }
   componentDidMount = () => {
-    console.log("newdemo")
+    console.log("newdemo");
     let optionData;
     if (localStorage.getItem("option-data")) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
       this.createData(optionData);
       console.log(optionData);
+      this.setState({ firstTimePopUp: false });
     } else {
       this.setState({ firstTimePopUp: true });
       axios
@@ -55,6 +56,7 @@ export default class NewDemographic extends Component {
           optionData = sortZones(optionData);
           localStorage.setItem("option-data", JSON.stringify(optionData));
           this.createData(optionData);
+          this.setState({ firstTimePopUp: false });
         })
         .catch((err) => {
           console.error(err);
@@ -133,7 +135,7 @@ export default class NewDemographic extends Component {
         citiesChecked={this.state.postObject.cities}
       />,
 
-      <div className="flex w-full justify-around">
+      <div className="flex w-full justify-around second-page">
         <TableTypesPage
           handleTypeCheck={this.handleTypeCheck}
           types={this.state.postObject.types}
@@ -164,13 +166,13 @@ export default class NewDemographic extends Component {
               type="primary"
               onClick={() => this.setState({ firstTimePopUp: false })}
             >
-              Okay
+              <span style={{ color: "black" }}>Okay</span>
             </Button>,
           ]}
         >
           <div>
-            Filters takes from 2-5 minutes to load for the first time. Please
-            wait. This only happens once.
+            Filters takes only a minute to load for the first time. Please wait.
+            This only happens once.
           </div>
         </Modal>
         <div className="container">

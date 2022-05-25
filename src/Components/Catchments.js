@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Document, Page } from "react-pdf";
 import { Radio, Space, Dropdown, Menu, Checkbox, Modal, Button } from "antd";
 import { ArrowBack, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
@@ -271,7 +272,7 @@ export class Catchments extends Component {
                 checked={this.state.selectedZones.includes(zone)}
                 onClick={(e) => this.addZone(e)}
               >
-                Zone {zone}
+                <span style={{ fontSize: "1.25rem" }}>Zone {zone}</span>
               </Checkbox>
             </Menu.Item>
           ))}
@@ -474,8 +475,14 @@ export class Catchments extends Component {
                 <form
                   method="GET"
                   action="/dashboard"
-                  style={{ width: "15rem" }}
+                  style={{ width: "20rem" }}
                 >
+                  <p>
+                    NOTE:We have carefully delineated the catchments areas based
+                    on drive time and competitive environment. However, if you
+                    want to be conservative and deselect any zone, then you can
+                    do that .
+                  </p>
                   {this.state.zones.length ? zonesMenu : "\nLoading Zones..."}
                   {this.state.selectedZones.length ? (
                     <>
@@ -493,13 +500,6 @@ export class Catchments extends Component {
                         value="See Market Size"
                         className="disabled text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       />
-                      <br />
-                      <p>
-                        NOTE:We have carefully delineated the catchments areas
-                        based on drive time and competitive environment.
-                        However, if you want to be conservative and deselect any
-                        zone, then you can do that
-                      </p>
                     </>
                   ) : (
                     <span style={{ color: "pink", fontSize: "1rem" }}>
@@ -507,6 +507,14 @@ export class Catchments extends Component {
                     </span>
                   )}
                 </form>
+              </div>
+              <div>
+                <h1>MAP PDF</h1>
+                <Document
+                  file={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
+                >
+                  <Page pageNumber={1} />
+                </Document>
               </div>
             </div>
           </div>

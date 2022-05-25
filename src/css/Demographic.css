@@ -25,11 +25,25 @@ body {
 .page {
   position: relative;
   display: flex;
-  min-height: inherit;
+  min-height: 80vh;
   flex-direction: column;
   align-items: center;
 }
-
+.second-page{
+  margin-top: 10rem;
+}
+.bg-logo{
+  position: absolute;
+  color:var(--lightBlue);
+  opacity:0.5;
+  z-index:-10;
+  left:-500px;
+  transform: rotate(45deg);
+}
+.people{
+  opacity:0.8;
+  left:500px;
+}
 .filter-papers {
   display: flex;
   align-items: flex-start;
@@ -82,4 +96,9 @@ body {
 .cards-grid {
   display: grid;
   grid-template-columns: auto auto auto;
+}
+.city-grid{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap:2rem
 }
