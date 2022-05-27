@@ -158,10 +158,10 @@ export class NewDashboard extends Component {
     const createdData = this.createData(optionData);
 
     //selections made before logging in
-    let selectionsMade = localStorage.getItem("selectionsMade");
-    selectionsMade = JSON.parse(selectionsMade);
-    console.log(selectionsMade);
-    if (selectionsMade) {
+
+    if (localStorage.getItem("selectionsMade")) {
+      let selectionsMade = localStorage.getItem("selectionsMade");
+      selectionsMade = JSON.parse(selectionsMade);
       this.setState({ postObject: selectionsMade });
       this.setState({
         alertOpen: false,

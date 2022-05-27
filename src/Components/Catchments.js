@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { Document, Page } from "react-pdf";
+import React, { Component, createRef } from "react";
 import { Radio, Space, Dropdown, Menu, Checkbox, Modal, Button } from "antd";
 import { ArrowBack, ExpandMore } from "@material-ui/icons";
 import axios from "axios";
@@ -21,6 +20,7 @@ const API_URL = "https://data.merd.online:8000/api/filter";
 export class Catchments extends Component {
   constructor(props) {
     super(props);
+    this.miniMapFormRef = createRef();
     this.state = {
       malls: [],
       mallOptions: [],
@@ -199,7 +199,7 @@ export class Catchments extends Component {
         countries[idx].cities.push({ id: city.id, city: city.name });
       }
     }
-
+    console.log(countries);
     return (
       <Menu
         mode="horizontal"
@@ -280,6 +280,10 @@ export class Catchments extends Component {
       </Menu>
     );
 
+    if (this.state.selectedMall) {
+      this.miniMapFormRef.click();
+    }
+
     return (
       <>
         <NavTwo />
@@ -294,13 +298,13 @@ export class Catchments extends Component {
               type="primary"
               onClick={() => this.setState({ firstTimePopUp: false })}
             >
-              Okay
+              <span syle={{ color: "black" }}>Okay</span>
             </Button>,
           ]}
         >
           <div>
-            Filters takes from 2-5 minutes to load for the first time. Please
-            wait. This only happens once.
+            Filters takes only a minute to load for the first time. Please wait.
+            This only happens once.
           </div>
         </Modal>
         {this.state.subscriptionAlertOpen && (
@@ -510,11 +514,25 @@ export class Catchments extends Component {
               </div>
               <div>
                 <h1>MAP PDF</h1>
-                <Document
-                  file={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
+                <iframe
+                  title="pdf-frame"
+                  name="pdf-frame"
+                  id="pdf-frame"
+                  height="200px"
+                  width="200px"
+                  scrolling="no"
+                ></iframe>
+                <form
+                  action={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
+                  method="get"
+                  target="pdf-frame"
+                  hidden
                 >
-                  <Page pageNumber={1} />
-                </Document>
+                  <input
+                    type="submit"
+                    ref={(ref) => (this.miniMapFormRef = ref)}
+                  />
+                </form>
               </div>
             </div>
           </div>

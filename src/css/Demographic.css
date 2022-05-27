@@ -37,12 +37,12 @@ body {
   color:var(--lightBlue);
   opacity:0.5;
   z-index:-10;
-  left:-500px;
+  left:-100px;
   transform: rotate(45deg);
 }
 .people{
   opacity:0.8;
-  left:500px;
+  left:800px;
 }
 .filter-papers {
   display: flex;
