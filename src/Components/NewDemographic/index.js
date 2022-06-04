@@ -13,13 +13,24 @@ import { Modal, Button } from "antd";
 import { sortZones } from "../../utils/sort";
 
 import "../../css/Demographic.css";
+import getUserDetail from "../../utils/getUserDetail";
+import SubscriptionAlert from "../Dashboard/SubscriptionAlert";
+import OneTimeSubPopUp from "../Dashboard/OneTimeSubPopUp";
+import CancelPopUp from "../Dashboard/CancelPopUp";
 
 const API_URL = "https://data.merd.online:8000/api/filter";
+const CANCEL_URL = "https://merd.online/subscription-process-cancel/";
 
 export default class NewDemographic extends Component {
   constructor() {
     super();
+    this.dataToBeEmailed = null;
     this.state = {
+      userDetails: null,
+      registeredUser: true,
+      subscriptionAlertOpen: false,
+      oneTimeSubPopUpOpen: false,
+      cancelPopUpOpen: false,
       cities: [],
       countryAndCities: {
         country: "",
@@ -41,6 +52,7 @@ export default class NewDemographic extends Component {
   }
   componentDidMount = () => {
     console.log("newdemo");
+
     let optionData;
     if (localStorage.getItem("option-data")) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
@@ -64,6 +76,94 @@ export default class NewDemographic extends Component {
     }
   };
 
+  handleSubscriptionAlert = () => {
+    this.setState({ subscriptionAlertOpen: false });
+  };
+  handleSubscriptionAlert = () => {
+    this.setState({ subscriptionAlertOpen: false });
+  };
+  showOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: true });
+  };
+  handleCancelPopUp = (state) => {
+    this.setState({ cancelPopUpOpen: state });
+    this.setState({ alertOpenInvalid: false });
+    if (!state) this.submitForm(this.dataToBeEmailed, false);
+  };
+
+  hideOneTimeSubPopUp = () => {
+    this.setState({ oneTimeSubPopUpOpen: false });
+    this.setState({ subscriptionAlertOpen: false });
+    this.submitForm(this.dataToBeEmailed, true);
+  };
+  checkUserRights = () => {
+    console.log("check");
+    const userDetails = getUserDetail();
+    this.setState({ userDetails });
+    if (userDetails.username) this.setState({ registeredUser: true });
+    else this.setState({ registeredUser: false });
+    console.log(userDetails);
+    console.log(this.state.idx);
+    const citiesCheckedNames = [];
+    this.state.postObject.cities.forEach((cityChecked) => {
+      this.state.cities.forEach((city) => {
+        if (city.id === cityChecked) citiesCheckedNames.push(city.city);
+      });
+    });
+    if (this.state.idx === 0 && userDetails.username) {
+      const invalidCities = citiesCheckedNames.filter(
+        (cityChecked) => !this.state.userDetails.cities.includes(cityChecked)
+      );
+      console.log(citiesCheckedNames, invalidCities);
+      if (invalidCities.length > 0) {
+        this.dataToBeEmailed = {
+          cities: citiesCheckedNames,
+        };
+        this.setState({ subscriptionAlertOpen: true });
+        this.setState({ idx: 0 });
+      }
+    } else if (!userDetails.username) {
+      this.setState({ subscriptionAlertOpen: true });
+      this.dataToBeEmailed = {
+        cities: citiesCheckedNames,
+      };
+      this.setState({ idx: 0 });
+    }
+  };
+
+  submitForm = (data, oneTime) => {
+    const user = getUserDetail();
+
+    const createFormInput = (name, value, form) => {
+      let input = document.createElement("input");
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    };
+
+    let formTarget = user.username ? "hidden-frame" : "_blank";
+
+    let form = document.createElement("form");
+    form.style.visibility = "hidden"; // no user interaction is necessary
+    form.method = "POST"; // forms by default use GET query strings
+    form.target = formTarget;
+    form.action = CANCEL_URL;
+
+    if (user.username) {
+      createFormInput("username", user.username, form);
+    }
+    if (oneTime) {
+      createFormInput("type", "One Time Buy", form);
+    } else {
+      createFormInput("type", "Cancel", form);
+    }
+    for (let attribute in data) {
+      createFormInput(attribute, data[attribute].join(), form);
+    }
+    document.body.appendChild(form);
+    form.submit();
+  };
+
   createData(receivedData) {
     let optionData = receivedData;
 
@@ -78,6 +178,8 @@ export default class NewDemographic extends Component {
   }
 
   handleNext = (max) => {
+    if (!this.checkUserRights()) return false;
+
     if (this.state.postObject.cities.length === 0 && this.state.idx === 0) {
       this.setState({ alertOpen: true });
       return false;
@@ -133,6 +235,8 @@ export default class NewDemographic extends Component {
           this.setState({ postObject: { ...this.state.postObject, cities } })
         }
         citiesChecked={this.state.postObject.cities}
+        idx={this.state.idx}
+        handlePrev={this.handlePrev}
       />,
 
       <div className="flex w-full justify-around second-page">
@@ -154,6 +258,21 @@ export default class NewDemographic extends Component {
     const pageCount = pages.length;
     return (
       <div>
+        {this.state.subscriptionAlertOpen && (
+          <SubscriptionAlert
+            registered={this.state.registeredUser}
+            handleSubscriptionAlert={this.handleSubscriptionAlert}
+            showOneTimeSubPopUp={this.showOneTimeSubPopUp}
+            handleCancelPopUp={this.handleCancelPopUp}
+            postObject={this.state.postObject}
+          />
+        )}{" "}
+        {this.state.oneTimeSubPopUpOpen && (
+          <OneTimeSubPopUp hideOneTimeSubPopUp={this.hideOneTimeSubPopUp} />
+        )}
+        {this.state.cancelPopUpOpen && (
+          <CancelPopUp handleCancelPopUp={this.handleCancelPopUp} />
+        )}
         <Nav />
         <Modal
           visible={this.state.firstTimePopUp}
@@ -226,6 +345,12 @@ export default class NewDemographic extends Component {
           {pages[this.state.idx]}
         </div>
         {this.state.alertOpen && this.warning()}
+        <iframe
+          name="hidden-frame"
+          id="hidden-frame"
+          hidden
+          frameborder="0"
+        ></iframe>
         <Footer />
       </div>
     );

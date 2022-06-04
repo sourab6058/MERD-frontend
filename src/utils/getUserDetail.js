@@ -31,6 +31,7 @@ export default function getUserDetail() {
       cities,
       categories,
     };
+    console.log(data);
 
     return data;
   } catch (err) {

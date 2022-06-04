@@ -97,6 +97,8 @@ export class Catchments extends Component {
   };
 
   componentDidMount = () => {
+    const userDetails = getUserDetail();
+    this.setState({ userDetails });
     axios.get(MALLS_URL).then((res) => {
       const malls = res.data;
 
@@ -117,8 +119,14 @@ export class Catchments extends Component {
 
   handleCitySelection = (e) => {
     this.setState({ selectedCity: e.target.value });
-    console.log(e.target.value);
+
     const user = getUserDetail();
+    console.log(user);
+
+    if (!user.cities.includes(e.target.value)) {
+      this.setState({ subscriptionAlertOpen: true });
+      console.log("Not subscribed");
+    }
 
     if (user.username) {
       this.setState({ subscribed: true });
@@ -295,7 +303,6 @@ export class Catchments extends Component {
           footer={[
             <Button
               key="submit"
-              type="primary"
               onClick={() => this.setState({ firstTimePopUp: false })}
             >
               <span syle={{ color: "black" }}>Okay</span>
