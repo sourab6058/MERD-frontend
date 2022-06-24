@@ -61,11 +61,12 @@ export default function TableCard({ data }) {
         extra={
           table_id ? (
             <Button
-            className="rounded-lg px-4 text-white bg-blue-500 text-center flex items-center"
+              className="rounded-lg px-4 text-white bg-blue-500 text-center flex items-center"
               style={{ margin: "0" }}
+              disabled={!data.registeredUser}
               onClick={() => handleDownload(table_id, "MERD-Excel")}
             >
-              Download  <i class="fa-solid ml-2 text-black fa-download"></i>
+              Download <i class="fa-solid ml-2 text-black fa-download"></i>
             </Button>
           ) : (
             "Not available!"

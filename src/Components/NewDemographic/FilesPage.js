@@ -19,6 +19,7 @@ export default class FilesPage extends Component {
         console.log(this.state.tablesData)
       );
     });
+    console.log(this.props);
   }
 
   render() {
@@ -80,6 +81,7 @@ export default class FilesPage extends Component {
               }
 
               data.table_id = td.table_id;
+              data.registeredUser = this.props.registeredUser;
 
               console.log(td.table_id, td.message);
 

@@ -101,7 +101,9 @@ export default class NewDemographic extends Component {
     const userDetails = getUserDetail();
     this.setState({ userDetails });
     if (userDetails.username) this.setState({ registeredUser: true });
-    else this.setState({ registeredUser: false });
+    else {
+      this.setState({ registeredUser: false });
+    }
     console.log(userDetails);
     console.log(this.state.idx);
     const citiesCheckedNames = [];
@@ -112,7 +114,7 @@ export default class NewDemographic extends Component {
     });
     if (this.state.idx === 0 && userDetails.username) {
       const invalidCities = citiesCheckedNames.filter(
-        (cityChecked) => !this.state.userDetails.cities.includes(cityChecked)
+        (cityChecked) => !userDetails.cities.includes(cityChecked)
       );
       console.log(citiesCheckedNames, invalidCities);
       if (invalidCities.length > 0) {
@@ -129,6 +131,7 @@ export default class NewDemographic extends Component {
       };
       this.setState({ idx: 0 });
     }
+    return true;
   };
 
   submitForm = (data, oneTime) => {
@@ -253,12 +256,13 @@ export default class NewDemographic extends Component {
       <FilesPage
         postObject={this.state.postObject}
         citiesOptions={this.state.cities}
+        registeredUser={this.state.registeredUser}
       />,
     ];
     const pageCount = pages.length;
     return (
       <div>
-        {this.state.subscriptionAlertOpen && (
+        {this.state.subscriptionAlertOpen && this.state.idx === 2 && (
           <SubscriptionAlert
             registered={this.state.registeredUser}
             handleSubscriptionAlert={this.handleSubscriptionAlert}
