@@ -11,6 +11,7 @@ import getUserDetail from "../utils/getUserDetail";
 import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
 import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
 import CancelPopUp from "./Dashboard/CancelPopUp";
+import { Link } from "react-router-dom";
 
 const MALLS_URL = "https://data.merd.online:8000/catchments_info/";
 const API_URL = "https://data.merd.online:8000/api/filter";
@@ -20,6 +21,7 @@ const API_URL = "https://data.merd.online:8000/api/filter";
 export class Catchments extends Component {
   constructor(props) {
     super(props);
+    this.dataToBeEmailed = null;
     this.miniMapFormRef = createRef();
     this.state = {
       malls: [],
@@ -155,7 +157,6 @@ export class Catchments extends Component {
     console.log(subscribedCities, this.state.selectedCity);
     if (!(user.username && validSelections)) {
       this.setState({ subscriptionAlertOpen: true });
-      return false;
     }
     let finalMalls = this.state.malls.filter(
       (mall) => mall.name === e.target.value
@@ -250,6 +251,16 @@ export class Catchments extends Component {
     );
   };
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    window.location.href = `/dashboard?data=${JSON.stringify({
+      selectedCity: this.state.selectedCity,
+      selectedZones: this.state.selectedZones,
+      selectedMall: this.state.selectedMall,
+      subscribed: this.state.subscribed,
+    })}`;
+  };
+
   render() {
     const mallsMenu = (
       <Menu key={2}>
@@ -289,7 +300,7 @@ export class Catchments extends Component {
     );
 
     if (this.state.selectedMall) {
-      this.miniMapFormRef.click();
+      if (this.miniMapFormRef) this.miniMapFormRef.click();
     }
 
     return (
@@ -314,20 +325,6 @@ export class Catchments extends Component {
             This only happens once.
           </div>
         </Modal>
-        {this.state.subscriptionAlertOpen && (
-          <SubscriptionAlert
-            registered={this.state.subscribed}
-            handleSubscriptionAlert={this.handleSubscriptionAlert}
-            showOneTimeSubPopUp={this.showOneTimeSubPopUp}
-            handleCancelPopUp={this.handleCancelPopUp}
-          />
-        )}
-        {this.state.oneTimeSubPopUpOpen && (
-          <OneTimeSubPopUp hideOneTimeSubPopUp={this.hideOneTimeSubPopUp} />
-        )}
-        {this.state.cancelPopUpOpen && (
-          <CancelPopUp handleCancelPopUp={this.handleCancelPopUp} />
-        )}
         <div className="carousal-outer">
           {this.state.scrollX < 0 && (
             <ArrowBack
@@ -508,6 +505,7 @@ export class Catchments extends Component {
                       />
                       <input
                         type="submit"
+                        onClick={this.handleSubmit}
                         value="See Market Size"
                         className="disabled text-white mt-6 cursor-pointer bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                       />
@@ -521,25 +519,44 @@ export class Catchments extends Component {
               </div>
               <div>
                 <h1>MAP PDF</h1>
-                <iframe
-                  title="pdf-frame"
-                  name="pdf-frame"
-                  id="pdf-frame"
-                  height="200px"
-                  width="200px"
-                  scrolling="no"
-                ></iframe>
-                <form
-                  action={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
-                  method="get"
-                  target="pdf-frame"
-                  hidden
-                >
-                  <input
-                    type="submit"
-                    ref={(ref) => (this.miniMapFormRef = ref)}
-                  />
-                </form>
+                {this.state.subscribed ? (
+                  <div>
+                    <iframe
+                      title="pdf-frame"
+                      name="pdf-frame"
+                      id="pdf-frame"
+                      height="200px"
+                      width="200px"
+                      scrolling="no"
+                    ></iframe>
+                    <form
+                      action={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
+                      method="get"
+                      target="pdf-frame"
+                      hidden
+                    >
+                      <input
+                        type="submit"
+                        ref={(ref) => (this.miniMapFormRef = ref)}
+                      />
+                    </form>
+                  </div>
+                ) : (
+                  <p
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                      border: "1px solid var(--lightBlue)",
+                      borderRadius: "4px",
+                      fontSize: "1.5rem",
+                    }}
+                  >
+                    <Link style={{ color: "blue" }} to="/subscribe">
+                      Subscribe
+                    </Link>
+                    to cities to view map
+                  </p>
+                )}
               </div>
             </div>
           </div>

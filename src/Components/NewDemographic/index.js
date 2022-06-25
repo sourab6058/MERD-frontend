@@ -156,9 +156,9 @@ export default class NewDemographic extends Component {
       createFormInput("username", user.username, form);
     }
     if (oneTime) {
-      createFormInput("type", "One Time Buy", form);
+      createFormInput("type", "One Time Buy from demographic", form);
     } else {
-      createFormInput("type", "Cancel", form);
+      createFormInput("type", "Cancel from demographic", form);
     }
     for (let attribute in data) {
       createFormInput(attribute, data[attribute].join(), form);

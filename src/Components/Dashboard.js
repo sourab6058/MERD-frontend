@@ -190,6 +190,8 @@ export class NewDashboard extends Component {
         });
       });
 
+      this.setState({ registeredUser: object.subscribed, alertOpen: false });
+
       const temp = this.state.postObject;
       temp.cities = [city.id];
       temp.zones = zones;
@@ -319,10 +321,18 @@ export class NewDashboard extends Component {
     if (user.username) {
       createFormInput("username", user.username, form);
     }
-    if (oneTime) {
-      createFormInput("type", "One Time Buy", form);
+    if (this.state.mallName) {
+      if (oneTime) {
+        createFormInput("type", "One Time Buy from catchments", form);
+      } else {
+        createFormInput("type", "Cancel from catchments", form);
+      }
     } else {
-      createFormInput("type", "Cancel", form);
+      if (oneTime) {
+        createFormInput("type", "One Time Buy", form);
+      } else {
+        createFormInput("type", "Cancel", form);
+      }
     }
     for (let attribute in data) {
       createFormInput(attribute, data[attribute].join(), form);
@@ -1393,6 +1403,7 @@ export class NewDashboard extends Component {
                       variant="contained"
                       endIcon={<Download />}
                       color="primary"
+                      disabled={!this.state.registeredUser}
                     >
                       <a
                         href={`${MAP_URL}?mall_map=${this.state.mallName}`}
