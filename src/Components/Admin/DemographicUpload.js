@@ -6,8 +6,8 @@ import axios from "axios";
 import { sortZones } from "../../utils/sort";
 import "../../css/DemoUpload.css";
 
-const API_URL = "http://data.merd.online:8000/demographic/";
-const OPTION_URL = "http://data.merd.online:8000/api/filter";
+const API_URL = "https://data.merd.online:8000/demographic/";
+const OPTION_URL = "https://data.merd.online:8000/api/filter";
 
 export default class DemographicUpload extends Component {
   constructor() {

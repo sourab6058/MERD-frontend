@@ -2,7 +2,7 @@ import { Checkbox } from "antd";
 import axios from "axios";
 import React, { Component } from "react";
 
-const API_URL = "http://3.108.159.143:8000/";
+const API_URL = "https://data.merd.online:8000/";
 
 export default class ReportUpload extends Component {
   constructor() {

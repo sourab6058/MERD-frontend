@@ -5,7 +5,7 @@ import { Radio, Space, Button, Checkbox } from "antd";
 
 import "../../css/MapUpload.css";
 
-const MAPS_URL = "http://data.merd.online:8000/catchments_info/malls/";
+const MAPS_URL = "https://data.merd.online:8000/catchments_info/malls/";
 
 export default class MapUpload extends Component {
   constructor(props) {

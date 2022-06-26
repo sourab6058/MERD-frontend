@@ -5,7 +5,7 @@ import axios from "axios";
 
 // const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'
 // const API_URL = "http://3.108.159.143:8000/";
-const API_URL = "http://localhost:8000/";
+const API_URL = "https://data.merd.online:8000/";
 
 export class FileUpload extends Component {
   constructor() {
