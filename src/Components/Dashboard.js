@@ -16,7 +16,6 @@ import { CSVLink } from "react-csv";
 import PdfDownloader from "./pdfDownloader";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
-import { CaretRightOutlined, DownloadOutlined } from "@ant-design/icons";
 import "antd/dist/antd.min.css";
 
 import "../css/modal.css";
@@ -53,7 +52,6 @@ import Download from "@material-ui/icons/CloudDownload";
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
 import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
-let optionData = require("./Dashboard/optionData.json");
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
@@ -69,7 +67,6 @@ export class NewDashboard extends Component {
   _isMounted = false;
   constructor(props) {
     super(props);
-    console.log("contructor from dashboard component");
     this.dataToBeEmailed = null;
 
     //optionData is the raw data received from the backend
@@ -155,7 +152,23 @@ export class NewDashboard extends Component {
     this._isMounted = true;
     document.addEventListener("mousedown", this.handleClickOutside);
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
-    const createdData = this.createData(optionData);
+    let optionData;
+    let createdData;
+    if (localStorage.getItem("option-data")) {
+      optionData = JSON.parse(localStorage.getItem("option-data"));
+      optionData = Object.entries(optionData.filters[0]);
+      optionData = sortZones(optionData);
+      createdData = this.createData(optionData);
+      this.autoSelectForMall(createdData.cities);
+    } else {
+      axios.get(API_URL).then((res) => {
+        optionData = Object.entries(res.data.filters[0]);
+        localStorage.setItem("option-data", JSON.stringify(optionData));
+        optionData = sortZones(optionData);
+        createdData = this.createData(optionData);
+        this.autoSelectForMall(createdData.cities);
+      });
+    }
 
     //selections made before logging in
 
@@ -171,14 +184,28 @@ export class NewDashboard extends Component {
       localStorage.removeItem("selectionsMade");
     }
 
+    // axios
+    //   .get(API_URL)
+    //   .then((res) => {
+    //     let optionData = Object.entries(res.data.filters[0]);
+    //     optionData = sortZones(optionData);
+    //     console.log("optionData", optionData);
+    //     this.createData(optionData);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+  }
+
+  autoSelectForMall = (createdDatacities) => {
     //the url will have city data when redirected from catchments page
     const url = new URL(window.location.href);
     const object = JSON.parse(url.searchParams.get("data"));
     if (object) {
       console.log(object);
-      console.log(createdData);
+      console.log(createdDatacities);
 
-      const cities = createdData.cities;
+      const cities = createdDatacities;
       const city = cities.find((c) => c.city === object.selectedCity);
       const zones = [];
 
@@ -201,19 +228,8 @@ export class NewDashboard extends Component {
       this.setState({ postObject: temp });
       console.log(temp);
     }
+  };
 
-    // axios
-    //   .get(API_URL)
-    //   .then((res) => {
-    //     let optionData = Object.entries(res.data.filters[0]);
-    //     optionData = sortZones(optionData);
-    //     console.log("optionData", optionData);
-    //     this.createData(optionData);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }
   componentWillUnmount() {
     this._isMounted = false;
   }
@@ -863,8 +879,6 @@ export class NewDashboard extends Component {
       return category;
     }
   };
-
-  getDataToEmail = (postData) => {};
 
   checkUserRights = () => {
     const userDetails = getUserDetail();
