@@ -294,6 +294,7 @@ export default class DeleteCensus extends Component {
     }
     axios.post(CENSUS_DELETE_API, this.state.postObject).then((res) => {
       console.log(res.data);
+      alert("Sucessfully deleted data");
     });
   };
 
