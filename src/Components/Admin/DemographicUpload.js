@@ -26,8 +26,9 @@ export default class DemographicUpload extends Component {
   }
   componentDidMount = () => {
     let optionData;
-    if (localStorage.getItem("option-data")) {
+    if (localStorage.getItem("option-data") && false) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
+      console.log(optionData);
       this.createData(optionData);
     } else {
       axios
@@ -36,6 +37,7 @@ export default class DemographicUpload extends Component {
           optionData = Object.entries(res.data.filters[0]);
           optionData = sortZones(optionData);
           localStorage.setItem("option-data", JSON.stringify(optionData));
+          console.log(optionData);
           this.createData(optionData);
         })
         .catch((err) => {
@@ -51,6 +53,7 @@ export default class DemographicUpload extends Component {
 
   createData = (receivedData) => {
     let optionData = receivedData;
+    console.log("receivedData", optionData[4]);
 
     this.setState({
       options: {

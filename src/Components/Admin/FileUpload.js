@@ -4,8 +4,8 @@ import "../../css/FileUpload.css";
 import axios from "axios";
 
 // const API_URL = "http://3.108.159.143:8000/";
-// const API_URL = "https://data.merd.online:8000/";
-const API_URL = "http://localhost:8000/";
+const API_URL = "https://data.merd.online:8000/";
+// const API_URL = "http://localhost:8000/";
 
 export class FileUpload extends Component {
   constructor() {
@@ -45,13 +45,10 @@ export class FileUpload extends Component {
         // then print response status
         console.log("222222");
         console.log(res);
-        if (res.data.data === "True") alert("successfully uploaded");
-        if (res.data.status) {
-          // alert("successfully uploaded")
+        if (res.status) {
+          alert("successfully uploaded");
           this.setState({
-            newalert: true,
             newalertError: false,
-            uploadMessage: "File uploaded successfully.",
             buttonActive: true,
             uploadStatus: true,
           });

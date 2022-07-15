@@ -12,11 +12,12 @@ export default class ReportUpload extends Component {
       files: [],
       filesToDelete: [],
     };
+    this.touristUrl = "";
   }
   componentDidMount() {
-    const url = API_URL + this.props.url;
+    this.touristUrl = API_URL + this.props.url;
     axios
-      .get(url, {
+      .get(this.touristUrl, {
         params: {
           filename: "all-files",
         },
@@ -37,9 +38,9 @@ export default class ReportUpload extends Component {
   };
 
   handleSubmit = () => {
-    const url = API_URL + this.props.url;
     const data = new FormData();
     data.append("file", this.state.selectedFile);
+    console.log(data);
     axios
       .post(this.touristUrl, data, () => {})
       .then((res) => {
@@ -48,7 +49,7 @@ export default class ReportUpload extends Component {
         this.setState({ files });
       })
       .catch((res) => {
-        console.log(res);
+        console.error(res);
       });
   };
 
@@ -94,7 +95,7 @@ export default class ReportUpload extends Component {
           <br />
           {this.state.selectedFile && (
             <button className="report-btn" onClick={this.handleSubmit}>
-              Import
+              Upload
             </button>
           )}
           <br />

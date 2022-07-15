@@ -4,7 +4,7 @@ import axios from "axios";
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 
 import SubCategory from "../Dashboard/Menu/SubCategory";
-import SubCity from "../Dashboard//Menu/SubCity";
+import SubCity from "../Dashboard/Menu/SubCity";
 import SubNationality from "../Dashboard/Menu/SubNationality";
 import SubMonths from "../Dashboard/Menu/SubMonths";
 import PurchaseMode from "../Dashboard/Menu/PurchaseMode";
@@ -14,11 +14,11 @@ import * as _ from "lodash";
 const { SubMenu, Item } = Menu;
 
 const API_URL = "https://data.merd.online:8000/api/filter";
-const CENSUS_DELETE_API = "https://data.merd.online:8000/delete_census/";
+const SURVEY_DELETE_API = "https://data.merd.online:8000/delete_census/";
 
 // const API_URL = "http://localhost:8000/api/filter";
-// const CENSUS_DELETE_API = "http://localhost:8000/delete_census/";
-export default class DeleteCensus extends Component {
+// const SURVEY_DELETE_API = "http://localhost:8000/delete_census/";
+export default class DeleteSurvey extends Component {
   constructor(props) {
     super(props);
     this.optionsCreated = false;
@@ -48,14 +48,14 @@ export default class DeleteCensus extends Component {
     if (!this.optionsCreated) {
       if (localStorage.getItem("option-data")) {
         optionData = JSON.parse(localStorage.getItem("option-data"));
-        optionData = Object.entries(optionData.filters[0]);
+        // optionData = Object.entries(optionData);
         optionData = sortZones(optionData);
         this.createData(optionData);
         this.optionsCreated = true;
       } else {
         axios.get(API_URL).then((res) => {
           optionData = Object.entries(res.data.filters[0]);
-          localStorage.setItem("option-data", JSON.stringify(res.data));
+          localStorage.setItem("option-data", JSON.stringify(optionData));
           optionData = sortZones(optionData);
           this.createData(optionData);
           this.optionsCreated = true;
@@ -278,7 +278,7 @@ export default class DeleteCensus extends Component {
     };
   }
 
-  deleteCensus = () => {
+  deleteSurvey = () => {
     const postObject = this.state.postObject;
     let valid = false;
     for (let key of Object.keys(postObject)) {
@@ -292,7 +292,7 @@ export default class DeleteCensus extends Component {
       alert("Please Select any one filter.");
       return false;
     }
-    axios.post(CENSUS_DELETE_API, this.state.postObject).then((res) => {
+    axios.post(SURVEY_DELETE_API, this.state.postObject).then((res) => {
       console.log(res.data);
       alert("Sucessfully deleted data");
     });
@@ -569,7 +569,7 @@ export default class DeleteCensus extends Component {
     }
     return (
       <div style={{ margin: "1rem" }}>
-        <h1 align="center">Delete Census Rows</h1>
+        <h1 align="center">Delete Survey Rows</h1>
         <div style={{ display: "flex" }}>
           <Paper style={{ width: "30vw" }}>
             <Menu
@@ -645,9 +645,9 @@ export default class DeleteCensus extends Component {
                   <Button
                     type="danger"
                     style={{ color: "red" }}
-                    onClick={() => this.deleteCensus()}
+                    onClick={() => this.deleteSurvey()}
                   >
-                    Delete Census
+                    Delete Survey
                   </Button>
                 </Item>
               </div>

@@ -156,7 +156,7 @@ export class NewDashboard extends Component {
     let createdData;
     if (localStorage.getItem("option-data")) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
-      optionData = Object.entries(optionData.filters[0]);
+      // optionData = Object.entries(optionData.filters[0]);
       optionData = sortZones(optionData);
       createdData = this.createData(optionData);
       this.autoSelectForMall(createdData.cities);

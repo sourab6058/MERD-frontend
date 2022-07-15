@@ -10,7 +10,7 @@ import "../css/Reports.css";
 import getUserDetail from "../utils/getUserDetail";
 import postForm from "../utils/postForm";
 
-const API_URL = "https://3.108.159.143:8000/tourist_reports/";
+const API_URL = "https://data.merd.online:8000/tourist_reports/";
 const BUY_ONCE_URL = "https://merd.online/subscription-confirmation/";
 // const API_URL = "http://localhost:8000/tourist_reports/";
 // const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'
@@ -134,7 +134,11 @@ export class TouristReports extends Component {
         <NavTwo />
         <div className="header ">
           {/* <div className="back-img">&nbsp;</div> */}
-          <img className="headerImg mb-3 brightness-50 " src="https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
+          <img
+            className="headerImg mb-3 brightness-50 "
+            src="https://images.pexels.com/photos/823696/pexels-photo-823696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+            alt="building"
+          />
           <div className="header-text">
             <h2 className="heading text-5xl">Tourist Reports</h2>
             {/* <p className="heading-text text-xl font">Your source for market research</p> */}
@@ -144,7 +148,9 @@ export class TouristReports extends Component {
           {this.state.files.length ? (
             <>
               <div className="city-report">
-                <span className="recent-report text-gray-800 text-3xl">Recent Reports</span>
+                <span className="recent-report text-gray-800 text-3xl">
+                  Recent Reports
+                </span>
               </div>
 
               <br />
@@ -162,25 +168,31 @@ export class TouristReports extends Component {
                     {this.state.subscribedCities.includes(
                       this.state.cities[idx]
                     ) ? (
-                     <div className="pb-4 mt-4">
+                      <div className="pb-4 mt-4">
                         <Button
-                        className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
-                        key={idx}
-                        
-                      >
-                        <a onClick={() => this.handleExport(file)}>Download</a>
-                         <i class="fa-solid ml-2 text-black fa-download"></i>
-                      </Button>
-                     </div>
+                          className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
+                          key={idx}
+                        >
+                          <a onClick={() => this.handleExport(file)}>
+                            Download
+                          </a>
+                          <i class="fa-solid ml-2 text-black fa-download"></i>
+                        </Button>
+                      </div>
                     ) : (
                       <div className="flex gap-4 pb-4 mt-4">
                         <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center">
                           <a onClick={() => this.handleBuyOnce(file)}>
-                          Buy USD 120
+                            Buy USD 120
                           </a>
                         </Button>
-                        <Button className="rounded-lg px-4 py-4 text-black bg-blue-500 text-center flex items-center" key={idx} disabled>
-                          Download <i class="fa-solid ml-2 text-black fa-download"></i>
+                        <Button
+                          className="rounded-lg px-4 py-4 text-black bg-blue-500 text-center flex items-center"
+                          key={idx}
+                          disabled
+                        >
+                          Download{" "}
+                          <i class="fa-solid ml-2 text-black fa-download"></i>
                         </Button>
                       </div>
                     )}
