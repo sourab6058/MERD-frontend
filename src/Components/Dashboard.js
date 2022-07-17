@@ -154,7 +154,7 @@ export class NewDashboard extends Component {
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
     let optionData;
     let createdData;
-    if (localStorage.getItem("option-data")) {
+    if (localStorage.getItem("option-data") && false) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
       // optionData = Object.entries(optionData.filters[0]);
       optionData = sortZones(optionData);

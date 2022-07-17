@@ -6,19 +6,16 @@ import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import SubCategory from "../Dashboard/Menu/SubCategory";
 import SubCity from "../Dashboard/Menu/SubCity";
 import SubNationality from "../Dashboard/Menu/SubNationality";
-import SubMonths from "../Dashboard/Menu/SubMonths";
-import PurchaseMode from "../Dashboard/Menu/PurchaseMode";
-import PlaceOfPurchase from "../Dashboard/Menu/PlaceOfPurchase";
 import { sortZones } from "../../utils/sort";
 import * as _ from "lodash";
 const { SubMenu, Item } = Menu;
 
 const API_URL = "https://data.merd.online:8000/api/filter";
-const SURVEY_DELETE_API = "https://data.merd.online:8000/delete_survey/";
+const CENSUS_DELETE_API = "https://data.merd.online:8000/delete_census/";
 
 // const API_URL = "http://localhost:8000/api/filter";
-// const SURVEY_DELETE_API = "http://localhost:8000/delete_survey/";
-export default class DeleteSurvey extends Component {
+// const CENSUS_DELETE_API = "http://localhost:8000/delete_census/";
+export default class DeleteCensus extends Component {
   constructor(props) {
     super(props);
     this.optionsCreated = false;
@@ -26,14 +23,11 @@ export default class DeleteSurvey extends Component {
       optionsCreated: false,
       cities: [],
       zones: [],
-      years: [],
       category: [],
       nationality: [],
       postObject: {
         cities: [],
         zones: [],
-        years: [],
-        months: [],
         categories: [],
         subCategories: [],
         subSubCategories: [],
@@ -48,6 +42,7 @@ export default class DeleteSurvey extends Component {
     if (!this.optionsCreated) {
       if (localStorage.getItem("option-data")) {
         optionData = JSON.parse(localStorage.getItem("option-data"));
+        console.log(optionData);
         // optionData = Object.entries(optionData);
         optionData = sortZones(optionData);
         this.createData(optionData);
@@ -56,6 +51,7 @@ export default class DeleteSurvey extends Component {
         axios.get(API_URL).then((res) => {
           optionData = Object.entries(res.data.filters[0]);
           localStorage.setItem("option-data", JSON.stringify(optionData));
+          console.log(optionData);
           optionData = sortZones(optionData);
           this.createData(optionData);
           this.optionsCreated = true;
@@ -95,7 +91,7 @@ export default class DeleteSurvey extends Component {
     );
   };
 
-  //Called for Months, Years, Nationalities, SubSubCategories
+  //Called for Nationalities, SubSubCategories
   addItem = (whereToBePushed, itemToBePushed, e) => {
     var tempData = this.state.postObject;
 
@@ -251,12 +247,6 @@ export default class DeleteSurvey extends Component {
     }
   };
 
-  addMonths = (months) => {
-    const tempData = this.state.postObject;
-    tempData.months = months;
-    this.setState({ postObject: tempData });
-  };
-
   createData(receivedData) {
     let optionData = receivedData;
     console.log(receivedData);
@@ -264,36 +254,30 @@ export default class DeleteSurvey extends Component {
     //Using raw api data to fill in menu variables
     //months is static for now, can be changed later
     this.setState({
-      years: optionData[0][1],
       category: optionData[3][1],
       cities: optionData[4][1],
       nationality: optionData[2][1],
     });
     this.setState({ menuLoading: false });
     return {
-      years: optionData[0][1],
       category: optionData[3][1],
       cities: optionData[4][1],
       nationality: optionData[2][1],
     };
   }
 
-  deleteSurvey = () => {
+  deleteCensus = () => {
     const postObject = this.state.postObject;
     let valid = false;
     for (let key of Object.keys(postObject)) {
       if (postObject[key].length !== 0) valid = true;
-    }
-    if (postObject.years.length === 0 && postObject.months.length !== 0) {
-      alert("Please select year for months");
-      return false;
     }
     if (!valid) {
       alert("Please Select any one filter.");
       return false;
     }
     axios
-      .post(SURVEY_DELETE_API, this.state.postObject)
+      .post(CENSUS_DELETE_API, this.state.postObject)
       .then((res) => {
         console.log(res.data);
         alert("Sucessfully deleted data");
@@ -303,30 +287,9 @@ export default class DeleteSurvey extends Component {
       .catch(() => alert("Something went wrong with the server!!!"));
   };
 
-  months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-
   showSelections = (postObject) => {
     const { cities, zones, category, nationality } = this.state;
     const selections = {
-      years: postObject.years.join(", "),
-      Months: this.months
-        .filter((mon, idx) => {
-          if (postObject.months.includes(idx + 1)) return mon;
-        })
-        .join(", "),
       Cities: cities
         .filter((city) => {
           if (postObject.cities.includes(city.id)) return city;
@@ -436,8 +399,6 @@ export default class DeleteSurvey extends Component {
   render() {
     let checkCity = [];
     let checkZone = [];
-    let checkYear = [];
-    let checkMonth = [];
     let checkCategory = [];
     let checkSubCategory = [];
     let checkSubSubCategory = [];
@@ -466,61 +427,7 @@ export default class DeleteSurvey extends Component {
       });
       checkCity = checkCity.join(", ");
     }
-    if (this.state.postObject.years.length > 0) {
-      const year = this.state.years;
-      const subyear = this.state.postObject.years;
-      year.forEach((data) => {
-        subyear.forEach((data2) => {
-          if (data === data2) {
-            checkYear.push(data);
-          }
-        });
-      });
-      // checkYear = this.insertCommas(checkYear);
-    }
-    if (this.state.postObject.months.length > 0) {
-      // const year = this.state.years;
-      const submonth = this.state.postObject.months;
-      submonth.forEach((data) => {
-        if (data === 1) {
-          checkMonth.push("January");
-        }
-        if (data === 2) {
-          checkMonth.push("February");
-        }
-        if (data === 3) {
-          checkMonth.push("March");
-        }
-        if (data === 4) {
-          checkMonth.push("April");
-        }
-        if (data === 5) {
-          checkMonth.push("May");
-        }
-        if (data === 6) {
-          checkMonth.push("June");
-        }
-        if (data === 7) {
-          checkMonth.push("July");
-        }
-        if (data === 8) {
-          checkMonth.push("August");
-        }
-        if (data === 9) {
-          checkMonth.push("September");
-        }
-        if (data === 10) {
-          checkMonth.push("October");
-        }
-        if (data === 11) {
-          checkMonth.push("November");
-        }
-        if (data === 12) {
-          checkMonth.push("December");
-        }
-      });
-      // checkMonth = this.insertCommas(checkMonth);s
-    }
+
     if (this.state.postObject.categories.length > 0) {
       const cat = this.state.category;
       const subcat = this.state.postObject.categories;
@@ -574,7 +481,7 @@ export default class DeleteSurvey extends Component {
     }
     return (
       <div style={{ margin: "1rem" }}>
-        <h1 align="center">Delete Survey Rows</h1>
+        <h1 align="center">Delete Everything Selected</h1>
         <div style={{ display: "flex" }}>
           <Paper style={{ width: "30vw" }}>
             <Menu
@@ -601,22 +508,6 @@ export default class DeleteSurvey extends Component {
                   ></SubCity>
                 ))}
               </SubMenu>
-              <SubMenu key="Years" title="Years">
-                {this.state.years.map((year) => (
-                  <Menu.Item key={year}>
-                    <Checkbox
-                      onClick={(e) => this.addItem("years", year, e)}
-                      checked={this.state.postObject.years.includes(year)}
-                    >
-                      {year}
-                    </Checkbox>
-                  </Menu.Item>
-                ))}
-              </SubMenu>
-              <SubMonths
-                addmonths={this.addMonths}
-                monthsSelected={this.state.postObject.months}
-              />
               <SubMenu key="Category" title="Category">
                 {this.state.category.map((main) => (
                   <SubCategory
@@ -650,16 +541,16 @@ export default class DeleteSurvey extends Component {
                   <Button
                     type="danger"
                     style={{ color: "red" }}
-                    onClick={() => this.deleteSurvey()}
+                    onClick={() => this.deleteCensus()}
                   >
-                    Delete Survey
+                    Delete Census
                   </Button>
                 </Item>
               </div>
             </Menu>
           </Paper>
           <Paper style={{ width: "70vw", padding: "1rem" }}>
-            <h2>Selections Made</h2>
+            <h2 style={{ fontSize: "1.5rem" }}>Selections Made</h2>
             Categories:
             {this.categoryDisplayer(
               checkCategory,
@@ -668,10 +559,6 @@ export default class DeleteSurvey extends Component {
             )}
             <br />
             Cities:{this.zonesToCity(checkZone)}
-            <br />
-            Years:{checkYear.join(", ")}
-            <br />
-            Months:{checkMonth.join(", ")}
             <br />
             Nationalities:{checkNationality.join(", ")}
           </Paper>

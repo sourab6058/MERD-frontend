@@ -4,6 +4,7 @@ import FileUpload from "./FileUpload";
 import DemographicUpload from "./DemographicUpload";
 import MapUpload from "./MapUpload";
 import DeleteSurvey from "./DeleteSurvey";
+import DeleteCensus from "./DeleteCensus";
 
 export default function index() {
   return (
@@ -16,6 +17,7 @@ export default function index() {
       <DemographicUpload />
       <MapUpload />
       <DeleteSurvey />
+      <DeleteCensus />
     </div>
   );
 }
