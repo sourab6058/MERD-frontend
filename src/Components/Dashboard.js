@@ -68,7 +68,7 @@ export class NewDashboard extends Component {
   constructor(props) {
     super(props);
     this.dataToBeEmailed = null;
-
+    this.user = getUserDetail();
     //optionData is the raw data received from the backend
     //All other array variables are used to render the menu
     //postObject is the object that gets constructed for POST
@@ -96,8 +96,8 @@ export class NewDashboard extends Component {
         subCategories: [],
         subSubCategories: [],
         nationalities: [],
-        purchaseMode: [],
-        placeOfPurchase: [],
+        purchaseMode: ["online", "offline"],
+        placeOfPurchase: ["in", "out"],
       },
       registeredUser: true,
       loading: false,
@@ -154,7 +154,7 @@ export class NewDashboard extends Component {
     window.scrollTo(0, 0); //scrolls to the top, on loading, otherwise scrolls to footer.
     let optionData;
     let createdData;
-    if (localStorage.getItem("option-data") && false) {
+    if (localStorage.getItem("option-data")) {
       optionData = JSON.parse(localStorage.getItem("option-data"));
       // optionData = Object.entries(optionData.filters[0]);
       optionData = sortZones(optionData);
@@ -202,9 +202,6 @@ export class NewDashboard extends Component {
     const url = new URL(window.location.href);
     const object = JSON.parse(url.searchParams.get("data"));
     if (object) {
-      console.log(object);
-      console.log(createdDatacities);
-
       const cities = createdDatacities;
       const city = cities.find((c) => c.city === object.selectedCity);
       const zones = [];
@@ -226,7 +223,6 @@ export class NewDashboard extends Component {
       this.setState({ mallName: object.selectedMall });
 
       this.setState({ postObject: temp });
-      console.log(temp);
     }
   };
 
@@ -238,11 +234,8 @@ export class NewDashboard extends Component {
     this.setState({ subscriber: true });
     const isSubscribed = this.checkUserRights();
 
-    console.log(isSubscribed);
-
     if (!isSubscribed) {
       this.setState({ subscriber: false, subscriptionAlertOpen: true });
-      console.log("not subscribed to the data");
       return false;
     }
 
@@ -264,7 +257,6 @@ export class NewDashboard extends Component {
     if (isEmpty || isCatEmpty) {
       alert("Please Select all required options");
       this.setState({ isModalOpen: false, alertOpenInvalid: true });
-      console.log(this.state.postObject);
       return;
     }
 
@@ -276,7 +268,6 @@ export class NewDashboard extends Component {
     // this.setState({ siderWidth: 0 });
 
     let dataToBePost = isSubscribed.postObject;
-    console.log(dataToBePost);
     dataToBePost["filter_type"] = displayMode;
 
     axios
@@ -284,10 +275,10 @@ export class NewDashboard extends Component {
       .then((res) => {
         let tableData = res.data.results;
         this.setState({ tableData });
-        console.log("tableData", tableData);
       })
       .catch((err) => {
         console.log(err);
+        this.setState({ loading: false });
       });
   };
 
@@ -311,6 +302,7 @@ export class NewDashboard extends Component {
 
   hideOneTimeSubPopUp = () => {
     this.setState({ oneTimeSubPopUpOpen: false });
+    this.setState({ alertOpenInvalid: false });
     this.setState({ subscriptionAlertOpen: false });
     this.submitForm(this.dataToBeEmailed, true);
   };
@@ -326,7 +318,7 @@ export class NewDashboard extends Component {
     };
 
     let formTarget = user.username ? "hidden-frame" : "_blank";
-    formTarget = "_blank";
+    if (oneTime) formTarget = "hidden-frame";
 
     let form = document.createElement("form");
     form.style.visibility = "hidden"; // no user interaction is necessary
@@ -370,8 +362,6 @@ export class NewDashboard extends Component {
     if (this.state.postObject.nationalities.length === 0) isEmpty = true;
     if (this.state.postObject.months.length === 0) isEmpty = true;
     if (this.state.postObject.years.length === 0) isEmpty = true;
-    if (this.state.postObject.purchaseMode.length === 0) isEmpty = true;
-    if (this.state.postObject.placeOfPurchase.length === 0) isEmpty = true;
     if (
       this.state.postObject.categories.length === 0 &&
       this.state.postObject.subCategories.length === 0 &&
@@ -500,9 +490,7 @@ export class NewDashboard extends Component {
         1
       );
     }
-    this.setState({ postObject: tempData }, () =>
-      console.log(this.state.postObject)
-    );
+    this.setState({ postObject: tempData });
   };
 
   //Called for Months, Years, Nationalities, SubSubCategories
@@ -519,7 +507,6 @@ export class NewDashboard extends Component {
       );
       this.setState({ postObject: tempData });
     }
-    console.log(this.state.postObject);
   };
 
   selectAllPurchaseMode = (e) => {
@@ -633,7 +620,6 @@ export class NewDashboard extends Component {
       );
       this.setState({ postObject: tempData });
     }
-    console.log(tempData);
   };
 
   selectAllSubSubCategories = (whereToBePushed, itemToBePushed, e) => {
@@ -668,7 +654,6 @@ export class NewDashboard extends Component {
         1
       );
       this.setState({ postObject: tempData });
-      console.log(tempData);
     }
   };
 
@@ -843,7 +828,6 @@ export class NewDashboard extends Component {
       else cityItem += zones;
       finalStr.push(cityItem);
     }
-    console.log(this.insertCommas(finalStr));
     return this.insertCommas(finalStr);
   };
 
@@ -1051,6 +1035,35 @@ export class NewDashboard extends Component {
       return false;
     }
   };
+
+  displayCities = (cities) => {
+    const countries = [];
+    for (let city of cities) {
+      if (countries.hasOwnProperty(city.country.country)) {
+        countries[city.country.country].push(city);
+      } else {
+        countries[city.country.country] = [city];
+      }
+    }
+
+    return (
+      <SubMenu key="City" title="City">
+        {Object.keys(countries)
+          .sort()
+          .map((country) => (
+            <SubCity
+              key={country}
+              cities={countries[country]}
+              zonesSelected={this.state.postObject.zones}
+              country={country}
+              addzone={this.addZone}
+              selectallzones={this.selectAllZones}
+            ></SubCity>
+          ))}
+      </SubMenu>
+    );
+  };
+
   render() {
     let checkCity = [];
     let checkZone = [];
@@ -1060,7 +1073,6 @@ export class NewDashboard extends Component {
     let checkSubCategory = [];
     let checkSubSubCategory = [];
     let checkNationality = [];
-    console.log(this.state.postObject);
     if (this.state.postObject.cities.length > 0) {
       const cities = this.state.cities;
       const subcities = this.state.postObject.cities;
@@ -1248,7 +1260,8 @@ export class NewDashboard extends Component {
                   }}
                   theme={"light"}
                 >
-                  {!this.state.mallName && (
+                  {this.displayCities(this.state.cities)}
+                  {/* {!this.state.mallName && (
                     <SubMenu key="City" title="City">
                       {this.state.cities.map((city) => (
                         <SubCity
@@ -1261,7 +1274,7 @@ export class NewDashboard extends Component {
                         ></SubCity>
                       ))}
                     </SubMenu>
-                  )}
+                  )} */}
                   <SubMenu key="Years" title="Years">
                     {this.state.years.map((year) => (
                       <Menu.Item key={year}>
@@ -1307,7 +1320,7 @@ export class NewDashboard extends Component {
                     selectAllNationalities={this.selectAllNationalities}
                     natSelected={this.state.postObject.nationalities}
                   />
-                  <SubMenu key="purchase mode" title="Purchase Mode">
+                  {/* <SubMenu key="purchase mode" title="Purchase Mode">
                     <PurchaseMode
                       addItem={this.addItem}
                       selectAllPurchaseMode={this.selectAllPurchaseMode}
@@ -1322,7 +1335,7 @@ export class NewDashboard extends Component {
                         this.state.postObject.placeOfPurchase
                       }
                     />
-                  </SubMenu>
+                  </SubMenu> */}
                   <div
                     className="view-market-size-div"
                     style={{ textAlign: "center" }}
@@ -1535,32 +1548,6 @@ export class NewDashboard extends Component {
                         }
                       />
                     </ListItem>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <div className="dashboard-icon">
-                            <PlaceIcon className="dashboard-icon-inner" />
-                          </div>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Place Of Purchase"
-                        secondary={this.getPurchaseModePlace()}
-                      />
-                    </ListItem>
-                    <ListItem>
-                      <ListItemAvatar>
-                        <Avatar>
-                          <div className="dashboard-icon">
-                            <ShoppingCartIcon className="dashboard-icon-inner" />
-                          </div>
-                        </Avatar>
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary="Purchase Mode"
-                        secondary={this.getPurchaseMode()}
-                      />
-                    </ListItem>
                   </List>
                 </AccordionDetails>
               </Accordion>
@@ -1748,6 +1735,7 @@ export class NewDashboard extends Component {
                           ? "The whole year"
                           : checkMonth
                       }
+                      user={this.user}
                       nationalities={
                         this.state.postObject.nationalities.length > 0
                           ? checkNationality.length === //if all the nationalities are checked

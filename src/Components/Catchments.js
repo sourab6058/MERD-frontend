@@ -8,9 +8,6 @@ import Footer from "./Footer";
 
 import "../css/Catchments.css";
 import getUserDetail from "../utils/getUserDetail";
-import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
-import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
-import CancelPopUp from "./Dashboard/CancelPopUp";
 import { Link } from "react-router-dom";
 
 const MALLS_URL = "https://data.merd.online:8000/catchments_info/";
@@ -22,7 +19,6 @@ export class Catchments extends Component {
   constructor(props) {
     super(props);
     this.dataToBeEmailed = null;
-    this.miniMapFormRef = createRef();
     this.state = {
       malls: [],
       mallOptions: [],
@@ -299,10 +295,6 @@ export class Catchments extends Component {
       </Menu>
     );
 
-    if (this.state.selectedMall) {
-      if (this.miniMapFormRef) this.miniMapFormRef.click();
-    }
-
     return (
       <>
         <NavTwo />
@@ -517,47 +509,6 @@ export class Catchments extends Component {
                   )}
                 </form>
               </div>
-              <div>
-                <h1>MAP PDF</h1>
-                {this.state.subscribed ? (
-                  <div>
-                    <iframe
-                      title="pdf-frame"
-                      name="pdf-frame"
-                      id="pdf-frame"
-                      height="200px"
-                      width="200px"
-                      scrolling="no"
-                    ></iframe>
-                    <form
-                      action={`${MALLS_URL}malls/?mall_map=${this.state.selectedMall}`}
-                      method="get"
-                      target="pdf-frame"
-                      hidden
-                    >
-                      <input
-                        type="submit"
-                        ref={(ref) => (this.miniMapFormRef = ref)}
-                      />
-                    </form>
-                  </div>
-                ) : (
-                  <p
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      border: "1px solid var(--lightBlue)",
-                      borderRadius: "4px",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    <Link style={{ color: "blue" }} to="/subscribe">
-                      Subscribe
-                    </Link>
-                    to cities to view map
-                  </p>
-                )}
-              </div>
             </div>
           </div>
         </div>
@@ -566,5 +517,4 @@ export class Catchments extends Component {
     );
   }
 }
-
 export default Catchments;

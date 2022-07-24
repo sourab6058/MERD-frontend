@@ -42,6 +42,7 @@ export default class NewDemographic extends Component {
         cities: [],
         types: [],
         displayModes: [],
+        type: "demogpc",
       },
       alertOpen: false,
     };
@@ -240,6 +241,7 @@ export default class NewDemographic extends Component {
         citiesChecked={this.state.postObject.cities}
         idx={this.state.idx}
         handlePrev={this.handlePrev}
+        setPostObject={(postObject) => this.setState({ postObject })}
       />,
 
       <div className="flex w-full justify-around second-page">

@@ -11,6 +11,10 @@ export class SubCity extends Component {
     };
   }
 
+  componentDidMount() {
+    console.log(this.props.city);
+  }
+
   //First checks all zones and then adds city using selectallzones
   checkedAll = (whereToBePushed, itemToBePushed, e) => {
     console.log(itemToBePushed, "itemToBePushed");
@@ -33,90 +37,45 @@ export class SubCity extends Component {
       // uaes.map((uae) => {
       //   console.log(uae.city);
       // });
-      // console.log(countries);
+      console.log(countries);
       // console.log(countries[2]);
     };
+    // logData();
     //Conditional rendering according to checkAll state
-    return this.props.country.country === "UAE" ? (
+    return (
       <SubMenu
-        key={this.props.city.city + "1"}
-        className="UAECityCountry hidden"
-        title={this.props.country.country}
+        key={this.props.country}
+        title={this.props.country}
         {...filteredProps}
       >
-        {optionData[4][1]
-          .filter((ct) => ct.country.country === "UAE")
-          .map((d, i) => {
-            return (
-              <SubMenu key={this.props.city.id + i} title={d.city}>
-                <Menu.Item>
+        {this.props.cities.map((city) => (
+          <SubMenu key={city.city + "1"} title={city.city}>
+            {/* {console.log(city.city,"his.props.city.city")} */}
+            <Menu.Item>
+              <Checkbox onChange={(e) => this.checkedAll("cities", city.id, e)}>
+                Select All
+              </Checkbox>
+            </Menu.Item>
+            {city.zone.map((zone) =>
+              this.state.checkedAll ? (
+                <Menu.Item key={zone.id}>
                   <Checkbox
-                    onChange={(e) => this.checkedAll("cities", d.id, e)}
-                  >
-                    Select All
-                  </Checkbox>
+                    disabled={this.state.checkedAll}
+                    checked={false}
+                    onChange={(e) => this.props.addzone("zones", zone.id, e)}
+                  >{`${zone.zone}`}</Checkbox>
                 </Menu.Item>
-                {d.zone.map((zone) =>
-                  this.state.checkedAll ? (
-                    <Menu.Item key={zone.id}>
-                      <Checkbox
-                        disabled={this.state.checkedAll}
-                        checked={false}
-                        onChange={(e) =>
-                          this.props.addzone("zones", zone.id, e)
-                        }
-                      >{`Zone ${zone.zone}`}</Checkbox>
-                    </Menu.Item>
-                  ) : (
-                    <Menu.Item key={zone.id}>
-                      <Checkbox
-                        disabled={this.state.checkedAll}
-                        checked={this.props.zonesSelected.includes(zone.id)}
-                        onClick={(e) =>
-                          this.props.addzone("zones", zone.id, e)
-                        }
-                      >{`Zone ${zone.zone}`}</Checkbox>
-                    </Menu.Item>
-                  )
-                )}
-              </SubMenu>
-            );
-          })}
-      </SubMenu>
-    ) : (
-      <SubMenu
-        key={this.props.city.city}
-        title={this.props.country.country}
-        {...filteredProps}
-      >
-        <SubMenu key={this.props.city.city + "1"} title={this.props.city.city}>
-          {/* {console.log(this.props.city.city,"his.props.city.city")} */}
-          <Menu.Item>
-            <Checkbox
-              onChange={(e) => this.checkedAll("cities", this.props.city.id, e)}
-            >
-              Select All
-            </Checkbox>
-          </Menu.Item>
-          {this.props.city.zone.map((zone) =>
-            this.state.checkedAll ? (
-              <Menu.Item key={zone.id}>
-                <Checkbox
-                  disabled={this.state.checkedAll}
-                  checked={false}
-                  onChange={(e) => this.props.addzone("zones", zone.id, e)}
-                >{`Zone ${zone.zone}`}</Checkbox>
-              </Menu.Item>
-            ) : (
-              <Menu.Item key={zone.id}>
-                <Checkbox
-                  disabled={this.state.checkedAll}
-                  onChange={(e) => this.props.addzone("zones", zone.id, e)}
-                >{`Zone ${zone.zone}`}</Checkbox>
-              </Menu.Item>
-            )
-          )}
-        </SubMenu>
+              ) : (
+                <Menu.Item key={zone.id}>
+                  <Checkbox
+                    disabled={this.state.checkedAll}
+                    onChange={(e) => this.props.addzone("zones", zone.id, e)}
+                  >{`${zone.zone}`}</Checkbox>
+                </Menu.Item>
+              )
+            )}
+          </SubMenu>
+        ))}
       </SubMenu>
     );
   }

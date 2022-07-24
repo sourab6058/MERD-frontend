@@ -17,10 +17,15 @@ export default function getUserDetail() {
 
     let cities = [];
     let categories = [];
+    let subCombos = [];
 
     for (const data of usrData) {
       cities.push(data.split(",")[0].trim());
       categories.push(data.split(",")[1].trim());
+      subCombos.push({
+        city: data.split(",")[0].trim(),
+        category: data.split(",")[1].trim(),
+      });
     }
 
     cities = [...new Set(cities)];
@@ -30,16 +35,18 @@ export default function getUserDetail() {
       username,
       cities,
       categories,
+      subCombos,
     };
     console.log(data);
 
     return data;
   } catch (err) {
-    console.log(err);
+    console.warn(err, "user not logged in");
     return {
       username: false,
       cities: [],
       categories: [],
+      subCombos: [],
       err,
     };
   }

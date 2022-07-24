@@ -10,6 +10,15 @@ export default class FiltersPage extends Component {
     super(props);
   }
 
+  componentDidMount() {
+    if (localStorage.getItem("selectionsMade")) {
+      let selectionsMade = JSON.parse(localStorage.getItem("selectionsMade"));
+      if (selectionsMade.type === "demogpc") {
+        this.props.setPostObject(selectionsMade);
+      }
+    }
+  }
+
   handleCitySelect = (e, city) => {
     const cities = this.props.citiesChecked;
 

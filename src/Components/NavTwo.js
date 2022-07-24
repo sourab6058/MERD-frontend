@@ -7,7 +7,7 @@ import getUserDetail from "../utils/getUserDetail";
 import "../css/Navbar.css";
 import { Button, Dropdown, Menu } from "antd";
 
-export default function NavTwo({ scrollToBand, scrollToProducts }) {
+export default function NavTwo() {
   const [username, setUsername] = useState();
   useEffect(() => {
     const user = getUserDetail();
@@ -36,75 +36,98 @@ export default function NavTwo({ scrollToBand, scrollToProducts }) {
     </Menu>
   );
   return (
-   <>
-   <div className="flex bg-white w-full justify-end pr-10 fixed top-0 z-[110]">
-     <Link to="/contactus">
-     <p className="text-sm font-medium ml-auto"><i class="fas fa-envelope"></i>&nbsp;data@merd.online</p>
-     </Link>
-   </div>
-    <nav className="nav-container">
-      <div className="bgm" >
-        <BurgerMenu>
-          <a id="about" className="menu-item">
-            About
-          </a>
-          <a id="products" className="menu-item">
-            Products
-          </a>
-        {
-         username  ? "" :  <Link id="subscribe" className="menu-item" to="/subscribe">Subscribe</Link>
-        }
-          <Link id="faq" className="menu-item" to="/faq" >
-            FAQ
-          </Link>
-          <Link id="cu" className="menu-item" to="/contactus">
-            Contact Us
-          </Link>
-        </BurgerMenu>
+    <>
+      <div className="flex bg-white w-full justify-end pr-10 fixed top-0 z-[110]">
+        <Link to="/contactus">
+          <p className="text-sm font-medium ml-auto">
+            <i class="fas fa-envelope"></i>&nbsp;data@merd.online
+          </p>
+        </Link>
       </div>
-      
-      <Link to="/" className="cmp-logo">
-        <span className="cpm-name">middle east retail data</span>
+      <nav className="nav-container">
+        <div className="bgm">
+          <BurgerMenu>
+            <a id="about" className="menu-item">
+              About
+            </a>
+            <a id="products" className="menu-item">
+              Products
+            </a>
+            {username ? (
+              ""
+            ) : (
+              <Link id="subscribe" className="menu-item" to="/subscribe">
+                Subscribe
+              </Link>
+            )}
+            <Link id="faq" className="menu-item" to="/faq">
+              FAQ
+            </Link>
+            <Link id="cu" className="menu-item" to="/contactus">
+              Contact Us
+            </Link>
+          </BurgerMenu>
+        </div>
 
-        <span className="sub-text">ACCURATE.INSTANT.DETAILED.AFFORDABLE</span>
-      </Link>
-      <ul>
-        <li>
-          <a onClick={(e) => window.location.replace("/#aboutus")}>About</a>
-        </li>
-        <li>
-          <a onClick={() => window.location.replace("/#product")} >Products</a>
-        </li>
-       
-        {
-         username  ? '' :  <li> <Link id="subscribe" className="menu-item" to="/subscribe">Subscribe</Link></li>
-        }
-        
-        <li>
-          <Link to="/faq">FAQ</Link>
-        </li>
-        <li>
-          <Link to="/contactus">Contact Us</Link>
-        </li>
-      </ul>
-      {!username ? (
-        <Button className="sign-in-links" href="https://merd.online/login/">
-          Sign In
-        </Button>
-      ) : (
-        <Dropdown
-          overlay={usermenu}
-          placement="bottomLeft"
-          className="z-10"
-        >
-          <Button className="rounded-lg mt-6 flex items-center justify-center bg-white mr-7">
-            {username.length > 11 ? username.substring(0, 11) : username} 
-            <span className="ml-1 mt-1"><svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg></span>
-            
+        <Link to="/" className="cmp-logo">
+          <span className="cpm-name">middle east retail data</span>
+
+          <span className="sub-text">ACCURATE.INSTANT.DETAILED.AFFORDABLE</span>
+        </Link>
+        <ul>
+          <li>
+            <a onClick={(e) => window.location.replace("/#aboutus")}>About</a>
+          </li>
+          <li>
+            <a onClick={() => window.location.replace("/#product")}>Products</a>
+          </li>
+
+          {username ? (
+            ""
+          ) : (
+            <li>
+              {" "}
+              <Link id="subscribe" className="menu-item" to="/subscribe">
+                Subscribe
+              </Link>
+            </li>
+          )}
+
+          <li>
+            <Link to="/faq">FAQ</Link>
+          </li>
+          <li>
+            <Link to="/contactus">Contact Us</Link>
+          </li>
+        </ul>
+        {!username ? (
+          <Button className="sign-in-links" href="https://merd.online/login/">
+            Sign In
           </Button>
-        </Dropdown>
-      )}
-    </nav>
+        ) : (
+          <Dropdown overlay={usermenu} placement="bottomLeft" className="z-10">
+            <Button className="rounded-lg mt-6 flex items-center justify-center bg-white mr-7">
+              {username.length > 11 ? username.substring(0, 11) : username}
+              <span className="ml-1 mt-1">
+                <svg
+                  class="ml-2 w-4 h-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M19 9l-7 7-7-7"
+                  ></path>
+                </svg>
+              </span>
+            </Button>
+          </Dropdown>
+        )}
+      </nav>
     </>
   );
 }

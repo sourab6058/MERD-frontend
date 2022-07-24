@@ -18,6 +18,7 @@ export class Tables extends Component {
   render() {
     console.log("SHOWDATA");
     console.log(this.props.zones, "zonesss");
+    console.log(this.props.user);
     const data = this.props.data;
     console.table(data, "main-data**");
     const displayMode = this.props.displayMode;
@@ -69,168 +70,189 @@ export class Tables extends Component {
                     {" "}
                     {year.cities.map((city) => (
                       <div key={uuidv4()}>
-                        {/* <h3>Market Size for {city.city} </h3> */}
-
-                        {/* <Typography variant="h3">
-                      {_.capitalize(year.year)}
-                    </Typography> */}
-
-                        {city.categories.map((category) => (
-                          <div key={uuidv4()}>
-                            {category.hasOwnProperty("subcategories") ? (
-                              <div>
-                                <Typography variant="h5">
-                                  {_.capitalize(category.category)}
-                                </Typography>
-                                {category.subcategories.map((subcategory) => (
-                                  <div
-                                    style={{ margin: "20px 0" }}
-                                    key={uuidv4()}
-                                  >
-                                    {subcategory.hasOwnProperty(
-                                      "subsubcategories"
-                                    ) ? (
-                                      <div style={{ margin: "20px 0" }}>
-                                        <Typography variant="h5">
-                                          {subcategory.subcategory}
-                                        </Typography>
-                                        {subcategory.subsubcategories.map(
-                                          (subsubcategory) => (
-                                            <div
-                                              style={{ margin: "20px 0" }}
-                                              key={uuidv4()}
-                                            >
-                                              {/* <Typography variant="h5">  
+                        {city.categories.map((category) =>
+                          this.props.user.subCombos.find(
+                            (sub) =>
+                              sub.city === city.city &&
+                              sub.category === category.category
+                          ) ? (
+                            <div key={uuidv4()}>
+                              {category.hasOwnProperty("subcategories") ? (
+                                <div>
+                                  <Typography variant="h5">
+                                    {_.capitalize(category.category)}
+                                  </Typography>
+                                  {category.subcategories.map((subcategory) => (
+                                    <div
+                                      style={{ margin: "20px 0" }}
+                                      key={uuidv4()}
+                                    >
+                                      {subcategory.hasOwnProperty(
+                                        "subsubcategories"
+                                      ) ? (
+                                        <div style={{ margin: "20px 0" }}>
+                                          <Typography variant="h5">
+                                            {subcategory.subcategory}
+                                          </Typography>
+                                          {subcategory.subsubcategories.map(
+                                            (subsubcategory) => (
+                                              <div
+                                                style={{ margin: "20px 0" }}
+                                                key={uuidv4()}
+                                              >
+                                                {/* <Typography variant="h5">  
                                                 {subsubcategory.subsubcategory}
                                               </Typography> */}
-                                              {subsubcategory.nationalities.map(
-                                                (nationality) => (
-                                                  <div
-                                                    style={{
-                                                      margin: "20px 0",
-                                                    }}
-                                                    key={uuidv4()}
-                                                  >
-                                                    {/* <Typography variant="h6">
+                                                {subsubcategory.nationalities.map(
+                                                  (nationality) => (
+                                                    <div
+                                                      style={{
+                                                        margin: "20px 0",
+                                                      }}
+                                                      key={uuidv4()}
+                                                    >
+                                                      {/* <Typography variant="h6">
                                                       {nationality.nationality}
                                                     </Typography> */}
-                                                    <DistinctTable
-                                                      data={nationality.data}
-                                                      year={year.year}
-                                                      city={city.city}
-                                                      category={
-                                                        subsubcategory.subsubcategory
-                                                      }
-                                                      totalMarketSize={
-                                                        nationality.total_zone_market_size
-                                                      }
-                                                      nationality={
-                                                        nationality.nationality
-                                                      }
-                                                      purchaseMode={
-                                                        purchaseMode
-                                                      }
-                                                      placeOfPurchase={
-                                                        placeOfPurchase
-                                                      }
-                                                      zones={this.props.zones}
-                                                      monthsSelected={
-                                                        this.props.months
-                                                      }
-                                                    />
-                                                  </div>
-                                                )
-                                              )}
-                                            </div>
-                                          )
-                                        )}
-                                      </div>
-                                    ) : (
-                                      <div style={{ margin: "20px 0" }}>
-                                        {/* <Typography variant="h5">
+                                                      <DistinctTable
+                                                        data={nationality.data}
+                                                        year={year.year}
+                                                        city={city.city}
+                                                        category={
+                                                          subsubcategory.subsubcategory
+                                                        }
+                                                        totalMarketSize={
+                                                          nationality.total_zone_market_size
+                                                        }
+                                                        nationality={
+                                                          nationality.nationality
+                                                        }
+                                                        purchaseMode={
+                                                          purchaseMode
+                                                        }
+                                                        placeOfPurchase={
+                                                          placeOfPurchase
+                                                        }
+                                                        zones={this.props.zones}
+                                                        monthsSelected={
+                                                          this.props.months
+                                                        }
+                                                      />
+                                                    </div>
+                                                  )
+                                                )}
+                                              </div>
+                                            )
+                                          )}
+                                        </div>
+                                      ) : (
+                                        <div style={{ margin: "20px 0" }}>
+                                          {/* <Typography variant="h5">
                                           {subcategory.subcategory}
                                         </Typography> */}
-                                        hello
-                                        {subcategory.nationalities.map(
-                                          (nationality) => (
-                                            <div
-                                              style={{ margin: "20px 0" }}
-                                              key={uuidv4()}
-                                            >
-                                              {/* <Typography variant="h6">
+                                          hello
+                                          {subcategory.nationalities.map(
+                                            (nationality) => (
+                                              <div
+                                                style={{ margin: "20px 0" }}
+                                                key={uuidv4()}
+                                              >
+                                                {/* <Typography variant="h6">
                                                 {nationality.nationality}
                                               </Typography> */}
-                                              <DistinctTable
-                                                data={nationality.data}
-                                                year={year.year}
-                                                city={city.city}
-                                                category={
-                                                  subcategory.subcategory
-                                                }
-                                                totalMarketSize={
-                                                  nationality.total_zone_market_size
-                                                }
-                                                nationality={
-                                                  nationality.nationality
-                                                }
-                                                purchaseMode={purchaseMode}
-                                                placeOfPurchase={
-                                                  placeOfPurchase
-                                                }
-                                                monthsSelected={
-                                                  this.props.months
-                                                }
-                                                zones={this.props.zones}
-                                              />
-                                            </div>
-                                          )
-                                        )}
-                                      </div>
-                                    )}
-                                  </div>
-                                ))}
-                              </div>
-                            ) : (
-                              <div style={{ margin: "20px 0" }}>
-                                {/* <Typography variant="h5">
+                                                <DistinctTable
+                                                  data={nationality.data}
+                                                  year={year.year}
+                                                  city={city.city}
+                                                  category={
+                                                    subcategory.subcategory
+                                                  }
+                                                  totalMarketSize={
+                                                    nationality.total_zone_market_size
+                                                  }
+                                                  nationality={
+                                                    nationality.nationality
+                                                  }
+                                                  purchaseMode={purchaseMode}
+                                                  placeOfPurchase={
+                                                    placeOfPurchase
+                                                  }
+                                                  monthsSelected={
+                                                    this.props.months
+                                                  }
+                                                  zones={this.props.zones}
+                                                />
+                                              </div>
+                                            )
+                                          )}
+                                        </div>
+                                      )}
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div style={{ margin: "20px 0" }}>
+                                  {/* <Typography variant="h5">
                                   {_.capitalize(category.category)}
                                 </Typography> */}
-                                {console.log(
-                                  category.nationality,
-                                  "category.nationality"
-                                )}
+                                  {console.log(
+                                    category.nationality,
+                                    "category.nationality"
+                                  )}
 
-                                {category.nationality.map((nationality) => (
-                                  <div
-                                    key={uuidv4()}
-                                    style={{ margin: "20px 0" }}
-                                  >
-                                    {/* <Typography variant="h6">
+                                  {category.nationality.map((nationality) => (
+                                    <div
+                                      key={uuidv4()}
+                                      style={{ margin: "20px 0" }}
+                                    >
+                                      {/* <Typography variant="h6">
                                       {nationality.nationality}
                                     </Typography> */}
 
-                                    <DistinctTable
-                                      data={nationality.data}
-                                      allNationality={true}
-                                      allNationalityNames={category.nationality}
-                                      category={category.category}
-                                      year={year.year}
-                                      city={city.city}
-                                      nationality={nationality.nationality}
-                                      totalMarketSize={
-                                        nationality.total_zone_market_size
-                                      }
-                                      purchaseMode={purchaseMode}
-                                      placeOfPurchase={placeOfPurchase}
-                                      monthsSelected={this.props.months}
-                                      zones={this.props.zones}
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        ))}
+                                      <DistinctTable
+                                        data={nationality.data}
+                                        allNationality={true}
+                                        allNationalityNames={
+                                          category.nationality
+                                        }
+                                        category={category.category}
+                                        year={year.year}
+                                        city={city.city}
+                                        nationality={nationality.nationality}
+                                        totalMarketSize={
+                                          nationality.total_zone_market_size
+                                        }
+                                        purchaseMode={purchaseMode}
+                                        placeOfPurchase={placeOfPurchase}
+                                        monthsSelected={this.props.months}
+                                        zones={this.props.zones}
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <a
+                              style={{
+                                fontSize: "1.5rem",
+                                color: "var(--lightBlue)",
+                                border: "1px solid blue",
+                                borderRadius: "2px",
+                                cursor: "pointer",
+                                marginTop: "2rem",
+                                paddingInline: "1rem",
+                                width: "100%",
+                              }}
+                              onClick={() =>
+                                (window.location.href = "/subscribe-more")
+                              }
+                            >
+                              Please Subscribe to view data for {city.city} and{" "}
+                              {category.category}
+                            </a>
+                          )
+                        )}
                       </div>
                     ))}
                   </div>

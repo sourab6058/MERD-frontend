@@ -6,25 +6,19 @@ import Cards from "./HomePage/Cards";
 import Footer from "./Footer";
 import Hero from "./HomePage/Hero";
 import CookieDialog from "./CookieDialog";
+import getUserDetail from "../utils/getUserDetail";
 
 const SESSION_API = "https://merd.online/user-details/?sid=";
 
 class HomePage extends Component {
   constructor(props) {
     super(props);
-    this.bandRef = React.createRef();
-    this.productsRef = React.createRef();
     this.state = {
       subscribed: false,
+      cookieDialogOpen: false,
+      acceptCookies: true,
     };
   }
-
-  scrollToBand = () => {
-    this.bandRef.current.scrollIntoView();
-  };
-  scrollToProducts = () => {
-    this.productsRef.current.scrollIntoView();
-  };
 
   componentDidMount = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -36,23 +30,43 @@ class HomePage extends Component {
       link.href = SESSION_API + sid;
       link.click();
     } else if (userDetails) {
+      this.setState({ cookieDialogOpen: true });
       document.cookie = `user-details=${userDetails}`;
       this.setState({ subscribed: true });
-      window.history.pushState("homepage", "homepage", "#");
+      window.history.replaceState({}, document.title, "/");
       if (localStorage.getItem("selectionsMade")) {
         window.location = "https://data.merd.online/dashboard";
       }
     } else {
-      console.log("No Params");
+      const user = getUserDetail();
+      if (user.username) {
+        this.setState({ subscribed: true, cookieDialogOpen: false });
+      } else {
+        const details = document.cookie;
+        const cookieList = details.split(";");
+        const reqdCookie = cookieList.find((cookie) =>
+          cookie.includes("acceptCookies")
+        );
+        if (!reqdCookie) this.setState({ cookieDialogOpen: true });
+      }
     }
   };
+  handleCookies = (acceptCookies) => {
+    this.setState({ acceptCookies, cookieDialogOpen: false });
+    if (acceptCookies) {
+      document.cookie = `acceptCookies=true`;
+      console.log("Accept COOkies");
+    }
+  };
+
   render() {
     return (
       <div className="Mainclass">
-        <NavTwo
-          scrollToBand={this.scrollToBand}
-          scrollToProducts={this.scrollToProducts}
+        <CookieDialog
+          open={this.state.cookieDialogOpen}
+          handleClose={this.handleCookies}
         />
+        <NavTwo />
         <Hero subscribed={this.state.subscribed} />
         <Band bandRef={this.bandRef} />
         <Cards productsRef={this.productsRef} />
