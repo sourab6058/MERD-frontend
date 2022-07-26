@@ -396,6 +396,34 @@ export default class DeleteCensus extends Component {
     return finalStr.join(", ");
   };
 
+  displayCities = (cities) => {
+    const countries = [];
+    for (let city of cities) {
+      if (countries.hasOwnProperty(city.country.country)) {
+        countries[city.country.country].push(city);
+      } else {
+        countries[city.country.country] = [city];
+      }
+    }
+
+    return (
+      <SubMenu key="City" title="City">
+        {Object.keys(countries)
+          .sort()
+          .map((country) => (
+            <SubCity
+              key={country}
+              cities={countries[country]}
+              zonesSelected={this.state.postObject.zones}
+              country={country}
+              addzone={this.addZone}
+              selectallzones={this.selectAllZones}
+            ></SubCity>
+          ))}
+      </SubMenu>
+    );
+  };
+
   render() {
     let checkCity = [];
     let checkZone = [];
@@ -496,18 +524,7 @@ export default class DeleteCensus extends Component {
               }}
               theme={"light"}
             >
-              <SubMenu key="City" title="City">
-                {this.state.cities.map((city) => (
-                  <SubCity
-                    key={city.city}
-                    city={city}
-                    zonesSelected={this.state.postObject.zones}
-                    country={city.country}
-                    addzone={this.addZone}
-                    selectallzones={this.selectAllZones}
-                  ></SubCity>
-                ))}
-              </SubMenu>
+              {this.displayCities(this.state.cities)}
               <SubMenu key="Category" title="Category">
                 {this.state.category.map((main) => (
                   <SubCategory
