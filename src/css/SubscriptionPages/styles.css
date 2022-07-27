@@ -1,159 +1,108 @@
-.sub-main-container {
+*, *::after, *::before{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+.sub-container{
+  width:100vw;
+  background-color: white;
+  min-height:90vh;
+}
+
+.first{
+  display: flex;
+}
+.text-1{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-size: 3rem;
+  font-weight: 400;
+  color:black;
+  padding:1rem;
+  padding-top:50px;
+}
+
+.img-1{
+  width:50vw;
+  height:90vh;
+  object-fit: cover;
+}
+
+.sub-btn{
+  margin-top: 20px;
+  font-size: 2rem;
+  color:rgb(42, 56, 255);
+  border:2px solid rgb(64, 32, 243);
+  border-radius:5px;
+  padding-inline: 1rem;
+  cursor: pointer;
+  transition: 300ms ;
+}
+.sub-btn:hover{
+  transform: scale(1.2);
+  background-color: rgb(64, 32, 243); 
+  color:white;
+}
+.second{
+  position: relative;
+  padding:1rem;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
 }
 
-.subscriptions {
-  /* border: 1px solid red; */
-  min-height: 60vh;
-}
-.sub-container {
-  display: flex;
-  flex-direction: row;
-  width: 400vw;
-  min-height: 60vh;
-  left: 0;
-  transition: all 300ms;
-}
-.handshake-img-div {
-  width: 100%;
-  height: 20rem;
-}
-.handshake-img {
-  object-fit: cover;
-  width: 100%;
-  height: 20rem;
-  box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
-  -webkit-box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
-  -moz-box-shadow: 0px 0px 50px 28px rgba(105, 103, 103, 0.53);
-}
-.sub-hero {
-  min-width: 100vw;
-  min-height: 60vh;
-  padding: 3rem;
-  padding-bottom: 5rem;
-  padding-top: 5rem;
-  color: #000;
-  font-size: 2.5rem;
-  font-weight: 500;
-  letter-spacing: 2px;
-  background-color: #fff;
-  text-align: center;
-}
-.sub-hero-text {
-  color: #000;
-  display: block;
-  width: 86%;
-}
-.sub-content {
-  display: flex;
-  flex-direction: row;
-}
-.sub-text {
-  text-align: start;
-}
-.next-btn {
-  margin-top: 1.8rem;
-  padding-inline: 2.25rem;
-  border-radius: 2rem;
-  border: 2px solid #000;
-  color: #000;
+.btn{
+  position:absolute;
+  border:1px solid black;
+  border-radius: 4px;
+  font-size: 1.5rem;
+  padding-inline:1rem;
   cursor: pointer;
-  font-size: 2rem;
-}
-.prev-btn {
-  position: absolute;
-  border: 1px solid red;
-  top: 20px;
-  left: 20px;
-  z-index: 1;
-}
-.next-btn:hover {
-  background-color: #000;
-  color: rgb(249, 249, 252);
-}
-
-.arrow-back {
-  position: absolute;
-  font-size: 3.5rem;
-  top: 7rem;
-  left: 1rem;
-  cursor: pointer;
-  z-index: 2;
+  margin-right:100px;
+  left:50px;
   transition: 300ms;
 }
-.arrow-back:hover {
-  cursor: pointer;
+.btn:hover{
   transform: scale(1.2);
 }
 
-.option-main {
-  position: relative;
+.top-text{
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  background-color: rgb(0, 0, 60);
-  min-height: 60vh;
 }
 
-.title-dd-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 15rem;
+table{
+  background-color: rgb(13, 0, 255);
+  color:white;
 }
 
-.sub-option-container {
-  width: 100vw;
-  /* border:1px solid red; */
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+table th{
   font-size: 2rem;
-  padding: 1rem;
-  color: white;
-  /* text-align: center; */
 }
-.sub-dropdowns {
-  position: relative;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 40vw;
-  min-height: 10rem;
-  padding: 4rem;
-  border: 1px solid blue;
-  background-color: white;
-  margin-right: 1rem;
-  border-radius: 0.45rem;
+table td{
+  width:40vw;
+  padding:1rem;
+  font-size: 1.5rem;
+  border:1px solid white;
+  border-radius: 2px;
 }
 
-.drop-links {
-  border: 1px solid rgb(0, 0, 60);
-  border-radius: 5px;
-  min-width: 12rem;
-  text-align: center;
-  color: rgb(0, 0, 60);
+.sub-btn2{
+  background-color: rgb(64, 32, 243);
+  color:white;
+  border-radius:5px;
+  margin-right: 2px;
+} 
+
+.lightBlue{
+  background-color: var(--lightBlue);
+}
+.equal-btns{
+  width:100px;
 }
 
-.drop-links:hover {
-  background-color: rgb(0, 0, 60);
-  color: white;
-}
-
-.sub-dropdowns-title {
-  color: white;
-  align-self: center;
-}
-.sub-plan-table {
-  position: relative;
-  width: 80%;
-  /* margin: 1rem; */
-  margin-top: auto;
-  overflow-x: hidden;
+.third{
+  padding:1rem;
 }

@@ -1,23 +1,19 @@
 import React from "react";
 
 import "../../css/SubscriptionPages/styles.css";
-import fisrtImg from "../../img/handshake.jpg";
+
+const subFirst = require("../../img/sub-handshake.jpg");
 
 const First = ({ handleNext }) => (
   <>
-    <div className="sub-hero first">
-    <div className="sub-content">
-      <div className="sub-text">
-      <span className="sub-hero-text">We understand that you would like to subscribe to our data. <br /> Great!</span>
-      <div className="next-btn-div"><span className="next-btn" onClick={handleNext}>
-        Next
+    <div className="sub-container first">
+      <img src={subFirst} alt="img-sub" className="sub-img img-1" />
+      <span className="text text-1">
+        We understand that you would like to subscribe to our data.
+        <span className="sub-btn" onClick={handleNext}>
+          Subscribe
+        </span>
       </span>
-      </div>
-      </div >
-      <div className="handshake-img-div">
-      <img className="handshake-img"  src={fisrtImg} alt="handshake" />
-      </div>
-      </div>
     </div>
   </>
 );

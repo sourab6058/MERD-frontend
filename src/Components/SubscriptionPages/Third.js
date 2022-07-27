@@ -1,22 +1,75 @@
-import React from "react";
-import { ArrowBackIos } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Paper } from "@material-ui/core";
+import { Checkbox } from "antd";
 
 import "../../css/SubscriptionPages/styles.css";
 
-const Third = ({ handleNext, handlePrev }) => {
+const CITY_URL = "https://data.merd.online:8000/cities";
+const CATEGORY_URL = "https://data.merd.online:8000/categories";
+
+const Third = ({ handleNext, handlePrev, handleCheck, subTo }) => {
+  const [cityOptions, setCityOptions] = useState([]);
+  const [categoryOptions, setCategoryOptions] = useState([]);
+
+  useEffect(() => {
+    axios.get(CITY_URL).then((res) => setCityOptions(res.data.data));
+    axios
+      .get(CATEGORY_URL)
+      .then((res) =>
+        setCategoryOptions(
+          res.data.data.filter(
+            (cat) =>
+              !["Demographic", "City Report", "Tourist Report"].includes(
+                cat.name
+              )
+          )
+        )
+      );
+  }, []);
+
+  function checkCities(e) {
+    console.log(e.target.checked, e.target.value);
+  }
+
+  const demographic = (
+    <div>
+      <Paper style={{ marginTop: "100px" }}>
+        <h1>Demographic</h1>
+        {cityOptions.map((city) => (
+          <Checkbox value={city.name} onChange={checkCities}>
+            <span>{city.name}</span>
+          </Checkbox>
+        ))}
+      </Paper>
+    </div>
+  );
+  const allProducts = (
+    <div>
+      <Paper style={{ marginTop: "100px" }}>
+        <h1>All Products</h1>
+        {cityOptions.map((city) => (
+          <Checkbox value={city.name} onChange={checkCities}>
+            <span>{city.name}</span>
+          </Checkbox>
+        ))}
+        <br />
+        {categoryOptions.map((cat) => (
+          <Checkbox value={cat.name} onChange={checkCities}>
+            <span>{cat.name}</span>
+          </Checkbox>
+        ))}
+      </Paper>
+    </div>
+  );
+
   return (
     <>
-      <div className="sub-hero second" data-aos="fade-left">
-        <span onClick={handlePrev} className="prev-btn">
-          <ArrowBackIos style={{ fontSize: "3rem" }} />
+      <div className="sub-container third">
+        <span onClick={handlePrev} className="btn">
+          Back
         </span>
-        Our pricing works progressively - the first subscription costs AED 6,500
-        for 6 months or AED 9,500 for 12 months.And every subsequent
-        subscription is 20% cheaper (AED 5,200 for 6 months or AED 7,600 for 12
-        months.
-        <span className="next-btn" onClick={handleNext}>
-          Okay
-        </span>
+        {subTo === "demographic" ? demographic : allProducts}
       </div>
     </>
   );

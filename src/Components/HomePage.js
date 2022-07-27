@@ -5,6 +5,7 @@ import Band from "./HomePage/Band";
 import Cards from "./HomePage/Cards";
 import Footer from "./Footer";
 import Hero from "./HomePage/Hero";
+import Banner from "./HomePage/Banner";
 import CookieDialog from "./CookieDialog";
 import getUserDetail from "../utils/getUserDetail";
 
@@ -68,6 +69,7 @@ class HomePage extends Component {
         />
         <NavTwo />
         <Hero subscribed={this.state.subscribed} />
+        <Banner />
         <Band bandRef={this.bandRef} />
         <Cards productsRef={this.productsRef} />
         <Footer />

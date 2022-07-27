@@ -1,0 +1,44 @@
+*, *::before, *::after{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+h1{
+    /* font-size: 2rem; */
+    color:#12b0e0
+}
+.container{
+    background-color: white;
+}
+.features{
+    width:100%;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 60px;
+}
+.feature{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.text{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.emotes{
+    font-size: 4rem;
+}
+.number{
+    font-weight:bolder;
+    font-size: 25px;
+}
+.feature .sub{
+    font-size: 1.2rem;
+}
