@@ -123,14 +123,14 @@ export class TouristReports extends Component {
   };
 
   handleBuyOnce = (file) => {
-    const report = file.split(".pdf")[0] + " tourist report";
-    postForm(BUY_ONCE_URL, report);
+    const report = file.split(".pdf")[0];
+    postForm(BUY_ONCE_URL, report, "Tourist Report");
     console.log(report);
   };
 
   render() {
     return (
-      <>
+      <div style={{ width: "100vw" }}>
         <NavTwo />
         <div className="header ">
           {/* <div className="back-img">&nbsp;</div> */}
@@ -206,7 +206,7 @@ export class TouristReports extends Component {
           )}
         </div>
         <Footer />
-      </>
+      </div>
     );
   }
 }

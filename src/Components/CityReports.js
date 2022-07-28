@@ -128,17 +128,21 @@ export class CityReports extends Component {
   };
 
   handleBuyOnce = (file) => {
-    const report = file.split(".pdf")[0] + " city report";
-    postForm(BUY_ONCE_URL, report);
+    const report = file.split(".pdf")[0];
+    postForm(BUY_ONCE_URL, report, "City Report");
     console.log(report);
   };
 
   render() {
     return (
-      <>
+      <div style={{ width: "100vw" }}>
         <NavTwo />
         <div className="header">
-          <img className="headerImg mb-3 brightness-50" src="https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" alt="building" />
+          <img
+            className="headerImg mb-3 brightness-50"
+            src="https://images.pexels.com/photos/3787839/pexels-photo-3787839.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+            alt="building"
+          />
           <div className="header-text">
             <h2 className="heading text-5xl">City Market Reports</h2>
             {/* <p className="heading-text text-xl">Your source for market research</p> */}
@@ -148,7 +152,9 @@ export class CityReports extends Component {
           {this.state.files.length ? (
             <>
               <div className="city-report">
-                <span className="recent-report text-gray-800 text-3xl">Recent Reports</span>
+                <span className="recent-report text-gray-800 text-3xl">
+                  Recent Reports
+                </span>
               </div>
               <ul className="grid grid-cols-2 gap-4 mt-4">
                 {this.state.files.map((file, idx) => (
@@ -166,13 +172,14 @@ export class CityReports extends Component {
                       this.state.cities[idx]
                     ) ? (
                       <div className="pb-4 mt-4">
-                      <Button
-                        className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
-                        key={idx}
-                        onClick={() => this.handleExport(file)}
-                      >
-                        Download <i class="fa-solid ml-2 text-black fa-download"></i>
-                      </Button>
+                        <Button
+                          className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
+                          key={idx}
+                          onClick={() => this.handleExport(file)}
+                        >
+                          Download{" "}
+                          <i class="fa-solid ml-2 text-black fa-download"></i>
+                        </Button>
                       </div>
                     ) : (
                       <div className="flex gap-4 pb-4 mt-4">
@@ -181,8 +188,13 @@ export class CityReports extends Component {
                             Buy USD 120
                           </a>
                         </Button>
-                        <Button className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center" key={idx} disabled>
-                          Download <i class="fa-solid ml-2 text-black fa-download"></i>
+                        <Button
+                          className="rounded-lg px-4 py-4 text-white bg-blue-500 text-center flex items-center"
+                          key={idx}
+                          disabled
+                        >
+                          Download{" "}
+                          <i class="fa-solid ml-2 text-black fa-download"></i>
                         </Button>
                       </div>
                     )}
@@ -197,7 +209,7 @@ export class CityReports extends Component {
         </div>
         <br />
         <Footer />
-      </>
+      </div>
     );
   }
 }

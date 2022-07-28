@@ -12,8 +12,8 @@ import SubcriptionPlansTable from "./SubcriptionPlansTable";
 const SubscriptionJourney = () => {
   const [index, setIndex] = useState(0);
   const [showPlansTable, setShowPlansTable] = useState(false);
-  const [cities, setCities] = useState();
-  const [categories, setCategories] = useState();
+  const [cities, setCities] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [subscriptionsCount, setSubscriptionsCount] = useState(0);
   const [subTo, setSubTo] = useState();
 
@@ -25,6 +25,8 @@ const SubscriptionJourney = () => {
       handlePrev={handlePrev}
       handleCheck={handleCheck}
       setCities={setCities}
+      citiesChecked={cities}
+      categoriesChecked={categories}
       setCategories={setCategories}
       subTo={subTo}
     />,

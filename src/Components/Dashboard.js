@@ -1207,7 +1207,7 @@ export class NewDashboard extends Component {
     }
 
     return (
-      <div style={{ position: "relative" }}>
+      <div style={{ position: "relative", width: "100vw" }}>
         <div
           ref={(el) => (this.top = el)}
           style={{ position: "absolute", top: 0, left: 0 }}

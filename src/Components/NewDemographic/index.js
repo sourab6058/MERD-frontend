@@ -263,7 +263,7 @@ export default class NewDemographic extends Component {
     ];
     const pageCount = pages.length;
     return (
-      <div>
+      <div style={{ width: "100vw" }}>
         {this.state.subscriptionAlertOpen && this.state.idx === 2 && (
           <SubscriptionAlert
             registered={this.state.registeredUser}
