@@ -34,7 +34,7 @@ class HomePage extends Component {
       this.setState({ cookieDialogOpen: true });
       document.cookie = `user-details=${userDetails}`;
       this.setState({ subscribed: true });
-      window.history.replaceState({}, document.title, "/");
+      // window.history.replaceState({}, document.title, "/");
       if (localStorage.getItem("selectionsMade")) {
         window.location = "https://data.merd.online/dashboard";
       }

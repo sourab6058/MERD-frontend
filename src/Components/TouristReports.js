@@ -13,8 +13,6 @@ import postForm from "../utils/postForm";
 const API_URL = "https://data.merd.online:8000/tourist_reports/";
 const BUY_ONCE_URL = "https://merd.online/subscription-confirmation/";
 // const API_URL = "http://localhost:8000/tourist_reports/";
-// const API_URL = 'http://ec2-3-219-204-162.compute-1.amazonaws.com/'
-
 export class TouristReports extends Component {
   constructor() {
     super();
