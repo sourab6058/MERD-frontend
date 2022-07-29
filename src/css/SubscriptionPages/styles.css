@@ -76,22 +76,6 @@ h2{
   align-items: center;
 }
 
-table{
-  background-color: rgb(13, 0, 255);
-  color:white;
-}
-
-table th{
-  font-size: 2rem;
-}
-table td{
-  width:40vw;
-  padding:1rem;
-  font-size: 1.5rem;
-  border:1px solid white;
-  border-radius: 2px;
-}
-
 .sub-btn2{
   background-color: rgb(64, 32, 243);
   color:white;
@@ -103,7 +87,9 @@ table td{
   background-color: var(--lightBlue);
 }
 .equal-btns{
-  width:100px;
+  width:20vw;
+  font-size: 1.2rem;
+
 }
 
 .third{

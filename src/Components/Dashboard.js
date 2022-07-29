@@ -12,8 +12,6 @@ import rendercsv from "../utils/rendercsv";
 import renderExcel from "../utils/renderExcel";
 import getUserDetail from "../utils/getUserDetail";
 import { sortZones } from "../utils/sort";
-import { CSVLink } from "react-csv";
-import PdfDownloader from "./pdfDownloader";
 
 import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
 import "antd/dist/antd.min.css";
@@ -26,7 +24,6 @@ import SubCity from "./Dashboard//Menu/SubCity";
 import Tables from "./Dashboard/Tables";
 import SubNationality from "./Dashboard/Menu/SubNationality";
 import SubMonths from "./Dashboard/Menu/SubMonths";
-import PurchaseMode from "./Dashboard/Menu/PurchaseMode";
 
 import { Modal } from "@material-ui/core";
 import ButtonMui from "@material-ui/core/Button";
@@ -36,12 +33,10 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import CityIcon from "@material-ui/icons/LocationCity";
 import YearIcon from "@material-ui/icons/CalendarToday";
 import CategoryIcon from "@material-ui/icons/Category";
 import NationalityIcon from "@material-ui/icons/Public";
-import PlaceIcon from "@material-ui/icons/Place";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -51,7 +46,6 @@ import Download from "@material-ui/icons/CloudDownload";
 
 import Footer from "./Footer";
 import NavTwo from "./NavTwo";
-import PlaceOfPurchase from "./Dashboard/Menu/PlaceOfPurchase";
 
 const { SubMenu, Item } = Menu;
 const { Content, Sider, Header } = Layout;
@@ -1568,6 +1562,9 @@ export class NewDashboard extends Component {
                     showOneTimeSubPopUp={this.showOneTimeSubPopUp}
                     handleCancelPopUp={this.handleCancelPopUp}
                     postObject={this.state.postObject}
+                    onlyDemographic={this.user.categories.every(
+                      (cat) => cat === "Demographic"
+                    )}
                   />
                 ))}
               {this.state.subscriptionAlertOpen && (
@@ -1577,6 +1574,9 @@ export class NewDashboard extends Component {
                   showOneTimeSubPopUp={this.showOneTimeSubPopUp}
                   handleCancelPopUp={this.handleCancelPopUp}
                   postObject={this.state.postObject}
+                  onlyDemographic={this.user.categories.every(
+                    (cat) => cat === "Demographic"
+                  )}
                 />
               )}
               {this.state.oneTimeSubPopUpOpen && (

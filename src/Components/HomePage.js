@@ -25,13 +25,19 @@ class HomePage extends Component {
     const queryParams = new URLSearchParams(window.location.search);
     const sid = queryParams.get("sid");
     let userDetails = queryParams.get("sub_str");
+
+    const details = document.cookie;
+    const cookieList = details.split(";");
+    const reqdCookie = cookieList.find((cookie) =>
+      cookie.includes("acceptCookies")
+    );
+
     if (sid) {
       console.log(sid);
       const link = document.createElement("a");
       link.href = SESSION_API + sid;
       link.click();
     } else if (userDetails) {
-      this.setState({ cookieDialogOpen: true });
       document.cookie = `user-details=${userDetails}`;
       this.setState({ subscribed: true });
       // window.history.replaceState({}, document.title, "/");
@@ -43,11 +49,6 @@ class HomePage extends Component {
       if (user.username) {
         this.setState({ subscribed: true, cookieDialogOpen: false });
       } else {
-        const details = document.cookie;
-        const cookieList = details.split(";");
-        const reqdCookie = cookieList.find((cookie) =>
-          cookie.includes("acceptCookies")
-        );
         if (!reqdCookie) this.setState({ cookieDialogOpen: true });
       }
     }

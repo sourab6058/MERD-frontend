@@ -24,18 +24,7 @@ export default function Alert({ handleClose, open }) {
           style={{ fontSize: "1rem" }}
           onClick={() => handleClose(true)}
         >
-          Accept Cookies
-        </span>
-        <span
-          onClick={() => handleClose(false)}
-          style={{
-            fontSize: "1rem",
-            backgroundColor: "white",
-            color: "blue",
-            marginLeft: "1rem",
-          }}
-        >
-          Decline Cookies
+          Okay
         </span>
       </DialogActions>
     </Dialog>

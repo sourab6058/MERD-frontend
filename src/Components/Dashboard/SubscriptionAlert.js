@@ -12,6 +12,7 @@ export default function SubscriptionAlert({
   showOneTimeSubPopUp,
   handleCancelPopUp,
   postObject,
+  onlyDemographic,
 }) {
   function handleOneTimeSubscribe() {
     handleSubscriptionAlert();
@@ -28,18 +29,24 @@ export default function SubscriptionAlert({
     //in end the window is redirected to login page (php)
     window.location.href = "https://merd.online/login/";
   }
+
+  const message = onlyDemographic
+    ? "We see you are only subscribed to only demographic. You can subscribe to all products to view more data. "
+    : "We see you have chosen a different city / category from what you have subscribed to. You have the following options";
+
+  const title = onlyDemographic
+    ? "Not subscribed to All Products"
+    : "Not Subscribed to selected Categories.";
+
   return (
     <>
       {registered ? (
         <div>
           {" "}
           <Dialog aria-labelledby="simple-dialog-title" open={true}>
-            <DialogTitle>Not Subscribed to selected Categories.</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                We see you have chosen a different city / category from what you
-                have subscribed to. You have the following options
-              </DialogContentText>
+              <DialogContentText>{message}</DialogContentText>
             </DialogContent>
             <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
               <Link className="cta" to="subscribe-more">

@@ -25,6 +25,7 @@ export default class NewDemographic extends Component {
   constructor() {
     super();
     this.dataToBeEmailed = null;
+    this.user = getUserDetail();
     this.state = {
       userDetails: null,
       registeredUser: true,
@@ -105,8 +106,6 @@ export default class NewDemographic extends Component {
     else {
       this.setState({ registeredUser: false });
     }
-    console.log(userDetails);
-    console.log(this.state.idx);
     const citiesCheckedNames = [];
     this.state.postObject.cities.forEach((cityChecked) => {
       this.state.cities.forEach((city) => {
@@ -122,7 +121,7 @@ export default class NewDemographic extends Component {
         this.dataToBeEmailed = {
           cities: citiesCheckedNames,
         };
-        this.setState({ subscriptionAlertOpen: true });
+        // this.setState({ subscriptionAlertOpen: true });
         this.setState({ idx: 0 });
       }
     } else if (!userDetails.username) {
@@ -259,6 +258,8 @@ export default class NewDemographic extends Component {
         postObject={this.state.postObject}
         citiesOptions={this.state.cities}
         registeredUser={this.state.registeredUser}
+        citiesSubscribed={this.user.cities}
+        showOneTimeSubPopUp={this.showOneTimeSubPopUp}
       />,
     ];
     const pageCount = pages.length;

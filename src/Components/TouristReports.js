@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Button } from "antd";
-import reportsImg from "../img/research-landing.jpg";
 
 import NavTwo from "./NavTwo";
 import Footer from "./Footer";
@@ -16,6 +15,7 @@ const BUY_ONCE_URL = "https://merd.online/subscription-confirmation/";
 export class TouristReports extends Component {
   constructor() {
     super();
+    this.user = getUserDetail();
     this.state = {
       files: [],
       cities: [],
@@ -165,6 +165,9 @@ export class TouristReports extends Component {
                     <br />
                     {this.state.subscribedCities.includes(
                       this.state.cities[idx]
+                    ) &&
+                    !this.user.categories.every(
+                      (cat) => cat === "Demographic"
                     ) ? (
                       <div className="pb-4 mt-4">
                         <Button

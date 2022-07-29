@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import TableCard from "./TableCard";
+import Card from "./Card";
 
 const API_URL = "https://data.merd.online:8000/demographic/";
 
@@ -82,10 +83,15 @@ export default class FilesPage extends Component {
 
               data.table_id = td.table_id;
               data.registeredUser = this.props.registeredUser;
+              data.subscribedCity = this.props.citiesSubscribed.includes(
+                data.city
+              );
+
+              data.showOneTimeSubPopUp = this.props.showOneTimeSubPopUp;
 
               console.log(td.table_id, td.message);
 
-              return <TableCard data={data} />;
+              return <Card data={data} />;
             })}
         </div>
       </>

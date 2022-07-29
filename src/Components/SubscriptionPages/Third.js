@@ -23,7 +23,7 @@ const Third = ({
   const [categoryOptions, setCategoryOptions] = useState([]);
 
   useEffect(() => {
-    setCategories(["Demographic"]);
+    setCategories([]);
     axios.get(CITY_URL).then((res) => setCityOptions(res.data.data));
     axios
       .get(CATEGORY_URL)
@@ -48,6 +48,7 @@ const Third = ({
       cities = cities.filter((city) => city !== e.target.value);
     }
     setCities(cities);
+    console.log(cities);
   }
   function checkCategories(e) {
     let categories;
@@ -57,7 +58,11 @@ const Third = ({
       categories = categoriesChecked;
       categories = categories.filter((cat) => cat !== e.target.value);
     }
+    categories.filter(
+      (cat) => !["Demographic", "Tourist Report", "City Report"].includes(cat)
+    );
     setCategories(categories);
+    console.log(categories);
   }
 
   function calCost() {
@@ -74,6 +79,15 @@ const Third = ({
     }
     total = Math.floor(total * 0.1) * 10;
     return total;
+  }
+
+  function calSubs() {
+    let count = citiesChecked.length;
+    if (subTo !== "demographic") {
+      count *= categoriesChecked.length;
+    }
+
+    return count;
   }
 
   const cityDiv = (
@@ -166,9 +180,16 @@ const Third = ({
     cityInput.value = citiesChecked.toString();
     form.appendChild(cityInput);
 
+    let categories = [];
+    if (subTo === "demographic") {
+      categories = ["Demographic"];
+    } else {
+      categories = categoriesChecked;
+    }
+
     const categoryInput = document.createElement("input");
     categoryInput.name = "categories";
-    categoryInput.value = categoriesChecked.toString();
+    categoryInput.value = categories.toString();
     form.appendChild(categoryInput);
 
     const amountInput = document.createElement("input");
@@ -201,7 +222,7 @@ const Third = ({
               Total Subscriptions:
             </span>
             <span style={{ fontSize: "2rem", color: "green" }}>
-              {citiesChecked.length * categoriesChecked.length}
+              {calSubs()}
             </span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
