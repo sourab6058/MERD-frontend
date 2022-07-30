@@ -25,6 +25,7 @@ h2{
   color:black;
   padding:1rem;
   padding-top:50px;
+  font-family: var(--mainFont);
 }
 
 .img-1{
@@ -51,6 +52,8 @@ h2{
 .second{
   position: relative;
   padding:1rem;
+  padding-top:50px;
+  padding-bottom: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -90,6 +93,107 @@ h2{
   width:20vw;
   font-size: 1.2rem;
 
+}
+
+.plan-list{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  margin-bottom: 50px;
+}
+.plan-paper{
+  position:relative;
+  min-width:30vw;
+  min-height:60vh;
+  -webkit-box-shadow: 0px 0px 10px 0px rgba(99,162,230,1);
+-moz-box-shadow: 0px 0px 10px 0px rgba(99,162,230,1);
+box-shadow: 0px 0px 10px 0px rgba(99,162,230,1);
+margin-inline:10px ;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+}
+.recommended{
+  transform: scale(1.2);
+  z-index: 1;
+}
+.red-pill{
+  color:white;
+  background-color: #cf0000;
+  padding-inline:10px ;
+  border-radius: 20px;
+  margin-top: 20px;
+}
+.green{
+  background-color: #7cc305;
+}
+.features{
+  margin: 10px;
+
+  padding-inline: 50px;
+  font-size: 0.9rem;
+  line-height: 25px;
+  color:  rgb(56, 56, 56);
+}
+.features ul li {
+  margin-top: 10px;
+}
+
+.check-circle{
+  font-size: .8rem;
+  color:#0b85e5;
+  margin-right: 2px;
+  margin-bottom: 4px;
+}
+
+.buy-btn{
+  margin:10px;
+  padding: 10px;
+  border-radius: 4px;  
+  color:  rgb(56, 56, 56);
+  border:1px solid rgb(56, 56, 56);
+  padding-inline: 20px;
+  cursor: pointer;
+}
+.buy-btn:hover{
+  color:  rgb(0, 0, 0);
+  border:1px solid rgb(0, 0, 0);
+
+}
+
+.filled{
+  border:1px solid #0b85e5;
+  background-color: #0b85e5;
+  color:white;
+}
+
+.filled:hover{
+  color:white;
+  background-color: #065ea1;
+  border:1px solid #065ea1;
+
+}
+
+.bordered{
+  border: 2px solid #0b85e5;
+  margin:5px;
+}
+
+.blue-pill-abs{
+  position:absolute;
+  transform: translateY(-150%);
+  top:0;
+  color:white;
+  background-color: #0b85e5;
+  padding-inline:10px ;
+  border-radius: 20px;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+.reports{
+  margin-bottom: 70px;
 }
 
 .third{

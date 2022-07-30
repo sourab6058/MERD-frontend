@@ -34,14 +34,14 @@ body {
   --lightBlue: #0f74c3;
   --lightBlueTrans: #90abd1a6;
   --darkBlue: #144380;
-  --mainFont: "Roboto", sans-serif;
+  --mainFont: "Poppins", sans-serif;
   --secondaryFont: "EB Garamond", serif;
   --ternaryFont: "Tahoma", sans-serif;
   background-color: var(--white);
 }
 
 h1 {
-  font-family: var(--mainFont);
+  font-family: "Poppins";
   font-weight: 600;
   font-size: 3em;
 }

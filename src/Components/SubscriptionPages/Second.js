@@ -1,13 +1,7 @@
 import React, { useEffect } from "react";
 
 import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
+import { CheckCircle, CheckCircleOutline } from "@material-ui/icons";
 
 import Aos from "aos";
 
@@ -21,85 +15,233 @@ const Second = ({ handleNext, handlePrev }) => {
   return (
     <>
       <div className="sub-container second">
-        <span onClick={handlePrev} className="btn">
-          Back
-        </span>
-        <div className="top-text">
-          <h1>Plans</h1>
+        <div className="plan-list">
+          <div>
+            <Paper className="plan-paper left" elevation={3}>
+              <span
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                  marginTop: "15px",
+                }}
+                alignSelf="center"
+              >
+                Reports
+              </span>
+              <span
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "300",
+                  textTransform: "uppercase",
+                }}
+              >
+                $120
+              </span>
+              <span
+                style={{
+                  fontSize: "0.8rem",
+                  fontWeight: "400",
+                }}
+              >
+                per report
+              </span>
+              <div className="features reports">
+                <ul>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>City Report</span>
+                  </li>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>Tourist Report</span>
+                  </li>
+                </ul>
+              </div>
+              <span
+                style={{
+                  fontWeight: "400",
+                  marginBottom: "20px",
+                }}
+              >
+                Research efficiently
+              </span>
+              <span
+                className="buy-btn"
+                onClick={() => (window.location.href = "/cityreport")}
+              >
+                Buy Now
+              </span>
+            </Paper>
+          </div>
+          <div>
+            <Paper className="plan-paper recommended" elevation={5}>
+              <Paper className="plan-paper bordered">
+                <span className="blue-pill-abs">Our Recommendation</span>
+                <span
+                  style={{
+                    fontSize: "1.2rem",
+                    fontWeight: "700",
+                    textTransform: "uppercase",
+                    marginTop: "15px",
+                  }}
+                  alignSelf="center"
+                >
+                  All Products
+                </span>
+                <span
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "300",
+                    textTransform: "uppercase",
+                  }}
+                >
+                  $3,000
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.8rem",
+                    fontWeight: "400",
+                  }}
+                >
+                  per annum
+                </span>
+                <span className="red-pill">
+                  20% off on successive subscription
+                </span>
+                <div className="features">
+                  <ul>
+                    <li>
+                      <CheckCircle className="check-circle" />
+                      <span>All demographic data</span>
+                    </li>
+                    <li>
+                      <CheckCircle className="check-circle" />
+                      <span>
+                        Monthly Market Size Data By Neighbourhood and
+                        Nationality For Chosen Category and Sub Categories
+                      </span>
+                    </li>
+                    <li>
+                      <span>
+                        <CheckCircle className="check-circle" />
+                      </span>
+                      <span>
+                        Catchments Analysis Maps and Market Size For Key Malls
+                        In Chosen City
+                      </span>
+                    </li>
+                    <li>
+                      <CheckCircle className="check-circle" />
+                      <span>City Report For Chosen City</span>
+                    </li>
+                    <li>
+                      <CheckCircle className="check-circle" />
+                      <span>Tourist Data For Chosen City</span>
+                    </li>
+                    <li>
+                      <CheckCircle className="check-circle" />
+                      <span>UPDATED MONTHLY</span>
+                    </li>
+                  </ul>
+                </div>
+                <span
+                  style={{
+                    fontWeight: "400",
+                    marginBottom: "20px",
+                  }}
+                >
+                  Research efficiently
+                </span>
+                <span
+                  className="buy-btn filled"
+                  onClick={() => handleNext("all-products")}
+                >
+                  Buy Now
+                </span>
+              </Paper>
+            </Paper>
+          </div>
+          <div>
+            <Paper className="plan-paper right" elevation={3}>
+              <span
+                style={{
+                  fontSize: "1.2rem",
+                  fontWeight: "700",
+                  textTransform: "uppercase",
+                  marginTop: "15px",
+                }}
+                alignSelf="center"
+              >
+                Demographic Only
+              </span>
+              <span
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "300",
+                  textTransform: "uppercase",
+                }}
+              >
+                $1,000
+              </span>
+              <span
+                style={{
+                  fontSize: "0.8rem",
+                  fontWeight: "400",
+                }}
+              >
+                per annum
+              </span>
+              <span className="red-pill green">
+                20% off on successive subscription
+              </span>
+              <div className="features">
+                <ul>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>All demographic data</span>
+                  </li>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>
+                      Population Distribution By Neighbourhood and Nationality
+                    </span>
+                  </li>
+                  <li>
+                    <span>
+                      <CheckCircleOutline className="check-circle" />
+                    </span>
+                    <span>
+                      Income Distribution By Neighbourhood and Nationality
+                    </span>
+                  </li>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>Age Distribution By Neighbourhood</span>
+                  </li>
+                  <li>
+                    <CheckCircleOutline className="check-circle" />
+                    <span>UPDATED ANNUALLY</span>
+                  </li>
+                </ul>
+              </div>
+              <span
+                style={{
+                  fontWeight: "400",
+                  marginBottom: "20px",
+                }}
+              >
+                Research efficiently
+              </span>
+              <span
+                className="buy-btn"
+                onClick={() => handleNext("demographic")}
+              >
+                Buy Now
+              </span>
+            </Paper>
+          </div>
         </div>
-        <TableContainer component={Paper} style={{ maxWidth: "80vw" }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell component="th" scope="row">
-                  Demographic Data
-                </TableCell>
-                <TableCell>All Products</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>
-                  Population Distribution By Neighbourhood and Nationality
-                </TableCell>
-                <TableCell rowSpan={3}>All Demographic Data</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  Income Distribution By Neighbourhood and Nationality
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Age Distribution By Neighbourhood</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell rowSpan={4}></TableCell>
-                <TableCell>
-                  Monthly Market Size Data By Neighbourhood and Nationality For
-                  Chosen Category and Sub Categories
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>
-                  Catchments Analysis Maps and Market Size For Key Malls In
-                  Chosen City
-                </TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>City Report For Chosen City</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>Tourist Data For Chosen City</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell>UPDATED ANNUALLY</TableCell>
-                <TableCell>MARKET SIZE DATA UPDATED MONTHLY</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align="center">USD 1,000 PER ANNUM</TableCell>
-                <TableCell align="center">USD 3,000 PER ANNUM</TableCell>
-              </TableRow>
-              <TableRow>
-                <TableCell align="center">
-                  <span
-                    className="sub-btn equal-btns"
-                    onClick={() => handleNext("demographic")}
-                  >
-                    Subscribe To Demographic
-                  </span>
-                </TableCell>
-                <TableCell align="center">
-                  <span
-                    className="sub-btn equal-btns"
-                    onClick={() => handleNext("all-products")}
-                  >
-                    Subscribe To All Products
-                  </span>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
       </div>
     </>
   );
