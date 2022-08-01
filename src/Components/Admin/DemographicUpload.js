@@ -199,11 +199,12 @@ export default class DemographicUpload extends Component {
                   onChange={this.handleFileInput}
                 />
                 {this.allSelected() && (
-                  <input
-                    type="button"
-                    value="Upload"
+                  <Button
                     onClick={this.handleSubmit}
-                  />
+                    style={{ border: "2px solid var(--darkBlue)" }}
+                  >
+                    Upload
+                  </Button>
                 )}
               </Paper>
             </div>

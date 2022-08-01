@@ -3,18 +3,16 @@
     padding:0;
     box-sizing: border-box;
 }
-body{
+
+
+.banner-container{
+    background-color: white;
+    min-height: 50vh;
+    padding:16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-}
-h1{
-    /* font-size: 2rem; */
-    color:#12b0e0
-}
-.container{
-    background-color: white;
+    justify-content: space-around;
 }
 .features{
     width:100%;

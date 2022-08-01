@@ -1,4 +1,4 @@
-import { Checkbox } from "antd";
+import { Checkbox, Button } from "antd";
 import axios from "axios";
 import React, { Component } from "react";
 
@@ -112,9 +112,13 @@ export default class ReportUpload extends Component {
                 </>
               ))}
               {this.state.filesToDelete.length !== 0 && (
-                <button className="report-btn" onClick={this.handleDelete}>
+                <Button
+                  type="danger"
+                  style={{ color: "red" }}
+                  onClick={this.handleDelete}
+                >
                   Delete
-                </button>
+                </Button>
               )}
             </>
           )}

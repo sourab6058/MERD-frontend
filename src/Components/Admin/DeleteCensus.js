@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Paper } from "@material-ui/core";
 import axios from "axios";
-import { Layout, Menu, Checkbox, Button, Radio, Space } from "antd";
+import { Menu, Button } from "antd";
 
 import SubCategory from "../Dashboard/Menu/SubCategory";
 import SubCity from "../Dashboard/Menu/SubCity";
@@ -560,7 +560,7 @@ export default class DeleteCensus extends Component {
                     style={{ color: "red" }}
                     onClick={() => this.deleteCensus()}
                   >
-                    Delete Census
+                    Delete Survey
                   </Button>
                 </Item>
               </div>

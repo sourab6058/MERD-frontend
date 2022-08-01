@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import Nav from './NavTwo'
-import Footer from './Footer'
-import classes from '../css/ContactUsNew.module.css'
+import Nav from "./NavTwo";
+import Footer from "./Footer";
+import classes from "../css/ContactUsNew.module.css";
 
 function ContactUsNew() {
   const {
@@ -11,17 +11,16 @@ function ContactUsNew() {
     handleSubmit,
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data)
-    var link = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=data@merd.online&su=Your+Query&body='+Name:${data.name},Email:${data.email},Message:${data.message}+'&ui=2&tf=1&pli=1`
+    console.log(data);
+    var link = `https://mail.google.com/mail/?view=cm&fs=1&tf=1&to=data@merd.online&su=Your+Query&body='+Name:${data.name},Email:${data.email},Message:${data.message}+'&ui=2&tf=1&pli=1`;
     window.location.href = link;
-
   };
   useEffect(() => {
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-  }, [])
+  }, []);
 
   return (
     <>
@@ -46,13 +45,17 @@ function ContactUsNew() {
               <i className="fas fa-envelope"></i>
               <div className={classes.topic}>Email</div>
               <div className={classes.text_one}>data@merd.online </div>
-
             </div>
           </div>
           <div className={classes.right_side}>
             <div className={classes.topic_text}>Send us a message</div>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged
-
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged
             </p>
             <form action="#" onSubmit={handleSubmit(onSubmit)}>
               <div className={classes.input_box}>
@@ -66,21 +69,23 @@ function ContactUsNew() {
                   style={
                     errors.name
                       ? {
-                        border: "1px solid rgba(255, 51, 38, 0.4)",
-                        marginBottom: "0rem",
-                      }
+                          border: "1px solid rgba(255, 51, 38, 0.4)",
+                          marginBottom: "0rem",
+                        }
                       : {}
                   }
                 />
               </div>
-                {errors.name && errors.name.type === "required" && (
-                  <p className="mt-2 text-red-500 text-xs italic">This Field is Required</p>
-                )}
-                {errors.name && errors.name.type === "maxLength" && (
-                  <p className="mt-2 text-red-500 text-xs italic">
-                    Name Should not be greater than 100 character
-                  </p>
-                )}
+              {errors.name && errors.name.type === "required" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  This Field is Required
+                </p>
+              )}
+              {errors.name && errors.name.type === "maxLength" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  Name Should not be greater than 100 character
+                </p>
+              )}
               <div className={classes.input_box}>
                 <input
                   type="text"
@@ -91,22 +96,24 @@ function ContactUsNew() {
                   style={
                     errors.name
                       ? {
-                        border: "1px solid rgba(255, 51, 38, 0.4)",
-                        marginBottom: "0rem",
-                      }
+                          border: "1px solid rgba(255, 51, 38, 0.4)",
+                          marginBottom: "0rem",
+                        }
                       : {}
                   }
                   placeholder="Enter your email"
                 />
               </div>
-                {errors.email && errors.email.type === "required" && (
-                  <p className="mt-2 text-red-500 text-xs italic">This Field is Required</p>
-                )}
-                {errors.email && errors.email.type === "maxLength" && (
-                  <p className="mt-2 text-red-500 text-xs italic">
-                    Name Should not be greater than 100 character
-                  </p>
-                )}
+              {errors.email && errors.email.type === "required" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  This Field is Required
+                </p>
+              )}
+              {errors.email && errors.email.type === "maxLength" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  Name Should not be greater than 100 character
+                </p>
+              )}
               <div className={`${classes.input_box} ${classes.message_box}`}>
                 <textarea
                   placeholder="Your Message"
@@ -117,33 +124,36 @@ function ContactUsNew() {
                   style={
                     errors.message
                       ? {
-                        border: "1px solid rgba(255, 51, 38, 0.4)",
-                        marginBottom: "0rem",
-                      }
+                          border: "1px solid rgba(255, 51, 38, 0.4)",
+                          marginBottom: "0rem",
+                        }
                       : {}
                   }
                 />
               </div>
-                {errors.message && errors.message.type === "required" && (
-                  <p className="mt-2 text-red-500 text-xs italic">This Field is Required</p>
-                )}
-                {errors.message && errors.message.type === "maxLength" && (
-                  <p className="mt-2 text-red-500 text-xs italic">
-                    Name Should not be greater than 100 character
-                  </p>
-                )}
+              {errors.message && errors.message.type === "required" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  This Field is Required
+                </p>
+              )}
+              {errors.message && errors.message.type === "maxLength" && (
+                <p className="mt-2 text-red-500 text-xs italic">
+                  Name Should not be greater than 100 character
+                </p>
+              )}
               <button
                 type="submit"
-
                 className="text-white mt-2 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >Submit</button>
+              >
+                Submit
+              </button>
             </form>
-          </div >
-        </div >
-      </div >
+          </div>
+        </div>
+      </div>
       <Footer />
     </>
-  )
+  );
 }
 
-export default ContactUsNew
+export default ContactUsNew;

@@ -19,16 +19,7 @@ function Hero() {
   return (
     <div className="hero">
       <div className="heroText">
-        <span className="text-4xl font-bold underline text-white mb-4">
-          WELCOME TO
-        </span>
-        <h1 className="text-4xl text-white font-bold  mb-4">
-          Middle East Retail Data
-        </h1>
-        <h3 className="text-xl text-white">
-          Real Time And Detailed Consumer And <br /> Sales Data Available At The
-          Click Of A Mouse
-        </h3>
+        <h1 className="text-white heroText1">Empowering People With Data</h1>
         <div className="home-page-btns">
           <>
             {username ? (
@@ -62,8 +53,8 @@ function Hero() {
           allow="autoplay; encrypted-media"
           allowfullscreen
           title="video"
-          height="200"
-          width="400"
+          height="150"
+          width="300"
         />
       </div>
     </div>

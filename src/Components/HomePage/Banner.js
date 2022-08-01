@@ -5,7 +5,7 @@ import "../../css/HomePage/Banner.css";
 
 export default function Banner() {
   return (
-    <div className="container">
+    <div className="banner-container">
       <h1>Market Size and Consumer Demograpic Data For</h1>
       <div className="features">
         <div className="feature">

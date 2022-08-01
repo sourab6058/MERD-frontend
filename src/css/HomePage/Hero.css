@@ -1,21 +1,25 @@
 :root {
-  --darkBlue: #144380;
+  --darkBlue: #0f2741;
   --lightBlue: #0f74c3;
 }
 .hero{
-  background:url("../../img/duotone.png");
-  background-repeat: no-repeat;
-  background-size: cover; 
+  background-color: var(--darkBlue);
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
-  min-height: 50vh;
+  justify-content: center;
+  min-height: 40vh;
+  color:white;
 
 }
 .heroText .home-page-btns {
   display: flex;
   flex-direction: row;
+}
+.heroText1{
+  font-style:"Poppins";
+  font-size:54px;
+  font-weight: 100;
 }
 .home-page-subscribe {
   background-color: #0080ff;
@@ -25,7 +29,6 @@
   position:relative;
   display:flex;
   flex-direction: row;
-  border:1px solid red;
 
 }
 .tutorial-vid{
@@ -33,16 +36,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-left:8rem;
+  margin-left:2rem;
 }
 .one-min{
-  font-size: 1.25rem;
+  font-size: 1rem;
   padding-bottom: 0.5rem;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid white;
 }
 .heroText {
-  font-family: sans-serif !important;
+  font-family: sans-serif ;
   margin-left:5rem;
 }
 

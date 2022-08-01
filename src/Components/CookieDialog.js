@@ -13,9 +13,9 @@ export default function Alert({ handleClose, open }) {
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
-          <h3>Accept Cookies?</h3>
-          MERD only stores essential cookies to enhance user experience, these
-          cookies stored are encrypted and not shared outside the MERD.
+          MERD only has essential cookies! Everything is encrypted and nothing
+          is shared with any third party! Essential cookies are, well,
+          essential, so we need to have them.
         </DialogContentText>
       </DialogContent>
       <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>

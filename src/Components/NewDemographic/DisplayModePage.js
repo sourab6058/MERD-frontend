@@ -68,24 +68,23 @@ export default class DisplayModePage extends Component {
                   By Nationality
                 </Checkbox>
               )}
-              {askBoth &&
-                (this.props.modes.includes("zone-and-nat") ? (
-                  <Checkbox
-                    value="zone-and-nat"
-                    checked={true}
-                    onClick={(e) => this.handleModeCheck(e)}
-                  >
-                    By Nationality By Zone
-                  </Checkbox>
-                ) : (
-                  <Checkbox
-                    value="zone-and-nat"
-                    checked={false}
-                    onClick={(e) => this.handleModeCheck(e)}
-                  >
-                    By Nationality By Zones
-                  </Checkbox>
-                ))}
+              {this.props.modes.includes("zone-and-nat") ? (
+                <Checkbox
+                  value="zone-and-nat"
+                  checked={true}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Nationality By Zone
+                </Checkbox>
+              ) : (
+                <Checkbox
+                  value="zone-and-nat"
+                  checked={false}
+                  onClick={(e) => this.handleModeCheck(e)}
+                >
+                  By Nationality By Zones
+                </Checkbox>
+              )}
             </Space>
           </div>
         </Paper>

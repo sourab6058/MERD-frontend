@@ -325,9 +325,17 @@ export class NewDashboard extends Component {
     }
     if (this.state.mallName) {
       if (oneTime) {
-        createFormInput("type", "One Time Buy from catchments", form);
+        createFormInput(
+          "type",
+          `One Time Buy from catchments for the mall: ${this.state.mallName}`,
+          form
+        );
       } else {
-        createFormInput("type", "Cancel from catchments", form);
+        createFormInput(
+          "type",
+          `Cancel from catchments for the mall: ${this.state.mallName}`,
+          form
+        );
       }
     } else {
       if (oneTime) {
@@ -1254,7 +1262,8 @@ export class NewDashboard extends Component {
                   }}
                   theme={"light"}
                 >
-                  {this.displayCities(this.state.cities)}
+                  {!this.state.mallName &&
+                    this.displayCities(this.state.cities)}
                   {/* {!this.state.mallName && (
                     <SubMenu key="City" title="City">
                       {this.state.cities.map((city) => (

@@ -160,6 +160,12 @@ export default class NewDemographic extends Component {
     } else {
       createFormInput("type", "Cancel from demographic", form);
     }
+
+    data["categories"] = [
+      ...this.state.postObject.types,
+      ...this.state.postObject.displayModes,
+    ];
+
     for (let attribute in data) {
       createFormInput(attribute, data[attribute].join(), form);
     }
@@ -187,15 +193,12 @@ export default class NewDemographic extends Component {
       this.setState({ alertOpen: true });
       return false;
     }
-    if (this.state.postObject.types.length === 0 && this.state.idx === 1) {
-      this.setState({ alertOpen: true });
-      return false;
-    }
     if (
-      this.state.postObject.displayModes.length === 0 &&
-      this.state.idx === 2
+      (this.state.postObject.types.length === 0 ||
+        this.state.postObject.displayModes.length === 0) &&
+      this.state.idx === 1
     ) {
-      this.setState({ alertOpen: true });
+      this.setState({ alertOpen: true, idx: 1 });
       return false;
     }
 
