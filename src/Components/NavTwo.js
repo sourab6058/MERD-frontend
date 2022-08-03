@@ -37,7 +37,7 @@ export default function NavTwo() {
   );
   return (
     <>
-      <div className="flex bg-white w-full justify-end pr-10 fixed top-0 z-[110]">
+      <div className="flex bg-white w-full justify-end  fixed top-0 z-[110]">
         <Link to="/contactus">
           <p className="text-sm font-medium ml-auto">
             <i class="fas fa-envelope"></i>&nbsp;data@merd.online
@@ -76,10 +76,20 @@ export default function NavTwo() {
         </Link>
         <ul>
           <li>
-            <a onClick={(e) => window.location.replace("/#aboutus")}>About</a>
+            <a
+              onClick={(e) => window.location.replace("/#aboutus")}
+              className="menu-item"
+            >
+              About
+            </a>
           </li>
           <li>
-            <a onClick={() => window.location.replace("/#product")}>Products</a>
+            <a
+              onClick={() => window.location.replace("/#product")}
+              className="menu-item"
+            >
+              Products
+            </a>
           </li>
 
           {username ? (

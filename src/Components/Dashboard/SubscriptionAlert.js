@@ -13,7 +13,10 @@ export default function SubscriptionAlert({
   handleCancelPopUp,
   postObject,
   onlyDemographic,
+  takeToSub,
+  alertMessage,
 }) {
+  const [show, setShow] = useState(true);
   function handleOneTimeSubscribe() {
     handleSubscriptionAlert();
     showOneTimeSubPopUp();
@@ -25,33 +28,47 @@ export default function SubscriptionAlert({
   //href="https://merd.online/login/"
   function handleLogin() {
     //selections made are stored in cookie, user do not have to make selecttions after logging in
-    localStorage.setItem("selectionsMade", JSON.stringify(postObject));
+    if (!postObject.hasOwnProperty("type"))
+      localStorage.setItem("selectionsMade", JSON.stringify(postObject));
     //in end the window is redirected to login page (php)
     window.location.href = "https://merd.online/login/";
   }
 
-  const message = onlyDemographic
+  let message = onlyDemographic
     ? "We see you are only subscribed to only demographic. You can subscribe to all products to view more data. "
     : "We see you have chosen a different city / category from what you have subscribed to. You have the following options";
 
-  const title = onlyDemographic
+  let title = onlyDemographic
     ? "Not subscribed to All Products"
     : "Not Subscribed to selected Categories.";
+  if (alertMessage) {
+    message = alertMessage.message;
+    title = alertMessage.title;
+  }
+
+  function handleSubscribe() {
+    if (alertMessage) {
+      takeToSub();
+      setShow(false);
+    } else {
+      window.location.href = "/subscribe-more";
+    }
+  }
 
   return (
     <>
       {registered ? (
         <div>
           {" "}
-          <Dialog aria-labelledby="simple-dialog-title" open={true}>
+          <Dialog aria-labelledby="simple-dialog-title" open={show}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
               <DialogContentText>{message}</DialogContentText>
             </DialogContent>
             <DialogActions style={{ alignSelf: "center", cursor: "pointer" }}>
-              <Link className="cta" to="subscribe-more">
+              <span className="cta" onClick={handleSubscribe}>
                 Subscribe
-              </Link>
+              </span>
               <span className="cta" onClick={handleOneTimeSubscribe}>
                 Try one time
               </span>

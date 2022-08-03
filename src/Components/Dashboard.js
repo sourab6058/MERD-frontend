@@ -4,6 +4,7 @@ import Alert from "./Dashboard/Alert";
 import SubscriptionAlert from "./Dashboard/SubscriptionAlert";
 import OneTimeSubPopUp from "./Dashboard/OneTimeSubPopUp";
 import CancelPopUp from "./Dashboard/CancelPopUp";
+import ToSubAlert from "./Dashboard/ToSubAlert";
 
 import axios from "axios";
 import * as _ from "lodash";
@@ -102,12 +103,11 @@ export class NewDashboard extends Component {
       displayMode: "distinct",
       alertOpen: true,
       alertOpenInvalid: false,
-      openUploadLinks: false,
-      uploadLinkOpenerText: "Open file upload links",
-      selectionListExpanded: false,
+      alertMessage: null,
       subscriber: true,
       subscriptionAlertOpen: false,
       oneTimeSubPopUpOpen: false,
+      takingToSubMore: false,
       cancelPopUpOpen: false,
       mallName: null,
     };
@@ -1018,7 +1018,15 @@ export class NewDashboard extends Component {
         subCatIntersection.length !== subCatgSelected.length ||
         subsubCatIntersection.length !== subSubCatgSelected.length
       ) {
-        this.setState({ subscriber: false, alertOpenInvalid: true });
+        this.setState({
+          subscriber: false,
+          alertOpenInvalid: true,
+          alertMessage: {
+            title: "Not subscribed to some cities or categories.",
+            message:
+              "We see you have chosen some cities / categories you have not subscribed to. We will display the data for the ones you have subscription for. For others choose one of the below",
+          },
+        });
       }
 
       let allowedData = this.state.postObject;
@@ -1574,6 +1582,13 @@ export class NewDashboard extends Component {
                     onlyDemographic={this.user.categories.every(
                       (cat) => cat === "Demographic"
                     )}
+                    alertMessage={this.state.alertMessage}
+                    takeToSub={() =>
+                      this.setState({
+                        subscriptionAlertOpen: false,
+                        takingToSubMore: true,
+                      })
+                    }
                   />
                 ))}
               {this.state.subscriptionAlertOpen && (
@@ -1586,6 +1601,23 @@ export class NewDashboard extends Component {
                   onlyDemographic={this.user.categories.every(
                     (cat) => cat === "Demographic"
                   )}
+                  alertMessage={this.state.alertMessage}
+                  takeToSub={() =>
+                    this.setState({
+                      subscriptionAlertOpen: false,
+                      takingToSubMore: true,
+                    })
+                  }
+                />
+              )}
+              {this.state.takingToSubMore && (
+                <ToSubAlert
+                  handleClose={() =>
+                    this.setState({
+                      takingToSubMore: false,
+                      alertOpenInvalid: false,
+                    })
+                  }
                 />
               )}
               {this.state.oneTimeSubPopUpOpen && (

@@ -29,7 +29,7 @@ export default class SubscribeMore extends Component {
       behavior: "smooth",
     });
   }
-   user = getUserDetail();
+  user = getUserDetail();
   componentDidMount = () => {
     //fetching category options
     const categoryFetchUrl = API_URL + "categories";
@@ -89,8 +89,8 @@ export default class SubscribeMore extends Component {
   render() {
     return (
       <>
-      {console.log(this.user.cities,"user.cities")}
-      {console.log(this.state.citiesOptions,"this.state.citiesOptions")}
+        {console.log(this.user.cities, "user.cities")}
+        {console.log(this.state.citiesOptions, "this.state.citiesOptions")}
         <NavTwo />
         <div className="subscribe-more">
           <h1 className="subscribe-more-title">Subscribe More</h1>
@@ -98,13 +98,7 @@ export default class SubscribeMore extends Component {
             <Paper className="cities options">
               <h3 className="option-title">Cities</h3>
               <div className="options-div">
-                {this.state.citiesOptions.filter((citiess) => {
-                  if (this.user.cities.includes(citiess)) {
-                    return ""
-                  } else {
-                    return citiess;
-                  }
-                }).map((city, idx) => (
+                {this.state.citiesOptions.map((city, idx) => (
                   <Checkbox
                     id={this.state.categoriesOptions.length + idx}
                     value={city}
@@ -112,20 +106,13 @@ export default class SubscribeMore extends Component {
                   >
                     <span className="checkbox-text">{city}</span>
                   </Checkbox>
-                ))}</div>
+                ))}
+              </div>
             </Paper>
             <Paper className="categories options">
               <h3 className="option-title">Categories</h3>
               <div className="options-div">
-                {this.state.categoriesOptions.filter((cate) => {
-                  if (this.user.categories.includes(cate)) {
-                    return ""
-                  } else {
-                    return cate;
-                  }
-                })
-                
-                .map((cat, idx) => (
+                {this.state.categoriesOptions.map((cat, idx) => (
                   <Checkbox
                     id={idx}
                     onChange={this.handleCatgs}
@@ -134,7 +121,8 @@ export default class SubscribeMore extends Component {
                   >
                     <span className="checkbox-text">{cat}</span>
                   </Checkbox>
-                ))}</div>
+                ))}
+              </div>
             </Paper>
 
             <div className="order-container">
@@ -184,7 +172,7 @@ export default class SubscribeMore extends Component {
               <span
                 className={
                   this.state.categoriesSelected.length *
-                    this.state.citiesSelected.length
+                  this.state.citiesSelected.length
                     ? "order-btn"
                     : "order-btn disabled"
                 }

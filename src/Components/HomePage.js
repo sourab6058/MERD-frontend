@@ -42,7 +42,10 @@ class HomePage extends Component {
       this.setState({ subscribed: true });
       // window.history.replaceState({}, document.title, "/");
       if (localStorage.getItem("selectionsMade")) {
-        window.location = "https://data.merd.online/dashboard";
+        const object = JSON.parse(localStorage.getItem("selectionsMade"));
+        if (object.hasOwnProperty("type"))
+          window.location.href = "/new-demographic";
+        else window.location.href = "/dashboard";
       }
     } else {
       const user = getUserDetail();
